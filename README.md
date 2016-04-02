@@ -10,10 +10,11 @@ Downloads
 
 Initialization of the repository
 --------------------------------
-1. Clone the Git respository. Open up your terminal, `cd` to your `GitHub` folder, and call `git clone https://github.com/sliu1/teen-screen.git`
-2. Install packages. `cd` to the new `teen-screen` folder and call `npm install`
+1. Clone the Git respository. Open up your terminal, `cd` to your `GitHub` folder, and call `git clone https://github.com/sliu1/teen-screen.git`.
+2. Install packages. `cd` to the new `teen-screen` folder and call `npm install`.
+3. Store environmental variables. Download the `.env` file from the Teen Screen Slack and place it in your `teen-screen` folder.
 
 Open the website locally
 ------------------------
-1. `cd` to your `teen-screen` folder and call `npm start`
-2. Open your browser to [http://localhost:3000/](http://localhost:3000/)
+1. `cd` to your `teen-screen` folder and call `npm start`.
+2. Open your browser to [http://localhost:3000/](http://localhost:3000/).
