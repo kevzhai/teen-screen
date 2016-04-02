@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}!
+  .container
+    .row
+      .col-xs-12
+        h1= title
+
+      .col-xs-8
+        h3 About
+        p Teen Screen is a project under the umbrella of CS + Mental Health. The project is being worked on by a team led by Stephany Liu and Kevin Zhai. This is a stub website.
+        p The project involves the administration of a survey using the DISC Predictive Scale (DPS). The survey is administered to youth to identify those at risk for various mental health conditions to promote detection and treatment of mental health conditions among youth.
+
+      .col-xs-4
+        h3 Administrator Login
+        p This is where administrators will register and/or login, in the future. The secure login system is being implemented through Stormpath.
