@@ -16,9 +16,9 @@ This is the GitHub repository for the Teen Screen project, being worked on under
 2. Open your browser to [http://localhost:3000/](http://localhost:3000/).
 
 ## Website details
-**Server:** Node.js
-**Server Framework:** Express
-**Templating:** Jade
-**Database:** REDCap
-**User System:** StormPath
-**Front-End Framework:** Bootstrap
+**Server:** Node.js  
+**Server Framework:** Express  
+**Templating:** Jade  
+**Database:** REDCap  
+**User System:** StormPath  
+**Front-End Framework:** Bootstrap  
