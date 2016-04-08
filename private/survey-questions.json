@@ -3,10 +3,11 @@
 	"sections": [
 		{
 			"name": "demographics",
+			"threshold": 1,
 			"questions": [
 				{
-					"text": "Are you Male or Female?",
 					"type": "multiple",
+					"text": "Are you Male or Female?",
 					"choices": [
 						{
 							"abbr": "M",
@@ -19,30 +20,32 @@
 					]
 				},
 				{
-					"text": "What is your age?",
-					"type": "number"
+					"type": "number",
+					"text": "What is your age?"
 				}
 			]
 		},
 		{
 			"name": "section one",
+			"threshold": 1,
 			"questions": [
 				{
-					"text": "Is your answer true of false?",
-					"type": "tf"
+					"type": "tf",
+					"text": "Is your answer true of false?"
 				}
 			]
 		},
 		{
 			"name": "section two",
+			"threshold": 1,
 			"questions": [
 				{
-					"text": "t or f?",
-					"type": "tf"
+					"type": "tf",
+					"text": "t or f?"
 				},
 				{
-					"text": "Another tf question",
-					"type": "tf"
+					"type": "tf",
+					"text": "Another tf question"
 				}
 			]
 		}
