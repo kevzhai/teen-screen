@@ -1,0 +1,50 @@
+{
+	"num-sections": 3,
+	"sections": [
+		{
+			"name": "demographics",
+			"questions": [
+				{
+					"text": "Are you Male or Female?",
+					"type": "multiple",
+					"choices": [
+						{
+							"abbr": "M",
+							"text": "Male"
+						},
+						{
+							"abbr": "F",
+							"text": "Female"
+						}
+					]
+				},
+				{
+					"text": "What is your age?",
+					"type": "number"
+				}
+			]
+		},
+		{
+			"name": "section one",
+			"questions": [
+				{
+					"text": "Is your answer true of false?",
+					"type": "tf"
+				}
+			]
+		},
+		{
+			"name": "section two",
+			"questions": [
+				{
+					"text": "t or f?",
+					"type": "tf"
+				},
+				{
+					"text": "Another tf question",
+					"type": "tf"
+				}
+			]
+		}
+	]
+}
