@@ -13,7 +13,7 @@ This is the GitHub repository for the Teen Screen project, being worked on under
 
 ## Open the website locally
 1. `cd` to your `teen-screen` folder and call `npm start`.
-2. Open your browser to [http://localhost:3000/](http://localhost:3000/).
+2. Open your browser to [http://localhost:3000/](http://localhost:3000/), or equivalently, [http://127.0.0.1:3000/](http://127.0.0.1:3000/) (use the latter for Windows).
 
 ## Website details
 **Server:** Node.js  
