@@ -4,13 +4,23 @@
  * Currently a stub to test the API calls
  */
 
-var data = {};
+var n;
 
 // initiate the survey with a call to /survey/initiate
 $.post('/survey/initiate', function(response) {
 	$('#section-dump').text(JSON.stringify(response, null, 4));
-	var str = JSON.stringify(response, null, 4);
-	for (var i = 0; i < str.length; i++) {
-		console.log(str[i]);
-	}
+
+	// cache the current section
+	n = response.n;
+});
+
+// listener for clicking on the next section button
+$('#next-btn').on('click', function() {
+	// go to the next section
+	$.post('/survey/section/' + n, function(response) {
+		$('#section-dump').text(JSON.stringify(response, null, 4));
+
+		// cache the current section
+		n = response.n;
+	});
 });

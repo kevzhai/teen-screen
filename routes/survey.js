@@ -23,4 +23,23 @@ router.post('/initiate', function(req, res, next) {
   });
 });
 
+/* POST the responses to a section and give the next section */
+router.post('/section/:n', function(req, res, next) {
+  // TODO: validate the parameters match the previous section
+  // TODO: record the section responses in the database
+  
+  var n = parseInt(req.params.n);
+  if (questionInterface.isFinalSection(n + 1)) {
+    res.status(200).send('you\'re done');
+  } else {
+    questionInterface.getSection(n + 1, function(err, section) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(section);
+      }
+    });
+  }
+});
+
 module.exports = router;
