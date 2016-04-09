@@ -30,22 +30,54 @@ app.use(stormpath.init(app, {
       }
     }
   },
-  /*
-  Commenting out for now, until 
   // confirm that the registration code is valid
   preRegistrationHandler: function(formData, req, res, next) {
+    // check the registration data in custom data to confirm that
+    // this is a valid registration code and email combination
     app.get('stormpathApplication').getCustomData(function(err, data) {
-      console.log(data);
+      // check three potential error points
+      if (err) {
+        return next(new Error('Internal error accessing data.'));
+      } else if (!data.registration.hasOwnProperty(formData.registrationCode)) {
+        return next(new Error('Invalid registration code.'));
+      } else if (data.registration[formData.registrationCode] !== formData.email) {
+        return next(new Error('Registration code does not match email on record.'));
+      } else {
+        // if all tests are pass, approve the registration
+        // and remove the registration code from custom data
+        delete data.registration[formData.registrationCode];
+        data.save();
+        next();
+      }
     });
-    return next(new Error('Registration error.'));
   },
-  // log out the fact that a new user has registered
+  // add the account to the admin account
   postRegistrationHandler: function(account, req, res, next) {
-    console.log('successfully registered ' + account.email);
-    console.log(account);
-    next();
+    // get the admin group
+    app.get('stormpathApplication').getGroups({name: 'admin'}, function(err, groups) {
+      // iterate through the returned groups
+      groups.each(function(group, cb) {
+        // add the newly created account to the admin group
+        if (group.name === 'admin') {
+          account.addToGroup(group, function(err, membership) {
+            // return any relevant err from adding group membership
+            if (err) {
+              return next(err);
+            }
+          });
+        }
+        // continue iterating through the returned groups
+        cb();
+      }, function(err) {
+        // after iterating through all groups move on, passing any relevant err
+        if (err) {
+          next(err);
+        } else {
+          next();
+        }
+      });
+    });
   },
-  */
   // after login, redirect the user to the admin page
   postLoginHandler: function(account, req, res, next) {
     res.status(302).redirect('/admin');
