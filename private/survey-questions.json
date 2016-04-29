@@ -6,18 +6,8 @@
 			"threshold": 1,
 			"questions": [
 				{
-					"type": "multiple",
+					"type": "age",
 					"text": "Are you Male or Female?",
-					"choices": [
-						{
-							"abbr": "M",
-							"text": "Male"
-						},
-						{
-							"abbr": "F",
-							"text": "Female"
-						}
-					]
 				},
 				{
 					"type": "number",
