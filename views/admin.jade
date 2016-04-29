@@ -10,5 +10,24 @@ block content
         p Stub administrator page. You need to be in the 'admin' user group to see this page.
         p This page is currently set up only as a place to initiate a survey
 
+        form(name="add-estimation", method="post")
+            div.input
+                p Description
+                textarea(name="description", cols="40", rows="5")
+            div.input
+                p Sponsor
+                input(type="text", name="sponsor")
+            div.input
+                p Protocol
+                input(type="text", name="protocol")
+            div.input
+                p Site
+                input(type="text", name="site")
+            div.input
+                p Subject ID
+                input(type="text", name="subject-id")
+            div.actions
+                input(type="submit", value="add")
+
       .col-xs-6
         a.btn.btn-block.btn-success(role='button', href='/survey') Initiate a Survey
