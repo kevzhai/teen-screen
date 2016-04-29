@@ -4,6 +4,7 @@
  * Currently a stub to test the API calls
  */
 
+// instance variable for section number
 var n;
 
 // initiate the survey with a call to /survey/initiate
