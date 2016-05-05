@@ -8,27 +8,25 @@ block content
         p Stub administrator page. You need to be in the 'admin' user group to see this page.
         p This page is currently set up only as a place to initiate a survey
     .row
-      .col-sm-6
-        table.table.table-striped
-          thead
-            tr
-              th Choose Sections
-          tbody
-            each l in lines  
+      form(method="post" action="/admin")
+        .col-sm-6
+          table.table.table-striped
+            thead
               tr
-                td 
-                  label.c-input.c-checkbox
-                    input(type="checkbox", checked="true")
-                    span.c-indicator
-                    span= l
-        // line break to visually separate columns when viewport is xs
-        br 
-      .col-sm-6
-        -
-          list = ["sponsor", "protocol", "site"]
-          col1 = "col-sm-4"
-          col2 = "col-sm-8"
-        form(method="post" action="/admin")
+                th Choose Sections
+            tbody
+              each l in lines  
+                tr
+                  td 
+                    label.c-input.c-checkbox
+                      input(type="checkbox", checked="true", name="#{l}")
+                      span.c-indicator
+                      span= l
+        .col-sm-6
+          -
+            list = ["sponsor", "protocol", "site"]
+            col1 = "col-sm-4"
+            col2 = "col-sm-8"
           .form-group.row
             label(class="#{col1} form-control-label" for="description") 
               b Description
