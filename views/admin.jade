@@ -13,13 +13,17 @@ block content
           table.table.table-striped
             thead
               tr
-                th Choose Sections
+                th 
+                  span(style="font-size: 1.5em;") Choose Sections
+                  .btn-group.pull-xs-none.pull-sm-right(role="group")
+                    button.btn.btn-secondary.checkall(type="button") Check all
+                    button.btn.btn-secondary.checknone(type="button") Check none
             tbody
               each l in lines  
                 tr
                   td 
                     label.c-input.c-checkbox
-                      input(type="checkbox", checked="true", name="#{l}")
+                      input.checked(type="checkbox", checked="true", name="#{l}")
                       span.c-indicator
                       span= l
         .col-sm-6
@@ -27,6 +31,7 @@ block content
             list = ["sponsor", "protocol", "site"]
             col1 = "col-sm-4"
             col2 = "col-sm-8"
+            colOffset = "col-sm-offset-4"
           .form-group.row
             label(class="#{col1} form-control-label" for="description") 
               b Description
@@ -35,7 +40,7 @@ block content
           each item in list
             .form-group.row
               label(class="#{col1} form-control-label" for="#{item}") 
-                b #{item.charAt(0).toUpperCase() + item.slice(1)}
+                b.text-capitalize #{item}
               div(class="#{col2}" type="text" )
                 input.form-control(id="#{item}" name="#{item}")
           .form-group.row
@@ -58,5 +63,8 @@ block content
             div(class="#{col2}")
               input.form-control#subject-id(placeholder="(required)" name="subject-id")
           .form-group.row
-            div(class="col-sm-offset-3 #{col2}")
+            div(class="#{colOffset} #{col2}")
               button.btn.btn-primary(role="button" type="submit") Initiate Survey
+
+block scripts
+  script(src='/javascripts/admin.js')
