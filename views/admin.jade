@@ -26,31 +26,31 @@ block content
       .col-sm-6
         -
           list = ["sponsor", "protocol", "site"]
-          col1 = "col-sm-3"
-          col2 = "col-sm-9"
-        form
+          col1 = "col-sm-4"
+          col2 = "col-sm-8"
+        form(method="post" action="/admin")
           .form-group.row
             label(class="#{col1} form-control-label" for="description") 
               b Description
             div(class="#{col2}")
-              textarea.form-control#description
+              textarea.form-control#description(name="description")
           each item in list
             .form-group.row
               label(class="#{col1} form-control-label" for="#{item}") 
                 b #{item.charAt(0).toUpperCase() + item.slice(1)}
-              div(class="#{col2}")
-                input.form-control(id="#{item}")
+              div(class="#{col2}" type="text" )
+                input.form-control(id="#{item}" name="#{item}")
           .form-group.row
             label(class="#{col1} form-control-label" for="language") 
               b Language
             div(class="#{col2}")
               .c-inputs-stacked
                 label.c-input.c-radio
-                  input#English(name="radio-stacked" type="radio" checked="")
+                  input#English(name="language" value="english" type="radio" checked="")
                   span.c-indicator
                   | English
                 label.c-input.c-radio
-                  input#Spanish(name="radio-stacked" type="radio")
+                  input#Spanish(name="language" value="spanish" type="radio")
                   span.c-indicator
                   | Spanish
           .form-group.row
@@ -58,8 +58,7 @@ block content
               span.text-danger 
                 b Subject ID*
             div(class="#{col2}")
-              input.form-control#subject-id(placeholder="(required)")
+              input.form-control#subject-id(placeholder="(required)" name="subject-id")
           .form-group.row
             div(class="col-sm-offset-3 #{col2}")
-              a.btn.btn-primary(role="button" href="survey") Initiate Survey
-              //- button.btn.btn-primary(type="submit") Initiate Survey
+              button.btn.btn-primary(role="button" type="submit") Initiate Survey

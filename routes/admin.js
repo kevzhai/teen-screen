@@ -11,6 +11,10 @@ router.get('/', function(req, res, next) {
       res.render('admin', { title: 'Teen Screen Admin Page', lines : content.toString().split('\n') });
   });
 
+router.post('/', function(req, res){
+  console.log(req.body);
+});
+
   
 });
 
