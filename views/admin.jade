@@ -5,29 +5,61 @@ block content
     .row
       .col-xs-12
         h1= title
-
-      .col-xs-6
         p Stub administrator page. You need to be in the 'admin' user group to see this page.
         p This page is currently set up only as a place to initiate a survey
-
-        form(name="add-estimation", method="post")
-            div.input
-                p Description
-                textarea(name="description", cols="40", rows="5")
-            div.input
-                p Sponsor
-                input(type="text", name="sponsor")
-            div.input
-                p Protocol
-                input(type="text", name="protocol")
-            div.input
-                p Site
-                input(type="text", name="site")
-            div.input
-                p Subject ID
-                input(type="text", name="subject-id")
-            div.actions
-                input(type="submit", value="add")
-
-      .col-xs-6
-        a.btn.btn-block.btn-success(role='button', href='/survey') Initiate a Survey
+    .row
+      .col-sm-6
+        table.table.table-striped
+          thead
+            tr
+              th Choose Sections
+          tbody
+            each l in lines  
+              tr
+                td 
+                  label.c-input.c-checkbox
+                    input(type="checkbox", checked="true")
+                    span.c-indicator
+                    span= l
+        // line break to visually separate columns when viewport is xs
+        br 
+      .col-sm-6
+        -
+          list = ["sponsor", "protocol", "site"]
+          col1 = "col-sm-3"
+          col2 = "col-sm-9"
+        form
+          .form-group.row
+            label(class="#{col1} form-control-label" for="description") 
+              b Description
+            div(class="#{col2}")
+              textarea.form-control#description
+          each item in list
+            .form-group.row
+              label(class="#{col1} form-control-label" for="#{item}") 
+                b #{item.charAt(0).toUpperCase() + item.slice(1)}
+              div(class="#{col2}")
+                input.form-control(id="#{item}")
+          .form-group.row
+            label(class="#{col1} form-control-label" for="language") 
+              b Language
+            div(class="#{col2}")
+              .c-inputs-stacked
+                label.c-input.c-radio
+                  input#English(name="radio-stacked" type="radio" checked="")
+                  span.c-indicator
+                  | English
+                label.c-input.c-radio
+                  input#Spanish(name="radio-stacked" type="radio")
+                  span.c-indicator
+                  | Spanish
+          .form-group.row
+            label(class="#{col1} form-control-label" for="subject-id") 
+              span.text-danger 
+                b Subject ID*
+            div(class="#{col2}")
+              input.form-control#subject-id(placeholder="(required)")
+          .form-group.row
+            div(class="col-sm-offset-3 #{col2}")
+              a.btn.btn-primary(role="button" href="survey") Initiate Survey
+              //- button.btn.btn-primary(type="submit") Initiate Survey

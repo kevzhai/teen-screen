@@ -8,6 +8,7 @@ var stormpath = require('express-stormpath');
 require('dotenv').config();
 
 var app = express();
+app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 // initialize stormpath user system
 app.use(stormpath.init(app, {
@@ -129,6 +130,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
