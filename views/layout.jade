@@ -20,7 +20,10 @@ html
           li.nav-item
             a.nav-link(href="/logout") Logout
           li.nav-item
-            a.nav-link(href="/admin") Admin Page
+            a.nav-link(href="/admin") Admin
+          li.nav-item.pull-xs-right
+            a.nav-link(href="#")= 'Welcome ' + user
+
 
     block content
 
