@@ -16,8 +16,8 @@ block content
                 th 
                   span(style="font-size: 1.5em;") Choose Sections
                   .btn-group.pull-xs-none.pull-sm-right(role="group")
-                    button.btn.btn-secondary.checkall(type="button") Check all
-                    button.btn.btn-secondary.checknone(type="button") Check none
+                    button.btn.btn-secondary.checkall(type="button") Check all /  none
+                    //- button.btn.btn-secondary.checknone(type="button") Check none
             tbody
               each l in lines  
                 tr
@@ -57,14 +57,15 @@ block content
                   span.c-indicator
                   | Spanish
           .form-group.row
-            label(class="#{col1} form-control-label" for="subject-id") 
+            label(class="#{col1} form-control-label" for="subjectId") 
               span.text-danger 
                 b Subject ID*
             div(class="#{col2}")
-              input.form-control#subject-id(placeholder="(required)" name="subject-id")
+              input.form-control#subjectId(placeholder="(required)" name="subjectId")
           .form-group.row
             div(class="#{colOffset} #{col2}")
-              button.btn.btn-primary(role="button" type="submit") Initiate Survey
+              button#submit.btn.btn-primary(role="button" type="submit") Initiate Survey
+          #alert_placeholder
 
 block scripts
   script(src='/javascripts/admin.js')

@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 	function sendToSurvey(req, res) {
 	  // Prepare the context
 	  var context = req.dataProcessed;
-	  res.redirect('survey'); // need to send through session?
+	  res.status(302).redirect('/survey'); // need to send through session?
 	}
 
 	function processForm(req, res, next) {
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 	  return next();
 	}
 
-	router.post('/', processForm, sendToSurvey);
+router.post('/', processForm, sendToSurvey);
 
 
 // router.post('/', function(req, res){
