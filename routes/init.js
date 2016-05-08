@@ -8,7 +8,11 @@ router.get('/', function(req, res, next) {
       if (err) {
         return next(err);
       }
-      res.render('init', { title: 'Teen Screen Initiate Survey', lines : content.toString().split('\n') });
+      res.render('init', {
+        title: 'Teen Screen Initiate Survey',
+        lines : content.toString().split('\n'),
+        user: req.user ? req.user.fullName : ''
+      });
   });
 });
 
