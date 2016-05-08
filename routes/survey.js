@@ -17,6 +17,8 @@ router.post('/initiate', function(req, res, next) {
   // TODO: get the id sent as a parameter, if given
   // TODO: create a new survey entry in the database
   
+  console.log(req.session.surveyParams);
+
   // send the first section of questions back to the user
   questionInterface.getSection(0, function(err, section) {
     if (err) {

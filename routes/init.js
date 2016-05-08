@@ -17,18 +17,11 @@ router.get('/', function(req, res, next) {
 });
 
 // http://stackoverflow.com/questions/19035373/how-do-i-redirect-in-expressjs-while-passing-some-context
-function sendToSurvey(req, res) {
-  // Prepare the context
-  var context = req.dataProcessed;
-  res.status(302).redirect('/survey'); // need to send through session?
-}
-
 function processForm(req, res, next) {
-	console.log(req.body); // debugging purposes
-  req.dataProcessed = req.body; // to-do: store / send data from form variables into session
-  return next();
+  req.session.surveyParams = req.body;
+  res.status(302).redirect('/survey');
 }
 
-router.post('/', processForm, sendToSurvey);
+router.post('/', processForm);
 
 module.exports = router;

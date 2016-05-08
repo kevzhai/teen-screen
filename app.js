@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
+var session = require('express-session');
 require('dotenv').config();
 
 var app = express();
@@ -95,6 +96,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: '#72HphJrCY5JujWY',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use('/', require('./routes/index'));
 app.use('/admin', stormpath.groupsRequired(['admin']), require('./routes/admin'));
