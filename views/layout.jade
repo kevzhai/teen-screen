@@ -5,6 +5,23 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    nav.navbar.navbar-light.bg-faded
+      a.navbar-brand(href="#")
+      ul.nav.navbar-nav
+        li.nav-item.active
+          a.nav-link(href="/") Home
+            span.sr-only (current)
+        if user.length === 0
+          li.nav-item
+            a.nav-link(href="/login") Login
+          li.nav-item
+            a.nav-link(href="/register") Register
+        else
+          li.nav-item
+            a.nav-link(href="/logout") Logout
+          li.nav-item
+            a.nav-link(href="/admin") Admin Page
+
     block content
 
     script(src='/javascripts/libraries/jquery-2.2.0.min.js')

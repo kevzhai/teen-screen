@@ -5,7 +5,11 @@ var questionInterface = require('../private/questions-interface');
 
 /* GET survey page. */
 router.get('/', function(req, res, next) {
-  res.render('survey', { title: 'Teen Screen Survey' });
+  console.log(req.user);
+  res.render('survey', {
+    title: 'Teen Screen Survey',
+    user: req.user ? req.user.fullName : ''
+  });
 });
 
 /* POST to initiate a new survey. */

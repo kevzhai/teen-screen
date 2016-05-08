@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Teen Screen' });
+  console.log(req.user);
+  res.render('index', {
+    title: 'Teen Screen',
+    user: req.user ? req.user.fullName : ''
+  });
 });
 
 module.exports = router;
