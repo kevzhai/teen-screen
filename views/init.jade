@@ -1,0 +1,71 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-xs-12
+        h1= title
+        p Stub administrator page. You need to be in the 'admin' user group to see this page.
+        p This page is currently set up only as a place to initiate a survey
+    .row
+      form(method="post" action="/init")
+        .col-sm-6
+          table.table.table-striped
+            thead
+              tr
+                th 
+                  span(style="font-size: 1.5em;") Choose Sections
+                  .btn-group.pull-xs-none.pull-sm-right(role="group")
+                    button.btn.btn-secondary.checkall(type="button") Check all /  none
+                    //- button.btn.btn-secondary.checknone(type="button") Check none
+            tbody
+              each l in lines  
+                tr
+                  td 
+                    label.c-input.c-checkbox
+                      input.checked(type="checkbox", checked="true", name="#{l}")
+                      span.c-indicator
+                      span= l
+        .col-sm-6
+          -
+            list = ["sponsor", "protocol", "site"]
+            col1 = "col-sm-4"
+            col2 = "col-sm-8"
+            colOffset = "col-sm-offset-4"
+          .form-group.row
+            label(class="#{col1} form-control-label" for="description") 
+              b Description
+            div(class="#{col2}")
+              textarea.form-control#description(name="description")
+          each item in list
+            .form-group.row
+              label(class="#{col1} form-control-label" for="#{item}") 
+                b.text-capitalize #{item}
+              div(class="#{col2}" type="text" )
+                input.form-control(id="#{item}" name="#{item}")
+          .form-group.row
+            label(class="#{col1} form-control-label" for="language") 
+              b Language
+            div(class="#{col2}")
+              .c-inputs-stacked
+                label.c-input.c-radio
+                  input#English(name="language" value="english" type="radio" checked="")
+                  span.c-indicator
+                  | English
+                label.c-input.c-radio
+                  input#Spanish(name="language" value="spanish" type="radio")
+                  span.c-indicator
+                  | Spanish
+          .form-group.row
+            label(class="#{col1} form-control-label" for="subjectId") 
+              span.text-danger 
+                b Subject ID*
+            div(class="#{col2}")
+              input.form-control#subjectId(placeholder="(required)" name="subjectId")
+          .form-group.row
+            div(class="#{colOffset} #{col2}")
+              button#submit.btn.btn-primary(role="button" type="submit") Initiate Survey
+          #alert_placeholder
+
+block scripts
+  script(src='/javascripts/init.js')

@@ -98,6 +98,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/admin', stormpath.groupsRequired(['admin']), require('./routes/admin'));
+app.use('/init', stormpath.groupsRequired(['admin']), require('./routes/init'));
 app.use('/survey', stormpath.groupsRequired(['admin']), require('./routes/survey'));
 
 // catch 404 and forward to error handler
