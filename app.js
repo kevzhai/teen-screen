@@ -9,7 +9,6 @@ var session = require('express-session');
 require('dotenv').config();
 
 var app = express();
-app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 // initialize stormpath user system
 app.use(stormpath.init(app, {
@@ -95,6 +94,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: '#72HphJrCY5JujWY',
