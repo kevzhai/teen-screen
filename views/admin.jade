@@ -7,5 +7,6 @@ block content
         h1= title
         p Stub administrator page. You need to be in the 'admin' user group to see this page.
     .row
-      a.btn.btn-success(type="button" href="/init") Initiate Survey
-      a.btn.btn-success(type="button" href="#") View Reports 
+      .btn-group
+        a.btn.btn-success(role="button" href="/init") Initiate Survey
+        a.btn.btn-secondary(role="button" href="/report") View Reports 

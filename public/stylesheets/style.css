@@ -14,3 +14,7 @@ textarea {
 .form-control-label {
 	text-align: right;
 }
+
+.navbar{
+	margin-bottom: 2em;
+}

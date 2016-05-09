@@ -19,6 +19,8 @@ router.post('/initiate', function(req, res, next) {
   
   // get a random id. TODO: this will be actually from the database
   var id = Math.floor(Math.random() * 100);
+  
+  console.log(req.session.surveyParams);
 
   // send the first section of questions back to the user
   res.json(id);

@@ -15,14 +15,16 @@ $(".checkall").on("click", function() {
 
 bootstrap_alert = function() {};
 bootstrap_alert.warning = function(message) {
-  $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>'+message+'</div>')
+  $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>' + message + '</div>')
 };
 
 $("#submit").on("click", function() {
 	console.log($("#subjectId").val());
-
 	if ($("#subjectId").val().length === 0) {
 		bootstrap_alert.warning('Please enter subject ID');
+		return false;
+	} else if ($('input[type="checkbox"]:checked').length === 0) {
+		bootstrap_alert.warning('Please check at least one section');
 		return false;
 	} else {
 		return true;
