@@ -1,10 +1,34 @@
 extends layout
 
 block content
-  .container
-    .row
-      .col-xs-12
-        h1= title
-        p Stub reports page. You need to be in the 'admin' user group to see this page.
-    .row
-      
+	.container
+		.row
+			.col-xs-12
+				h1= title
+				p Stub reports page. You need to be in the 'admin' user group to see this page.
+		.row			
+		-test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}]
+		//- each person in test
+		//- 	a(data-toggle="collapse" href="##{person.id}") #{person.id}
+		//- 	.collapse(id="#{person.id}")
+		//- 		each r in person.report						
+		//- 			h1= r
+		//- 	br
+		table.table.table-hover.table-striped
+			thead
+				tr
+					th Subject ID
+					th Site
+			tbody
+				each person in test
+					tr
+						td 
+							a(data-toggle="collapse" href="##{person.id}") #{person.id}
+						td
+							| #{person.site}
+					tr.collapse(id="#{person.id}")
+						td
+							each r in person.report						
+								a(href="#")
+									p= r
+

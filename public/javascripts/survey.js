@@ -90,11 +90,13 @@ compileSection = function(section) {
 		var htmlString = '<form class="survey-question" id="question-num-' + i + '">';
 		if (type === 'mc') {
 			htmlString += '<h4>' + question.text + '</h4>';
+			htmlString += '<div class="c-inputs-stacked">';
 			options.forEach(function(option, j) {
-				htmlString += '<div class="radio"><label>';
-				htmlString += '<input type="radio" name="' + question.num + '" value="' + j + '">';
-				htmlString += option + '</label></div>';
+				htmlString += '<label class="c-input c-radio">';
+				htmlString += '<input type="radio" name=' + question.num + '" value="' + j + '"><span class="c-indicator"></span>';
+				htmlString += option + '</label>';
 			});
+			htmlString += '</div';
 		} else if (type === 'intro') {
 			htmlString += '<p>' + question.text + '</p>';
 		} else if (type === 'text') {
