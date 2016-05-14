@@ -6,7 +6,6 @@ Intro1,Most of the following questions will be about the last three months. Some
 5,What grade are you in?,3,Demographics
 6,Who spent the most time taking care of you in the last three months?,6,Demographics
 7,Think of the adults that live with you.Which of these people do you miss the most when you can't be with them?,7,Demographics
-,,,
 Intro2,The next set of questions is about the kinds of things you have been doing and feeling.,10,
 8,During the last three months did you have trouble seeing the chalkboard?,4,Demographics
 8A, Do you wear glasses?,4,Demographics
@@ -14,7 +13,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 9A,Did you see an ear doctor about this?,4,Demographics
 10,During the last three months did you have a toothache?,4,Demographics
 10A,Have you seen a dentist about this?,4,Demographics
-,,,
 1,In the last three months ...Have you often felt very nervous or uncomfortable when you have been with a group of children or young people say like in the lunchroom at school or at a party?,4,Social Phobia
 2,In the last three months ...Have you often felt very nervous when you've had to do things in front of people?,4,Social Phobia
 3,In the last three months ...Has there been a time when you often wanted to stay at home and not go to school or other places without your mother?,4,Separation Anxiety
@@ -32,7 +30,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 15,In the last three months ...  Have you been more scared about traveling or going outside by yourself than other people your age?,4,Agoraphobia
 16,"In the last three months ...  If you really had to travel or leave the house by yourself, could you have done that?",4,Agoraphobia
 17,In the last three months ...  Have you gotten worried or scared just thinking about having to travel or leave the house by yourself?,4,Agoraphobia
-,,,
 18,For this question I want to know if you have ever had a sudden attack of feeling very afraid. In the kind of attack I mean someone becomes very afraid even though there is nothing around them to frighten them. Sometimes they feel they can't breathe ... sometimes their hearts beat very fast.The attacks come on very suddenly and then go away but they get afraid that the attacks might come back.In the last three months ... have you had an attack when all of a sudden you felt you very afraid or strange?,4,Panic Attacks 
 19,Have you had a time when you suddenly felt that you were suffocating or you couldn't breathe?,4,Panic Attacks 
 20,Do you have asthma?,4,Panic Attacks 
@@ -53,7 +50,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 35,In the last three months ...Have you often felt you should check on things over and over again?For example checking that the front door is locked ... or the stove is turned off ... or that something else was done even though you knew it had been done?,4,Obsessions and Compulsions
 36,In the last three months ...Have you often worried over and over again that things you touch are dirty or have germs?,4,Obsessions and Compulsions
 37,In the last three months ...Have you had any other thoughts that kept coming into your mind over and over again that you couldn't get rid of?,4,Obsessions and Compulsions
-,,,
 38,"In the last three months ...  Have you done things like counting, checking, washing, over and over again because you like to do these things?",4,Obsessions and Compulsions
 39,"In the last three months  Have you done things like counting, checking, washing, over and over again, only because you've been told by someone else to make sure that you've done them right?",4,Obsessions and Compulsions
 40,"In the last three months ...  Have you wished you could stop yourself from doing things like counting, checking or washing over and over again?",4,Obsessions and Compulsions
@@ -75,7 +71,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 56,"In the last three months ...  Have you been very upset, afraid or sad when something has made you think about what happened?  ",4,Post-traumatic Stress
 57,In the last three months ...  Have you had trouble remembering important parts of what happened? ,4,Post-traumatic Stress
 58,"In the last three months ...  Have you had upsetting thoughts or pictures of what happened come into your mind, when you didn't want them to?",4,Post-traumatic Stress
-,,,
 59,In the last three months ...Has anyone worried that you were much too thin?,4,Eating
 60,In the last three months ...Have you often felt bad about yourself because you thought you were fat or overweight?,4,Eating
 61,In the last three months ...Have there been times when you thought about food or about eating almost all of the time?,4,Eating
@@ -113,7 +108,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 93,In the last year ...Have you stolen from anyone else when they weren't around or weren't looking?,4,Conduct
 94,In the last year ... Have you been physically cruel to an animal and hurt it on purpose?,4,Conduct
 95,In the last year ...Have you broken into a house a building or a car?,4,Conduct
-,,,
 96,The next questions are about your use of alcohol - beer wine wine coolers or hard liquors like vodka gin or whiskey. Each can or bottle of beer glass of wine or wine cooler shot of liquor or mixed drink with liquor in it counts as one drink.In the last year ... have you had six or more drinks?,4,Alcohol
 97,In the last year ...Did you get in trouble with the police when you were drunk or because you had been drinking?,4,Alcohol
 98,In the last year ...Did you get into arguments with your family or friends because of drinking?,4,Alcohol
@@ -130,7 +124,6 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 109,"In the last year ...Have you used Ecstasy or ""E""?",4,Other Substance
 110,In the last year ...Have you used any inhalants - like glue cleaning fluid gasoline or paint to get high?,4,Other Substance
 Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  Feeling anxious or worried Feeling sad or depressed Being angry, irritable, or in a bad mood Problems with food, eating or weight Your behavior Alcohol or drugs Other things you did.  Now I'd like you to think about problems you may have been having at home,",10,
-,,,
 111, In the last three months ...How often did your parents feel worried or concerned about the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
 111A,Were they worried or concerned because of:  Select all that apply and then press the [ENTER] key to continue,8,DPS Impairment Scale Reconstruction
 112, In the last three months ...How often did your parents get annoyed or upset with you because of the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
