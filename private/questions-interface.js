@@ -6,7 +6,7 @@
 var fs = require('fs');
 
 // the name of the file containing the survey questions
-var filename = './private/survey-questions-temp.json';
+var filename = './private/survey-questions.json';
 
 // synchronously read the file
 var questions = JSON.parse(fs.readFileSync(filename).toString());

@@ -1,5 +1,5 @@
-Question Number:,Questions:,Question Type,Section Info:
-Intro1,Most of the following questions will be about the last three months. Some questions will be about the last year. The first thing I will do is ask you some background information about yourself.,10,
+num,text,type,section
+Intro1,Most of the following questions will be about the last three months. Some questions will be about the last year. The first thing I will do is ask you some background information about yourself.,10,Introduction1
 1,Are you male or female?,1,Demographics
 2,How old are you?,0,Demographics
 3,Are you Hispanic or Latina?,4,Demographics
@@ -7,7 +7,7 @@ Intro1,Most of the following questions will be about the last three months. Some
 5,What grade are you in?,3,Demographics
 6,Who spent the most time taking care of you in the last three months?,6,Demographics
 7,Think of the adults that live with you.Which of these people do you miss the most when you can't be with them?,7,Demographics
-Intro2,The next set of questions is about the kinds of things you have been doing and feeling.,10,
+Intro2,The next set of questions is about the kinds of things you have been doing and feeling.,10,Introduction2
 8,During the last three months did you have trouble seeing the chalkboard?,4,Demographics
 8A, Do you wear glasses?,4,Demographics
 9,"During the last three months, did you have trouble hearing?",4,Demographics
@@ -88,12 +88,12 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 72,In the last three months ...Has there been a time when you talked too much or too quickly?,4,Mania
 73,In the last three months ...Has there been a time when you thought you had special abilities or powers which made you stronger smarter or better than most other people?,4,Mania
 74,In the last three months ...Has there been a time when you often felt like your mind was racing too quickly from one thought to another?,4,Mania
-75,Everyone has times when they have trouble concentrating or keeping their mind on what they are doing. What we want to know is whether you have had difficulty concentrating or keeping your mind on what you are doing most of the time. In the last three months have you often had trouble keeping your mind on what you were doing most of the time?,4,ttention Deficit Hyperactivity
-76,In the last three months ...Have you often forgotten what you are supposed to be doing or what you had planned to do?,4,ttention Deficit Hyperactivity
-77,In the last three months ...Have you often found it hard to keep your mind on what you are doing when other things are going on?,4,ttention Deficit Hyperactivity
-78,In the last three months ...Have you often tried not to do things where you would need to pay attention for a long time?,4,ttention Deficit Hyperactivity
-79,In the last three months ...Have you often made a lot of mistakes because it's hard for you to do things carefully?,4,ttention Deficit Hyperactivity
-80,In the last year ...Have you taken medication for being overactive being hyperactive or having trouble paying attention?,4,ttention Deficit Hyperactivity
+75,Everyone has times when they have trouble concentrating or keeping their mind on what they are doing. What we want to know is whether you have had difficulty concentrating or keeping your mind on what you are doing most of the time. In the last three months have you often had trouble keeping your mind on what you were doing most of the time?,4,Attention Deficit Hyperactivity
+76,In the last three months ...Have you often forgotten what you are supposed to be doing or what you had planned to do?,4,Attention Deficit Hyperactivity
+77,In the last three months ...Have you often found it hard to keep your mind on what you are doing when other things are going on?,4,Attention Deficit Hyperactivity
+78,In the last three months ...Have you often tried not to do things where you would need to pay attention for a long time?,4,Attention Deficit Hyperactivity
+79,In the last three months ...Have you often made a lot of mistakes because it's hard for you to do things carefully?,4,Attention Deficit Hyperactivity
+80,In the last year ...Have you taken medication for being overactive being hyperactive or having trouble paying attention?,4,Attention Deficit Hyperactivity
 81,In the last three months ...Have you gotten even with people by doing things like hurting them messing up their things or telling lies about them?,4,Oppositional Defiant
 82,In the last three months ...Have you refused to do what your parents or teachers told you to do?,4,Oppositional Defiant
 83,In the last three months ...Have you been grouchy or easily annoyed?,4,Oppositional Defiant
@@ -124,7 +124,7 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 108,"In the last year ...Have you used PCP or ""Angel Dust""?",4,Other Substance
 109,"In the last year ...Have you used Ecstasy or ""E""?",4,Other Substance
 110,In the last year ...Have you used any inhalants - like glue cleaning fluid gasoline or paint to get high?,4,Other Substance
-Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  Feeling anxious or worried Feeling sad or depressed Being angry, irritable, or in a bad mood Problems with food, eating or weight Your behavior Alcohol or drugs Other things you did.  Now I'd like you to think about problems you may have been having at home,",10,
+Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  Feeling anxious or worried Feeling sad or depressed Being angry, irritable, or in a bad mood Problems with food, eating or weight Your behavior Alcohol or drugs Other things you did.  Now I'd like you to think about problems you may have been having at home,",10,Introduction3
 111, In the last three months ...How often did your parents feel worried or concerned about the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
 111A,Were they worried or concerned because of:  Select all that apply and then press the [ENTER] key to continue,8,DPS Impairment Scale Reconstruction
 112, In the last three months ...How often did your parents get annoyed or upset with you because of the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
@@ -142,4 +142,4 @@ Intro3,"In the first part of this interview you were asked about how you have be
 118, In the last three months ...Have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?,,DPS Impairment Scale Reconstruction
 118A, Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,,DPS Impairment Scale Reconstruction
 119, I'd like to ask you about the interview you just completed.What did you think of it?,,DPS Impairment Scale Reconstruction
-End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,,
+End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,,Conclusion
