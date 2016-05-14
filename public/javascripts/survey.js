@@ -25,10 +25,10 @@ var cache = {};
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params) {
 	$.post('/survey/section/' + sectionNum, params, function(response) {
-		console.log(response);
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
 		cache.section = response.section;
+		cache.questionNum = 0;
 
 		// put the section on the screen
 		compileSection(response.section);
@@ -40,48 +40,82 @@ compileSection = function(section) {
 	// empty out the previous set of questions
 	$('#questions').empty();
 
-	section.questions.forEach(function(question) {
-		// TODO: complete this for the rest of the sections
+	section.questions.forEach(function(question, i) {
 		var type, options;
 		switch(parseInt(question.type)) {
-			case 0: console.log('TODO: age'); break;
-			case 1: {
+			case 0:
+				type = 'mc';
+				options = ['14', '15', '16', '17', '18'];
+				break;
+			case 1:
 				type = 'mc';
 				options = ['Male', 'Female'];
-			}
-			case 2: {
+				break;
+			case 2:
 				type = 'mc';
 				options = ['race1', 'race2'];
-			}
-			case 3: console.log('grade'); break;
-			case 4: {
+				break;
+			case 3:
+				type = 'mc';
+				options = ['grade1', 'grade2'];
+				break;
+			case 4:
 				type = 'mc';
 				options = ['Yes', 'No'];
-				console.log('yes/no'); break;
-			}
-			case 5: console.log('TODO: freq'); break;
-			case 6: console.log('TODO: adultsp1'); break;
-			case 7: console.log('TODO: adultsp2'); break;
-			case 8: console.log('TODO: worries'); break;
-			case 9: console.log('TODO: free response'); break;
-			case 10: console.log('TODO: intro'); break;
+				break;
+			case 5:
+				type = 'mc';
+				options = ['A lot', 'A little', 'Some', 'Never'];
+				break;
+			case 6:
+				type = 'mc';
+				options = ['Adultsp1q1', 'Adultsp1q2'];
+				break;	 
+			case 7:
+				type = 'mc';
+				options = ['Adultsp2q1', 'Adultsp2q2'];
+				break;
+			case 8:
+				type = 'mc';
+				options = ['worries1', 'worries2'];
+				break;
+			case 9:
+				type = 'text';
+				break;
+			case 10:
+				type = 'intro';
+				break;
 		}
 
+		var htmlString = '<form class="survey-question" id="question-num-' + i + '">';
 		if (type === 'mc') {
-			var $group = $('<div>');
-			$group.addClass('form-control');
-			$group.text(question.text);
-
-			options.forEach(function(option, i) {
-				$('<div class="radio"><label><input type="radio" value="' + i +
-					'" name="' + question.num + '"></input>' + option +
-					'</label></div>').appendTo($group);
+			htmlString += '<h4>' + question.text + '</h4>';
+			options.forEach(function(option, j) {
+				htmlString += '<div class="radio"><label>';
+				htmlString += '<input type="radio" name="' + question.num + '" value="' + j + '">';
+				htmlString += option + '</label></div>';
 			});
-			$group.appendTo('#questions')
+		} else if (type === 'intro') {
+			htmlString += '<p>' + question.text + '</p>';
+		} else if (type === 'text') {
+			htmlString += '<p>TODO: text type</p>';
 		} else {
-			$('<p>').text('TODO: question of type ' + question.type + ' (' + question.text + ')').appendTo('#questions')
+			htmlString += '<p>TODO: type ' + type + '</p>';
 		}
+		htmlString += '</form>';
+		$(htmlString).appendTo('#questions')
 	});
+
+	setCurrentQuestion(cache.questionNum);
+}
+
+// set the question by number
+setCurrentQuestion = function(n) {
+	// hide all questions
+	$('.survey-question').toggle(false);
+
+	// show the current question
+	$('#question-num-' + n).toggle(true);
 }
 
 // initiate the survey with a call to /survey/initiate
@@ -92,12 +126,16 @@ $.post('/survey/initiate', function(response) {
 
 // listener for clicking on the next section button
 $('#next-btn').on('click', function() {
-	// TODO: collect the responses and send as the parameters
-	var params = {
-		id: cache.id,
-		TODO: 'get response values'
-	};
-	console.log(cache.sectionNum);
-	getSection(cache.sectionNum + 1, params);
+	if (++cache.questionNum === cache.section.questions.length) {
+		console.log('done');
+		// TODO: collect the responses and send as the parameters
+		var params = {
+			id: cache.id,
+			TODO: 'get response values'
+		};
+		getSection(cache.sectionNum + 1, params);
+	} else {
+		setCurrentQuestion(cache.questionNum);
+	}
 });
 
