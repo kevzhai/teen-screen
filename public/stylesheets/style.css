@@ -15,6 +15,10 @@ textarea {
 	text-align: right;
 }
 
-.navbar{
+.navbar {
 	margin-bottom: 2em;
+}
+
+#questions {
+	height: 17em;
 }

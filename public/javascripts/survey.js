@@ -91,7 +91,7 @@ compileSection = function(section) {
 				htmlString += '<input type="radio" name=' + question.num + '" value="' + j + '"><span class="c-indicator"></span>';
 				htmlString += option + '</label>';
 			});
-			htmlString += '</div';
+			htmlString += '</div>';
 		} else if (type === 'intro') {
 			htmlString += '<p>' + question.text + '</p>';
 		} else if (type === 'text') {

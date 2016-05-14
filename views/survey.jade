@@ -9,10 +9,10 @@ block content
 		.row
 			- buttons = ["back", "repeat", "next"]
 			each button in buttons
-				.col-xs-3
+				//- form-group for margin-bottom
+				.col-md-4.form-group 
 					button.btn.btn-block.btn-secondary(id="#{button}-btn") 
 						span.text-capitalize #{button}
-				.col-xs-1
 
 block scripts
 	script(src='/javascripts/survey.js')
