@@ -8,27 +8,22 @@
 
 /**
  * TODO List
- * 1) Put all question types on the screen in compileSection
- * 2) Hide all questions besides the current question
- * 3) Adjust the reaction to the #next-btn click depending on whether
- *    whether it's the end of the section and whether the question
- *    has actually been answered.
- * 4) Make the interface nicer
- * 5) At the end of a section, collect the data and send it to the server
- * 6) Implement a back button
- * 7) Cleanly deal with the end of all sections
+ * - Make the interface nicer
+ * - At the end of a section, collect the data and send it to the server
+ * - Implement a back button
+ * - Cleanly deal with the end of all sections
  */
 
 // instance variable for section number
 var cache = {};
 
 // helper function to get a new section for the survey
-getSection = function(sectionNum, params) {
+getSection = function(sectionNum, params, start) {
 	$.post('/survey/section/' + sectionNum, params, function(response) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
 		cache.section = response.section;
-		cache.questionNum = 0;
+		cache.questionNum = start ? 0 : response.section.questions.length - 1;
 
 		// put the section on the screen
 		compileSection(response.section);
@@ -113,6 +108,7 @@ compileSection = function(section) {
 
 // set the question by number
 setCurrentQuestion = function(n) {
+	cache.questionNum = n;
 	// hide all questions
 	$('.survey-question').toggle(false);
 
@@ -123,19 +119,37 @@ setCurrentQuestion = function(n) {
 // initiate the survey with a call to /survey/initiate
 $.post('/survey/initiate', function(response) {
 	cache.id = response;
-	getSection(0);
+	getSection(0, null, true);
 });
 
 // listener for clicking on the next section button
 $('#next-btn').on('click', function() {
 	if (++cache.questionNum === cache.section.questions.length) {
-		console.log('done');
 		// TODO: collect the responses and send as the parameters
 		var params = {
 			id: cache.id,
 			TODO: 'get response values'
 		};
-		getSection(cache.sectionNum + 1, params);
+		getSection(cache.sectionNum + 1, params, true);
+	} else {
+		setCurrentQuestion(cache.questionNum);
+	}
+});
+
+$('#back-btn').on('click', function() {
+	if (--cache.questionNum < 0) {
+		if (cache.sectionNum === 0) {
+			// TODO: indicate on screen that you can't go back any further
+			cache.questionNum++;
+			return;
+		}
+
+		// TODO: collect the responses and send as the parameters
+		var params = {
+			id: cache.id,
+			TODO: 'get response values'
+		}
+		getSection(cache.sectionNum - 1, params, false);
 	} else {
 		setCurrentQuestion(cache.questionNum);
 	}
