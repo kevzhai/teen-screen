@@ -114,6 +114,10 @@ setCurrentQuestion = function(n) {
 
 	// show the current question
 	$('#question-num-' + n).toggle(true);
+
+	// use the HTML5 audio element
+	cache.audio = $('<audio>').attr('src', '/audio/test.mp3');
+	cache.audio.get(0).play();
 }
 
 // initiate the survey with a call to /survey/initiate
@@ -122,8 +126,9 @@ $.post('/survey/initiate', function(response) {
 	getSection(0, null, true);
 });
 
-// listener for clicking on the next section button
+// listener for the next button
 $('#next-btn').on('click', function() {
+	cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) {
 		// TODO: collect the responses and send as the parameters
 		var params = {
@@ -136,7 +141,9 @@ $('#next-btn').on('click', function() {
 	}
 });
 
+// listener for the back button
 $('#back-btn').on('click', function() {
+	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
 		if (cache.sectionNum === 0) {
 			// TODO: indicate on screen that you can't go back any further
@@ -155,3 +162,9 @@ $('#back-btn').on('click', function() {
 	}
 });
 
+// listener for the repeat button
+$('#repeat-btn').on('click', function() {
+	// return to the start, and play again
+	cache.audio.get(0).load();
+	cache.audio.get(0).play();
+});
