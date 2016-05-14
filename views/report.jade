@@ -7,14 +7,14 @@ block content
 				h1= title
 				p Stub reports page. You need to be in the 'admin' user group to see this page.
 		.row			
-		-test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}]
+		-test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
 		//- each person in test
 		//- 	a(data-toggle="collapse" href="##{person.id}") #{person.id}
 		//- 	.collapse(id="#{person.id}")
 		//- 		each r in person.report						
 		//- 			h1= r
 		//- 	br
-		table.table.table-hover.table-striped
+		table.table
 			thead
 				tr
 					th Subject ID
