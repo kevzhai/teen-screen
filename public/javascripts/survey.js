@@ -15,7 +15,12 @@
  */
 
 // instance variable for section number
-var cache = {};
+var cache = {
+	sections: []
+};
+
+// initialize to not showing the incomplete notice to start
+$('#incomplete-notice').toggle(false);
 
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params, start) {
@@ -23,6 +28,7 @@ getSection = function(sectionNum, params, start) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
 		cache.section = response.section;
+		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
 
 		// put the section on the screen
@@ -32,9 +38,6 @@ getSection = function(sectionNum, params, start) {
 
 // helper function to turn the JSON section into HTML elements
 compileSection = function(section) {
-	// empty out the previous set of questions
-	$('#questions').empty();
-
 	section.questions.forEach(function(question, i) {
 		var type, options;
 		switch(parseInt(question.type)) {
@@ -82,13 +85,13 @@ compileSection = function(section) {
 				break;
 		}
 
-		var htmlString = '<form class="survey-question" id="question-num-' + i + '">';
+		var htmlString = '<form class="survey-question" id="section-' + cache.sectionNum + '-question-' + i + '">';
 		if (type === 'mc') {
 			htmlString += '<h4>' + question.text + '</h4>';
 			htmlString += '<div class="c-inputs-stacked">';
 			options.forEach(function(option, j) {
 				htmlString += '<label class="c-input c-radio">';
-				htmlString += '<input type="radio" name=' + question.num + '" value="' + j + '"><span class="c-indicator"></span>';
+				htmlString += '<input type="radio" name="' + question.num + '" value="' + j + '"><span class="c-indicator"></span>';
 				htmlString += option + '</label>';
 			});
 			htmlString += '</div>';
@@ -109,15 +112,25 @@ compileSection = function(section) {
 // set the question by number
 setCurrentQuestion = function(n) {
 	cache.questionNum = n;
+	cache.question = cache.section.questions[n];
+
+	var type = cache.question.type;
+	cache.requiresResponse = type !== '9' && type !== '10';
+
 	// hide all questions
 	$('.survey-question').toggle(false);
 
 	// show the current question
-	$('#question-num-' + n).toggle(true);
+	$('#section-' + cache.sectionNum + '-question-' + n).toggle(true);
 
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3');
 	cache.audio.get(0).play();
+}
+
+// helper to set the notice
+showNotice = function(show) {
+	$('#incomplete-notice').toggle(show);
 }
 
 // initiate the survey with a call to /survey/initiate
@@ -128,8 +141,20 @@ $.post('/survey/initiate', function(response) {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
+	if (cache.requiresResponse && $('[name=' + cache.question.num + ']:checked').val() === undefined) {
+		showNotice(true);
+		return
+	}
+
+	showNotice(false);
 	cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) {
+		if ($('#section-' + (cache.sectionNum + 1) + '-question-0').length) {
+			cache.section = cache.sections[++cache.sectionNum];
+			setCurrentQuestion(0);
+			return;
+		}
+
 		// TODO: collect the responses and send as the parameters
 		var params = {
 			id: cache.id,
@@ -143,6 +168,7 @@ $('#next-btn').on('click', function() {
 
 // listener for the back button
 $('#back-btn').on('click', function() {
+	showNotice(false);
 	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
 		if (cache.sectionNum === 0) {
@@ -151,12 +177,8 @@ $('#back-btn').on('click', function() {
 			return;
 		}
 
-		// TODO: collect the responses and send as the parameters
-		var params = {
-			id: cache.id,
-			TODO: 'get response values'
-		}
-		getSection(cache.sectionNum - 1, params, false);
+		cache.section = cache.sections[--cache.sectionNum];
+		setCurrentQuestion(cache.section.questions.length - 1);
 	} else {
 		setCurrentQuestion(cache.questionNum);
 	}

@@ -10,9 +10,15 @@ block content
 			- buttons = ["back", "repeat", "next"]
 			each button in buttons
 				//- form-group for margin-bottom
-				.col-md-4.form-group 
+				.col-xs-4.form-group 
 					button.btn.btn-block.btn-secondary(id="#{button}-btn") 
 						span.text-capitalize #{button}
+
+			.col-xs-12#incomplete-notice
+				.alert.alert-danger.alert-dismissible.fade.in(role="alert")
+					button.close(type="button", data-dismiss="alert", aria-label="Close")
+						span(aria-hidden="true") &times;
+					span You must answer this question before advancing
 
 block scripts
 	script(src='/javascripts/survey.js')
