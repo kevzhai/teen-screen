@@ -19,6 +19,19 @@ var cache = {
 	sections: []
 };
 
+document.getElementById('fullscreen').addEventListener('click', () => {
+  if (screenfull.enabled) {
+    screenfull.request();
+  } 
+});
+$(document).keydown(function(e) {
+  if(e.which == 70 && e.ctrlKey) { // ctrl + 'f'
+    if (screenfull.enabled) {
+      screenfull.request();
+    } 
+  }
+});
+
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
 
@@ -113,10 +126,14 @@ showNotice = function(show) {
 }
 
 // initiate the survey with a call to /survey/initiate
-$.post('/survey/initiate', function(response) {
-	cache.id = response;
-	getSection(0, null, true);
-});
+$('#fullscreen').on('click', function() {
+	$('.invisible').removeClass('invisible');
+	$('.handoff').toggle(false);
+	$.post('/survey/initiate', function(response) {
+		cache.id = response;
+		getSection(0, null, true);
+	});
+})
 
 // listener for the next button
 $('#next-btn').on('click', function() {

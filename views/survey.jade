@@ -1,12 +1,17 @@
 extends layout
 
 block content
-	.container
+	.container#no-nav
 		.row
 			.col-xs-12
 				h1= title
-			.col-xs-12#questions
 		.row
+			.col-xs-8
+				p.handoff Please activate fullscreen mode before handing over the device so that participants do not accidentally use the browser's back/forward buttons or address bar. You can exit fullscreen mode at any time by pressing the "esc" button. If you need to enter fullscreen mode again, press the key combination ctrl-f.
+				button#fullscreen.handoff.btn.btn-primary(type="button") Fullscreen
+		.row.invisible
+			.col-xs-12#questions
+		.row.invisible
 			- buttons = ["back", "repeat", "next"]
 			each button in buttons
 				//- form-group for margin-bottom
@@ -21,4 +26,5 @@ block content
 					span You must answer this question before advancing
 
 block scripts
+	script(src='/javascripts/libraries/screenfull.js')
 	script(src='/javascripts/survey.js')
