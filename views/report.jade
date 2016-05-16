@@ -7,12 +7,14 @@ block content
 				h1= title
 				p Stub reports page. You need to be in the 'admin' user group to see this page.
 		.row			
-		-test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
+		-
+			test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
+			list = ["Subject ID", "Site", "Sponsor", "Protocol", "Description"]
 		table.table
 			thead
 				tr
-					th Subject ID
-					th Site
+					each header in list
+						th #{header}
 			tbody
 				each person in test
 					tr

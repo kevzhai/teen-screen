@@ -1,5 +1,6 @@
 extends layout
 
+
 block content
   .container
     .row
@@ -64,8 +65,16 @@ block content
               input.form-control#subjectId(placeholder="(required)" name="subjectId")
           .form-group.row
             div(class="#{colOffset} #{col2}")
+              button#fullscreen.btn.btn-primary(type="button" data-toggle="tooltip" data-placement="right" title="Fullscreen so participant won't access browser") Fullscreen
+          .form-group.row
+            div(class="#{colOffset} #{col2}")
               button#submit.btn.btn-primary(role="button" type="submit") Initiate Survey
           #alert_placeholder
+          
+block prescripts
+  script(src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js") 
+  //- have to init before bootstrap
 
 block scripts
+  script(src='/javascripts/libraries/screenfull.js')
   script(src='/javascripts/init.js')
