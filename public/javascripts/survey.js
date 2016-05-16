@@ -66,9 +66,17 @@ compileSection = function(section, responses) {
 		} else if (type === 'intro') {
 			htmlString += '<p>' + question.text + '</p>';
 		} else if (type === 'text') {
-			htmlString += '<p>TODO: text type</p>';
+			htmlString += '<fieldset class="form-group">';
+			htmlString += '<label for="' + name + '">' + options[0].text + '</label>';
+			htmlString += '<input type="text" class="form-control" id="' + name +
+				'" name="' + name + '">';
+			htmlString += '</fieldset>';
 		} else if (type === 'age') {
-			htmlString += '<p>TODO: age</p>';
+			htmlString += '<fieldset class="form-group">';
+			htmlString += '<label for="' + name + '">How old are you?</label>';
+			htmlString += '<input type="number" class="form-control" id="' + name +
+				'" name="' + name + '" step="1" min="0" max="100">';
+			htmlString += '</fieldset>';
 		} else {
 			htmlString += '<p>TODO: type ' + type + '</p>';
 		}
@@ -113,7 +121,7 @@ $.post('/survey/initiate', function(response) {
 $('#next-btn').on('click', function() {
 	if (cache.requiresResponse && $('[name=' + cache.sectionNum + '-' + cache.question.num + ']:checked').val() === undefined) {
 		showNotice(true);
-		return
+		return;
 	}
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
@@ -153,7 +161,6 @@ $('#back-btn').on('click', function() {
 	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
 		if (cache.sectionNum === 0) {
-			// TODO: indicate on screen that you can't go back any further
 			cache.questionNum++;
 			return;
 		}
