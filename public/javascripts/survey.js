@@ -19,17 +19,18 @@ var cache = {
 	sections: []
 };
 
-$(function () {
-  $('#fullscreen').tooltip();
-  document.getElementById('fullscreen').addEventListener('click', () => {
+document.getElementById('fullscreen').addEventListener('click', () => {
+  if (screenfull.enabled) {
+    screenfull.request();
+  } 
+});
+$(document).keydown(function(e) {
+  if(e.which == 70 && e.ctrlKey) { // ctrl + 'f'
     if (screenfull.enabled) {
       screenfull.request();
-    } else {
-      // Ignore or do something else
-    }
-  });
-})
-
+    } 
+  }
+});
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
