@@ -98,7 +98,7 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 82,In the last three months ...Have you refused to do what your parents or teachers told you to do?,4,Oppositional Defiant
 83,In the last three months ...Have you been grouchy or easily annoyed?,4,Oppositional Defiant
 84,In the last three months ...Have you done mean things to people on purpose?,4,Oppositional Defiant
-85,In the last three months ...Have you blamed someone else for your mistakes or for things you did that you shouldn't have done?,,Oppositional Defiant
+85,In the last three months ...Have you blamed someone else for your mistakes or for things you did that you shouldn't have done?,4,Oppositional Defiant
 86,In the last three months ...Have you done things just to annoy people or make them mad?,4,Oppositional Defiant
 87,In the last three months ...Have people complained because you swore or used dirty language?,4,Oppositional Defiant
 88,In the last year ... Have you been expelled from school for misbehavior - that is told you could never go back to that school at all?,4,Conduct
@@ -135,11 +135,11 @@ Intro3,"In the first part of this interview you were asked about how you have be
 114A, Were you not able to do things or go places because of:  Select all that apply and then press the [ENTER] key to continue ,8,DPS Impairment Scale Reconstruction
 115, In the last three months ...How often did the way you were feeling or acting make it difficult to do your schoolwork or cause problems with your grades?,5,DPS Impairment Scale Reconstruction
 115A,  Did you have problems with your schoolwork or grades because of:  Select all that apply and then press the [ENTER] key to continue ,8,DPS Impairment Scale Reconstruction
-116, In the last three months ...How often were your teachers annoyed or upset with you because of the way you were feeling or acting?,,DPS Impairment Scale Reconstruction
-116A, Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue ,,DPS Impairment Scale Reconstruction
-117, In the last three months ...How often did the way you were feeling or acting make you feel bad or feel upset?,,DPS Impairment Scale Reconstruction
-117A, Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue ,,DPS Impairment Scale Reconstruction
-118, In the last three months ...Have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?,,DPS Impairment Scale Reconstruction
-118A, Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,,DPS Impairment Scale Reconstruction
-119, I'd like to ask you about the interview you just completed.What did you think of it?,,DPS Impairment Scale Reconstruction
-End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,,Conclusion
+116, In the last three months ...How often were your teachers annoyed or upset with you because of the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
+116A, Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,DPS Impairment Scale Reconstruction
+117, In the last three months ...How often did the way you were feeling or acting make you feel bad or feel upset?,5,DPS Impairment Scale Reconstruction
+117A, Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,DPS Impairment Scale Reconstruction
+118, In the last three months ...Have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?,5,DPS Impairment Scale Reconstruction
+118A, Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,8,DPS Impairment Scale Reconstruction
+119, I'd like to ask you about the interview you just completed.What did you think of it?,9,DPS Impairment Scale Reconstruction
+End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,10,Conclusion
