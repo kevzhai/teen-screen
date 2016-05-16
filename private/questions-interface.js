@@ -5,11 +5,13 @@
 
 var fs = require('fs');
 
-// the name of the file containing the survey questions
-var filename = './private/survey-questions.json';
+// the names of the files containing the survey questions and responses
+var questionsFile = './private/survey-questions.json';
+var responsesFile = './private/survey-responses.json';
 
-// synchronously read the file
-var questions = JSON.parse(fs.readFileSync(filename).toString());
+// synchronously read the files
+var questions = JSON.parse(fs.readFileSync(questionsFile).toString());
+var responses = JSON.parse(fs.readFileSync(responsesFile).toString());
 
 // function to get the data associated with the nth section
 getSection = function(n, callback) {
@@ -20,7 +22,8 @@ getSection = function(n, callback) {
 		callback(null, {
 			'num-sections': questions['num-sections'],
 			n: n,
-			section: questions.sections[n]
+			section: questions.sections[n],
+			responses: responses
 		});
 	}
 }

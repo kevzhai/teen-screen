@@ -32,74 +32,51 @@ getSection = function(sectionNum, params, start) {
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
 
 		// put the section on the screen
-		compileSection(response.section);
+		compileSection(response.section, response.responses);
 	});
 }
 
 // helper function to turn the JSON section into HTML elements
-compileSection = function(section) {
+compileSection = function(section, responses) {
 	section.questions.forEach(function(question, i) {
 		var type, options;
-		switch(parseInt(question.type)) {
-			case 0:
-				type = 'mc';
-				options = ['14', '15', '16', '17', '18'];
-				break;
-			case 1:
-				type = 'mc';
-				options = ['Male', 'Female'];
-				break;
-			case 2:
-				type = 'mc';
-				options = ['race1', 'race2'];
-				break;
-			case 3:
-				type = 'mc';
-				options = ['grade1', 'grade2'];
-				break;
-			case 4:
-				type = 'mc';
-				options = ['Yes', 'No'];
-				break;
-			case 5:
-				type = 'mc';
-				options = ['A lot', 'A little', 'Some', 'Never'];
-				break;
-			case 6:
-				type = 'mc';
-				options = ['Adultsp1q1', 'Adultsp1q2'];
-				break;	 
-			case 7:
-				type = 'mc';
-				options = ['Adultsp2q1', 'Adultsp2q2'];
-				break;
-			case 8:
-				type = 'mc';
-				options = ['worries1', 'worries2'];
-				break;
-			case 9:
-				type = 'text';
-				break;
-			case 10:
-				type = 'intro';
-				break;
+		
+		if (responses.hasOwnProperty(question.type)) {
+			type = responses[question.type].radio === '1' ? 'radio' : 'checkbox';
+			options = responses[question.type].options;
+		}
+		if (question.type === '9') type = 'text';
+		if (question.type === '10') type = 'intro';
+		if (question.type === '0') {
+			type = 'age';
 		}
 
+		var name = cache.sectionNum + '-' + question.num;
 		var htmlString = '<form class="survey-question" id="section-' + cache.sectionNum + '-question-' + i + '">';
-		if (type === 'mc') {
+		if (type === 'radio' || type === 'checkbox') {
 			htmlString += '<h4>' + question.text + '</h4>';
 			htmlString += '<div class="c-inputs-stacked">';
 			options.forEach(function(option, j) {
-				htmlString += '<label class="c-input c-radio">';
-				htmlString += '<input type="radio" name="' + cache.sectionNum + '-' + question.num +
-					'" value="' + j + '"><span class="c-indicator"></span>';
-				htmlString += option + '</label>';
+				htmlString += '<label class="c-input c-' + type + '">';
+				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
+					option.value + '"><span class="c-indicator"></span>';
+				htmlString += option.text + '</label>';
 			});
 			htmlString += '</div>';
 		} else if (type === 'intro') {
 			htmlString += '<p>' + question.text + '</p>';
 		} else if (type === 'text') {
-			htmlString += '<p>TODO: text type</p>';
+			htmlString += '<fieldset class="form-group">';
+			htmlString += '<label for="' + name + '">' + options[0].text + '</label>';
+			htmlString += '<input type="text" class="form-control" id="' + name +
+				'" name="' + name + '">';
+			htmlString += '</fieldset>';
+		} else if (type === 'age') {
+			htmlString += '<fieldset class="form-group">';
+			htmlString += '<label for="' + name + '">How old are you?</label>';
+			htmlString += '<input type="number" class="form-control" id="' + name +
+				'" name="' + name + '" step="1" min="0" max="100">';
+			htmlString += '</fieldset>';
 		} else {
 			htmlString += '<p>TODO: type ' + type + '</p>';
 		}
@@ -116,7 +93,7 @@ setCurrentQuestion = function(n) {
 	cache.question = cache.section.questions[n];
 
 	var type = cache.question.type;
-	cache.requiresResponse = type !== '9' && type !== '10';
+	cache.requiresResponse = type !== '9' && type !== '10' && type !== '0';
 
 	// hide all questions
 	$('.survey-question').toggle(false);
@@ -144,10 +121,10 @@ $.post('/survey/initiate', function(response) {
 $('#next-btn').on('click', function() {
 	if (cache.requiresResponse && $('[name=' + cache.sectionNum + '-' + cache.question.num + ']:checked').val() === undefined) {
 		showNotice(true);
-		return
+		return;
 	}
 	showNotice(false);
-	cache.audio.get(0).pause();
+	if (cache.audio) cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) {
 		if ($('#section-' + (cache.sectionNum + 1) + '-question-0').length) {
 			cache.section = cache.sections[++cache.sectionNum];
@@ -170,7 +147,7 @@ getResponses = function() {
 	cache.sections.forEach(function(section, i) {
 		responses[i] = {};
 		section.questions.forEach(function(question, j) {
-			if (question.type !== '9' && question.type !== '10') {
+			if (question.type !== '9' && question.type !== '10' && question.type !== '0') {
 				responses[i][j] = $('[name=' + i + '-' + question.num + ']:checked').val();
 			}
 		});
@@ -184,7 +161,6 @@ $('#back-btn').on('click', function() {
 	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
 		if (cache.sectionNum === 0) {
-			// TODO: indicate on screen that you can't go back any further
 			cache.questionNum++;
 			return;
 		}
