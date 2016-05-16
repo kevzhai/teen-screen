@@ -5,20 +5,6 @@
 //   $(".checked").prop("checked", false);
 // });
 
-$(function () {
-  // $('[data-toggle="tooltip"]').tooltip()
-  // $('[rel=tooltip]').tooltip({container: 'body'});
-  // $('#fullscreen').tooltip({container: 'body'});
-  $('#fullscreen').tooltip();
-  document.getElementById('fullscreen').addEventListener('click', () => {
-      if (screenfull.enabled) {
-          screenfull.request();
-      } else {
-          // Ignore or do something else
-      }
-  });
-})
-
 // one-button toggle
 var check = true;
 $(".checkall").on("click", function() {

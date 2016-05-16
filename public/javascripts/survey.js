@@ -19,6 +19,18 @@ var cache = {
 	sections: []
 };
 
+$(function () {
+  $('#fullscreen').tooltip();
+  document.getElementById('fullscreen').addEventListener('click', () => {
+    if (screenfull.enabled) {
+      screenfull.request();
+    } else {
+      // Ignore or do something else
+    }
+  });
+})
+
+
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
 
@@ -112,10 +124,14 @@ showNotice = function(show) {
 }
 
 // initiate the survey with a call to /survey/initiate
-$.post('/survey/initiate', function(response) {
-	cache.id = response;
-	getSection(0, null, true);
-});
+$('#fullscreen').on('click', function() {
+	$('.invisible').removeClass('invisible');
+	$('.handoff').toggle(false);
+	$.post('/survey/initiate', function(response) {
+		cache.id = response;
+		getSection(0, null, true);
+	});
+})
 
 // listener for the next button
 $('#next-btn').on('click', function() {
