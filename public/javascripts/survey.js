@@ -171,8 +171,11 @@ requiresResponse = function(question) {
 // to the passed in value
 setResponse = function(sectionNum, question, value) {
 	var radio = cache.responses[question.type].radio === '1';
-	$('[name=' + sectionNum + '-' + question.num + ']:checked').prop('checked', false);
-	$('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked', true);
+	if (radio) {
+		$('[name=' + sectionNum + '-' + question.num + ']:checked').prop('checked', false);
+	}
+	var init = $('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked');
+	$('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked', !init);
 }
 
 // has response checks whether the passed in sectionNum/question
