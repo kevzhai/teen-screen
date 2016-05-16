@@ -6,7 +6,8 @@ router.get('/', function(req, res, next) {
   console.log(req.user);
   res.render('index', {
     title: 'Teen Screen',
-    user: req.user ? req.user.fullName : ''
+    user: req.user ? req.user.fullName : '',
+    nav: true
   });
 });
 

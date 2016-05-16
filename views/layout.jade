@@ -5,24 +5,25 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    nav.navbar.navbar-light.bg-faded
-      a.navbar-brand(href="#")
-      ul.nav.navbar-nav
-        li.nav-item.active
-          a.nav-link(href="/") Home
-            span.sr-only (current)
-        if user.length === 0
-          li.nav-item
-            a.nav-link(href="/login") Login
-          li.nav-item
-            a.nav-link(href="/register") Register
-        else
-          li.nav-item
-            a.nav-link(href="/logout") Logout
-          li.nav-item
-            a.nav-link(href="/admin") Admin
-          li.nav-item.pull-xs-right
-            a.nav-link(href="#")= 'Welcome ' + user
+    if nav
+      nav.navbar.navbar-light.bg-faded
+        a.navbar-brand(href="#")
+        ul.nav.navbar-nav
+          li.nav-item.active
+            a.nav-link(href="/") Home
+              span.sr-only (current)
+          if user.length === 0
+            li.nav-item
+              a.nav-link(href="/login") Login
+            li.nav-item
+              a.nav-link(href="/register") Register
+          else
+            li.nav-item
+              a.nav-link(href="/logout") Logout
+            li.nav-item
+              a.nav-link(href="/admin") Admin
+            li.nav-item.pull-xs-right
+              a.nav-link(href="#")= 'Welcome ' + user
 
 
     block content

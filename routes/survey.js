@@ -9,10 +9,10 @@ var questionInterface = require('../private/questions-interface');
 
 /* GET survey page. */
 router.get('/', function(req, res, next) {
-  console.log(req.user);
   res.render('survey', {
     title: 'Teen Screen Survey',
-    user: req.user ? req.user.fullName : ''
+    user: req.user ? req.user.fullName : '',
+    nav: false
   });
 });
 

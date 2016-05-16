@@ -11,7 +11,8 @@ router.get('/', function(req, res, next) {
       res.render('init', {
         title: 'Teen Screen Initiate Survey',
         lines : content.toString().split('\n'),
-        user: req.user ? req.user.fullName : ''
+        user: req.user ? req.user.fullName : '',
+        nav: true
       });
   });
 });
