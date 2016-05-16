@@ -91,7 +91,8 @@ compileSection = function(section) {
 			htmlString += '<div class="c-inputs-stacked">';
 			options.forEach(function(option, j) {
 				htmlString += '<label class="c-input c-radio">';
-				htmlString += '<input type="radio" name="' + question.num + '" value="' + j + '"><span class="c-indicator"></span>';
+				htmlString += '<input type="radio" name="' + cache.sectionNum + '-' + question.num +
+					'" value="' + j + '"><span class="c-indicator"></span>';
 				htmlString += option + '</label>';
 			});
 			htmlString += '</div>';
@@ -141,11 +142,10 @@ $.post('/survey/initiate', function(response) {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
-	if (cache.requiresResponse && $('[name=' + cache.question.num + ']:checked').val() === undefined) {
+	if (cache.requiresResponse && $('[name=' + cache.sectionNum + '-' + cache.question.num + ']:checked').val() === undefined) {
 		showNotice(true);
 		return
 	}
-
 	showNotice(false);
 	cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) {
@@ -155,16 +155,28 @@ $('#next-btn').on('click', function() {
 			return;
 		}
 
-		// TODO: collect the responses and send as the parameters
 		var params = {
 			id: cache.id,
-			TODO: 'get response values'
+			responses: getResponses()
 		};
 		getSection(cache.sectionNum + 1, params, true);
 	} else {
 		setCurrentQuestion(cache.questionNum);
 	}
 });
+
+getResponses = function() {
+	var responses = {};
+	cache.sections.forEach(function(section, i) {
+		responses[i] = {};
+		section.questions.forEach(function(question, j) {
+			if (question.type !== '9' && question.type !== '10') {
+				responses[i][j] = $('[name=' + i + '-' + question.num + ']:checked').val();
+			}
+		});
+	});
+	return responses
+}
 
 // listener for the back button
 $('#back-btn').on('click', function() {
