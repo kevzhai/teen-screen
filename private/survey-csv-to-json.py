@@ -31,6 +31,6 @@ question_type = {}
 for row in reader:
 	if not row['type'] in question_type:
 		question_type[row['type']] = {'radio': row['radio'], 'options': []}
-	question_type[row['type']]['options'].append({'text': row['text'], 'value': row['value']})
+	question_type[row['type']]['options'].append({'text': row['text'], 'value': row['value'], 'button': row['button']})
 
 json.dump(question_type, open('./survey-responses.json', 'wb'))

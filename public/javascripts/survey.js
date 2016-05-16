@@ -30,6 +30,7 @@ getSection = function(sectionNum, params, start) {
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
+		cache.responses = response.responses;
 
 		// put the section on the screen
 		compileSection(response.section, response.responses);
@@ -60,7 +61,7 @@ compileSection = function(section, responses) {
 				htmlString += '<label class="c-input c-' + type + '">';
 				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
 					option.value + '"><span class="c-indicator"></span>';
-				htmlString += option.text + '</label>';
+				htmlString += option.button + ' - ' + option.text + '</label>';
 			});
 			htmlString += '</div>';
 		} else if (type === 'intro') {
@@ -93,7 +94,7 @@ setCurrentQuestion = function(n) {
 	cache.question = cache.section.questions[n];
 
 	var type = cache.question.type;
-	cache.requiresResponse = type !== '9' && type !== '10' && type !== '0';
+	cache.requiresResponse = requiresResponse(cache.question);
 
 	// hide all questions
 	$('.survey-question').toggle(false);
@@ -119,7 +120,7 @@ $.post('/survey/initiate', function(response) {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
-	if (cache.requiresResponse && $('[name=' + cache.sectionNum + '-' + cache.question.num + ']:checked').val() === undefined) {
+	if (requiresResponse(cache.question) && !hasResponse(cache.sectionNum, cache.question)) {
 		showNotice(true);
 		return;
 	}
@@ -142,13 +143,50 @@ $('#next-btn').on('click', function() {
 	}
 });
 
+// predicate method for whether the passed in question
+// requires a response, with only the 'intro' type
+// not requiring a response
+requiresResponse = function(question) {
+	return question.type !== '10';
+}
+
+// set the value of the passed in sectionNum and question
+// to the passed in value
+setResponse = function(sectionNum, question, value) {
+	var radio = cache.responses[question.type].radio === '1';
+	$('[name=' + sectionNum + '-' + question.num + ']:checked').prop('checked', false);
+	$('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked', true);
+}
+
+// has response checks whether the passed in sectionNum/question
+// combination has a response
+hasResponse = function(sectionNum, question) {
+	if (question.type === '0' || question.type === '9') {
+		return $('[name=' + sectionNum + '-' + question.num + ']').val().length > 0;
+	} else {
+		return $('[name=' + sectionNum + '-' + question.num + ']:checked').val() !== undefined;
+	}
+}
+
+// helper function to get the response to the question passed in
+// within the section given by sectionNum
+getResponse = function(sectionNum, question) {
+	if (question.type === '0' || question.type === '9') {
+		return $('[name=' + sectionNum + '-' + question.num + ']').val();
+	} else {
+		return $('[name=' + sectionNum + '-' + question.num + ']:checked').val();
+	}
+}
+
+// get the responses to all questions displayed thus far in an object
+// mapping from section to question to response
 getResponses = function() {
 	var responses = {};
 	cache.sections.forEach(function(section, i) {
 		responses[i] = {};
 		section.questions.forEach(function(question, j) {
-			if (question.type !== '9' && question.type !== '10' && question.type !== '0') {
-				responses[i][j] = $('[name=' + i + '-' + question.num + ']:checked').val();
+			if (requiresResponse(question)) {
+				responses[i][j] = getResponse(i, question.num);
 			}
 		});
 	});
@@ -177,4 +215,24 @@ $('#repeat-btn').on('click', function() {
 	// return to the start, and play again
 	cache.audio.get(0).load();
 	cache.audio.get(0).play();
+});
+
+// listener for keystrokes
+$('body').on('keyup', function(event) {
+	if (!requiresResponse(cache.question)) return;
+
+	// ignore ENTER
+	if (event.keyCode === 13) return;
+
+	var key = String.fromCharCode(event.keyCode);
+	var responses = cache.responses[cache.question.type];
+
+	// if the question type doesn't have options, move on
+	if (!responses || !responses.hasOwnProperty('options')) return;
+
+	responses.options.forEach(function(option) {
+		if (key === option.button) {
+			setResponse(cache.sectionNum, cache.question, option.value);
+		}
+	});
 });
