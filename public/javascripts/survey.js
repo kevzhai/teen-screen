@@ -25,7 +25,7 @@ document.getElementById('fullscreen').addEventListener('click', () => {
   } 
 });
 $(document).keydown(function(e) {
-  if(e.which == 70 && e.ctrlKey) { // ctrl + 'f'
+  if(e.which == 70 && e.altKey) { // alt + 'f'
     if (screenfull.enabled) {
       screenfull.request();
     } 
