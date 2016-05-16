@@ -82,8 +82,8 @@ compileSection = function(section, responses) {
 		} else if (type === 'text') {
 			htmlString += '<fieldset class="form-group">';
 			htmlString += '<label for="' + name + '">' + options[0].text + '</label>';
-			htmlString += '<input type="text" class="form-control" id="' + name +
-				'" name="' + name + '">';
+			htmlString += '<textarea class="form-control" id="' + name +
+							'" name="' + name + '"></textarea>';
 			htmlString += '</fieldset>';
 		} else if (type === 'age') {
 			htmlString += '<fieldset class="form-group">';
