@@ -208,8 +208,7 @@ $('#next-btn').on('click', function() {
 
 		var params = {
 			id: cache.id,
-			responses: getResponses(),
-			test: "test"
+			responses: getResponses()
 		};
 		getSection(cache.sectionNum + 1, params, true);
 	} else {

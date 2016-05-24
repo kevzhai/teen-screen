@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var request = require('request');
 var router = express.Router();
 
-var Screen = require('./lib/screen');
+var Screen = require('../lib/screen');
 var questionInterface = require('../private/questions-interface');
 
 /* GET survey page. */
