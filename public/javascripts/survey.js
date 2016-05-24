@@ -216,41 +216,6 @@ $('#next-btn').on('click', function() {
 	}
 });
 
-// initiate the survey with a call to /survey/initiate
-$('#fullscreen').on('click', function() {
-	$('.invisible').removeClass('invisible');
-	$('.handoff').toggle(false);
-	$.post('/survey/initiate', function(response) {
-		cache.id = response;
-		getSection(0, null, true);
-	});
-})
-
-// listener for the next button
-$('#next-btn').on('click', function() {
-	if (requiresResponse(cache.question) && !hasResponse(cache.sectionNum, cache.question)) {
-		showNotice(true);
-		return;
-	}
-	showNotice(false);
-	if (cache.audio) cache.audio.get(0).pause();
-	if (++cache.questionNum === cache.section.questions.length) {
-		if ($('#section-' + (cache.sectionNum + 1) + '-question-0').length) {
-			cache.section = cache.sections[++cache.sectionNum];
-			setCurrentQuestion(0);
-			return;
-		}
-
-		var params = {
-			id: cache.id,
-			responses: getResponses()
-		};
-		getSection(cache.sectionNum + 1, params, true);
-	} else {
-		setCurrentQuestion(cache.questionNum);
-	}
-});
-
 // listener for the back button
 $('#back-btn').on('click', function() {
 	showNotice(false);
