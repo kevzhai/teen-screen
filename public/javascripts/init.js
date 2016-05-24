@@ -18,7 +18,6 @@ bootstrap_alert.warning = function(message) {
 };
 
 $("#submit").on("click", function() {
-	console.log($("#subjectId").val());
 	if ($("#subjectId").val().length === 0) {
 		bootstrap_alert.warning('Please enter subject ID');
 		return false;

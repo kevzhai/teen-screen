@@ -37,6 +37,8 @@ $('#incomplete-notice').toggle(false);
 
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params, start) {
+	console.log("public params");
+	console.log(params);
 	$.post('/survey/section/' + sectionNum, params, function(response) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
@@ -152,7 +154,8 @@ $('#next-btn').on('click', function() {
 
 		var params = {
 			id: cache.id,
-			responses: getResponses()
+			responses: getResponses(),
+			test: "test"
 		};
 		getSection(cache.sectionNum + 1, params, true);
 	} else {
@@ -210,7 +213,7 @@ getResponses = function() {
 			}
 		});
 	});
-	return responses
+	return responses;
 }
 
 // listener for the back button
