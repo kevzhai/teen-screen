@@ -39,7 +39,10 @@ $('#incomplete-notice').toggle(false);
 getSection = function(sectionNum, params, start) {
 	console.log("public params");
 	console.log(params);
-	$.post('/survey/section/' + sectionNum, params, function(response) {
+
+	if (params) {
+		console.log(JSON.stringify(params));
+		$.post('/survey/section/' + sectionNum, JSON.stringify(params), function(response) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
 		cache.section = response.section;
@@ -49,7 +52,20 @@ getSection = function(sectionNum, params, start) {
 
 		// put the section on the screen
 		compileSection(response.section, response.responses);
-	});
+		});
+	} else {
+		$.post('/survey/section/' + sectionNum, function(response) {
+		// cache the current section number and section
+		cache.sectionNum = parseInt(response.n);
+		cache.section = response.section;
+		cache.sections.push(response.section);
+		cache.questionNum = start ? 0 : response.section.questions.length - 1;
+		cache.responses = response.responses;
+
+		// put the section on the screen
+		compileSection(response.section, response.responses);
+		});
+	}
 }
 
 // helper function to turn the JSON section into HTML elements

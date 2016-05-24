@@ -10,6 +10,13 @@ require('dotenv').config();
 
 var app = express();
 
+var mongoose = require('mongoose');
+var db = mongoose.connect('mongodb://localhost/data');
+
+mongoose.connection.on('error', function(err) {
+      console.log('MongoDB error: %s', err);
+});
+
 // initialize stormpath user system
 app.use(stormpath.init(app, {
   website: true,
