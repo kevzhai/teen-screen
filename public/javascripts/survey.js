@@ -25,7 +25,7 @@ document.getElementById('fullscreen').addEventListener('click', () => {
   } 
 });
 $(document).keydown(function(e) {
-  if(e.which == 70 && e.ctrlKey) { // ctrl + 'f'
+  if(e.which == 70 && e.altKey) { // alt + 'f'
     if (screenfull.enabled) {
       screenfull.request();
     } 
@@ -82,8 +82,8 @@ compileSection = function(section, responses) {
 		} else if (type === 'text') {
 			htmlString += '<fieldset class="form-group">';
 			htmlString += '<label for="' + name + '">' + options[0].text + '</label>';
-			htmlString += '<input type="text" class="form-control" id="' + name +
-				'" name="' + name + '">';
+			htmlString += '<textarea class="form-control" id="' + name +
+							'" name="' + name + '"></textarea>';
 			htmlString += '</fieldset>';
 		} else if (type === 'age') {
 			htmlString += '<fieldset class="form-group">';
