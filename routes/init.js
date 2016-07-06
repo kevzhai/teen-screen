@@ -21,8 +21,8 @@ router.get('/', function(req, res, next) {
 function processForm(req, res, next) {
   req.session.surveyParams = req.body;
   req.session.sectionIndex = 0; // used to iterate through surveyParams.section array
-  console.log(req.session.sectionIndex);
-  console.log(req.session);
+  console.log(req.session.sectionIndex); // debuq
+  console.log(req.session); // debuq
   res.status(302).redirect('/survey');
 }
 
