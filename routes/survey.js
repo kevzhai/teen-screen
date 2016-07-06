@@ -55,10 +55,12 @@ router.post('/section/:n', function(req, res, next) {
 
   // record the section responses in the database
   var n = parseInt(req.session.surveyParams.sections[req.session.sectionIndex]);
-  req.session.sectionIndex++;
+  if (req.session.sectionIndex < req.session.surveyParams.sections.length - 1) {
+    req.session.sectionIndex++;
+  }
 
-  console.log("blah");
-  console.log(req.session);
+  console.log("blah"); // debuq
+  console.log(req.session); // debuq
 
   if (Object.keys(req.body).length) {
     var body = JSON.parse(Object.keys(req.body)[0]);
@@ -77,7 +79,6 @@ router.post('/section/:n', function(req, res, next) {
         if (questionInterface.isFinalSection(n)) {
           res.status(200).send('you\'re done');
         } else {
-          // questionInterface.getNextSection();
           questionInterface.getSection(n, function(err, section) {
             if (err) {
               res.status(500).send(err);

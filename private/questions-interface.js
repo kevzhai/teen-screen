@@ -30,7 +30,7 @@ getSection = function(n, callback) {
 
 // function to check whether a section is the final section
 isFinalSection = function(n) {
-	return parseInt(n) === questions['num-sections'];
+	return parseInt(n) === questions['num-sections'] - 1; // OBO
 }
 
 module.exports = {
