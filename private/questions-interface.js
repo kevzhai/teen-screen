@@ -14,7 +14,7 @@ var questions = JSON.parse(fs.readFileSync(questionsFile).toString());
 var responses = JSON.parse(fs.readFileSync(responsesFile).toString());
 
 // function to get the data associated with the nth section
-getSection = function(n, callback) {
+getSection = function(n, callback) { 
 	n = parseInt(n);
 	if (n >= questions['num-sections']) {
 		callback(new Error('The requested section ' + n + ' is out of bounds.'));

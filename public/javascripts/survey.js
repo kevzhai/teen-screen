@@ -214,7 +214,7 @@ $('#next-btn').on('click', function() {
 	}
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
-	if (++cache.questionNum === cache.section.questions.length) {
+	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
 		if ($('#section-' + (cache.sectionNum + 1) + '-question-0').length) {
 			cache.section = cache.sections[++cache.sectionNum];
 			setCurrentQuestion(0);
@@ -227,7 +227,7 @@ $('#next-btn').on('click', function() {
 		};
 
 		getSection(cache.sectionNum + 1, params, true);
-	} else {
+	} else { // proceed to next question in section
 		setCurrentQuestion(cache.questionNum);
 	}
 });

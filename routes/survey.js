@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
 /* POST to initiate a new survey. */
 router.post('/initiate', function(req, res, next) {
   Screen.find(function (err, surveys) {
-    console.log("found"); //debug
+    console.log("found"); //debuq
     console.log(surveys);
   });
 
@@ -28,7 +28,7 @@ router.post('/initiate', function(req, res, next) {
       console.log(err);
     }
     if (survey) {
-      console.log("survey"); //debug
+      console.log("survey"); //debuq
       console.log(survey._id);
       res.json(survey._id); // equiv to res.send with JSON conversion
     } else {
@@ -72,6 +72,7 @@ router.post('/section/:n', function(req, res, next) {
         if (questionInterface.isFinalSection(n)) {
           res.status(200).send('you\'re done');
         } else {
+          // questionInterface.getNextSection();
           questionInterface.getSection(n, function(err, section) {
             if (err) {
               res.status(500).send(err);
