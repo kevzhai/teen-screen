@@ -1,10 +1,3 @@
-// $(".checkall").on("click", function() {
-//   $(".checked").prop("checked", true);
-// });
-// $(".checknone").on("click", function() {
-//   $(".checked").prop("checked", false);
-// });
-
 // one-button toggle
 var check = true;
 $(".checkall").on("click", function() {
