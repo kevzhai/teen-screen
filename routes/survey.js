@@ -18,6 +18,7 @@ router.get('/', function(req, res, next) {
 /* POST to initiate a new survey. */
 router.post('/initiate', function(req, res, next) {
   Screen.find(function (err, surveys) {
+    console.log("found"); //debug
     console.log(surveys);
   });
 
@@ -27,8 +28,9 @@ router.post('/initiate', function(req, res, next) {
       console.log(err);
     }
     if (survey) {
-      console.log(survey);
-      res.json(survey._id);
+      console.log("survey"); //debug
+      console.log(survey._id);
+      res.json(survey._id); // equiv to res.send with JSON conversion
     } else {
       var newScreen = new Screen({
         subject: req.session.surveyParams.subjectId,
@@ -39,18 +41,10 @@ router.post('/initiate', function(req, res, next) {
         if (error) {
           next(error);
         }
-        res.json(newScreen._id);
+        res.json(newScreen._id); // equiv to res.send with JSON conversion
       });
     }
   });
-  
-  // get a random id. TODO: this will be actually from the database
-  // var id = Math.floor(Math.random() * 100);
-
-  // console.log(req.session.surveyParams);
-
-  // // send the first section of questions back to the user
-  // res.json(id);
 });
 
 /* POST the responses to a section and give the next section */

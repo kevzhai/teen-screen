@@ -19,6 +19,9 @@ var cache = {
 	sections: []
 };
 
+// initialize to not showing the incomplete notice to start
+$('#incomplete-notice').toggle(false);
+
 document.getElementById('fullscreen').addEventListener('click', () => {
   if (screenfull.enabled) {
     screenfull.request();
@@ -32,8 +35,15 @@ $(document).keydown(function(e) {
   }
 });
 
-// initialize to not showing the incomplete notice to start
-$('#incomplete-notice').toggle(false);
+// initiate the survey with a call to /survey/initiate
+$('#fullscreen').on('click', function() {
+	$('.invisible').removeClass('invisible');
+	$('.handoff').toggle(false);
+	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
+		cache.id = response;
+		getSection(0, null, true);
+	});
+})
 
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params, start) {
@@ -196,17 +206,6 @@ getResponses = function() {
 	return responses;
 }
 
-
-// initiate the survey with a call to /survey/initiate
-$('#fullscreen').on('click', function() {
-	$('.invisible').removeClass('invisible');
-	$('.handoff').toggle(false);
-	$.post('/survey/initiate', function(response) {
-		cache.id = response;
-		getSection(0, null, true);
-	});
-})
-
 // listener for the next button
 $('#next-btn').on('click', function() {
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionNum, cache.question)) {
@@ -226,6 +225,7 @@ $('#next-btn').on('click', function() {
 			id: cache.id,
 			responses: getResponses()
 		};
+
 		getSection(cache.sectionNum + 1, params, true);
 	} else {
 		setCurrentQuestion(cache.questionNum);
@@ -260,8 +260,8 @@ $('#repeat-btn').on('click', function() {
 $('body').on('keyup', function(event) {
 	if (!requiresResponse(cache.question)) return;
 
-	// ignore ENTER
-	if (event.keyCode === 13) return;
+	// ignore ENTER or ESC
+	if (event.keyCode === 13 || event.keyCode === 27) return;
 
 	var key = String.fromCharCode(event.keyCode);
 	var responses = cache.responses[cache.question.type];
