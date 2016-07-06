@@ -24,11 +24,19 @@ function processForm(req, res, next) {
   if (typeof req.session.surveyParams.sections === "string") { // if only one section is chosen, it is a string, and not an array
     req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
   }
+
+  if (req.session.surveyParams.sections[0] === "2") { // Demographics was selected
+    req.session.surveyParams.sections.unshift("0", "1"); // add intro1 index and actual demographics index to array
+  } else {
+    req.session.surveyParams.sections.unshift("2"); // add intro2 index to beginning
+  }
   req.session.surveyParams.sections.push("22"); // append conclusion section
+
   console.log(req.session.sectionIndex); // debuq
   console.log(req.session); // debuq
   res.status(302).redirect('/survey');
 }
+
 
 router.post('/', processForm);
 
