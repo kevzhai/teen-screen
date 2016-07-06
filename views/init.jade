@@ -5,8 +5,7 @@ block content
     .row
       .col-xs-12
         h1= title
-        p Stub administrator page. You need to be in the 'admin' user group to see this page.
-        p This page is currently set up only as a place to initiate a survey
+        p Please select sections to test and enter a subject ID.
     .row
       form(method="post" action="/init")
         .col-sm-6
@@ -17,7 +16,6 @@ block content
                   span(style="font-size: 1.5em;") Choose Sections
                   .btn-group.pull-xs-none.pull-sm-right(role="group")
                     button.btn.btn-secondary.checkall(type="button") Check all /  none
-                    //- button.btn.btn-secondary.checknone(type="button") Check none
             tbody
               each l in lines  
                 tr
