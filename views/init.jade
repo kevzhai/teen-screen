@@ -17,7 +17,8 @@ block content
                   .btn-group.pull-xs-none.pull-sm-right(role="group")
                     button.btn.btn-secondary.checkall(type="button") Check all /  none
             tbody
-              - var i = 0
+              //- start at 2 to compensate for intro1 and intro2 in survey-questions.json, index for sections will now match with json 
+              - var i = 2 
               each l in lines  
                 tr
                   td 
