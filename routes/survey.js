@@ -48,6 +48,7 @@ router.post('/initiate', function(req, res, next) {
 });
 
 /* POST the responses to a section and give the next section */
+// http://stackoverflow.com/questions/32313553/what-does-a-colon-mean-on-a-directory-in-node-js
 router.post('/section/:n', function(req, res, next) {
   // TODO: validate the parameters match the previous section
   // TODO: validate the id that will be passed in

@@ -17,13 +17,15 @@ block content
                   .btn-group.pull-xs-none.pull-sm-right(role="group")
                     button.btn.btn-secondary.checkall(type="button") Check all /  none
             tbody
+              - var i = 0
               each l in lines  
                 tr
                   td 
                     label.c-input.c-checkbox
-                      input.checked(type="checkbox", checked="true", name="parameter" value="#{l}")
+                      input.checked(type="checkbox", checked="true", name="section" value="#{i}")
                       span.c-indicator
                       span= l
+                - i++
         .col-sm-6
           -
             list = ["sponsor", "protocol", "site"]
