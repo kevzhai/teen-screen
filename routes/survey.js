@@ -56,9 +56,9 @@ router.post('/section/:n', function(req, res, next) {
   // record the section responses in the database
   var n = parseInt(req.session.surveyParams.sections[req.session.sectionIndex]);
   req.session.sectionIndex++;
+
   console.log("blah");
-  console.log(n);
-  console.log(req.session.sectionIndex);
+  console.log(req.session);
 
   if (Object.keys(req.body).length) {
     var body = JSON.parse(Object.keys(req.body)[0]);

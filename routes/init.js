@@ -21,6 +21,10 @@ router.get('/', function(req, res, next) {
 function processForm(req, res, next) {
   req.session.surveyParams = req.body;
   req.session.sectionIndex = 0; // used to iterate through surveyParams.section array
+  if (typeof req.session.surveyParams.sections === "string") { // if only one section is chosen, it is a string, and not an array
+    req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
+  }
+  req.session.surveyParams.sections.push("22"); // append conclusion section
   console.log(req.session.sectionIndex); // debuq
   console.log(req.session); // debuq
   res.status(302).redirect('/survey');
