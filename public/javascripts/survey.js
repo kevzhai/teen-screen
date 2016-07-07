@@ -52,6 +52,8 @@ getSection = function(sectionNum, params, start) {
 	console.log(params);
 	console.log("cache");
 	console.log(cache);
+	console.log("str");
+	console.log(JSON.stringify(cache));
 
 	if (params) {
 		console.log(JSON.stringify(params));
@@ -212,6 +214,7 @@ getResponses = function() {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
+	if (cache.sectionNum == 22) return; // have reached end
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
 		return;
@@ -219,7 +222,7 @@ $('#next-btn').on('click', function() {
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
-		if ($('#section-' + (cache.sectionsIndex + 1) + '-question-0').length) {
+		if ($('#section-' + (cache.sectionsIndex + 1) + '-question-0').length) { // if the next section already exists
 			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
@@ -246,13 +249,7 @@ $('#back-btn').on('click', function() {
 			return;
 		}
 
-		if (cache.sectionsIndex > 0) {
-			cache.section = cache.sections[--cache.sectionsIndex]; // previous section		    	
-		} else {
-			return;
-		}
-		console.log("sec");
-		console.log(cache);
+		cache.section = cache.sections[--cache.sectionsIndex]; // previous section		    	
 		setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
 	} else {
 		setCurrentQuestion(cache.questionNum);
