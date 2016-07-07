@@ -97,8 +97,8 @@ compileSection = function(section, responses) {
 			type = 'age';
 		}
 
-		var name = cache.sectionNum + '-' + question.num;
-		var htmlString = '<form class="survey-question" id="section-' + cache.sectionNum + '-question-' + i + '">';
+		var name = cache.sectionsIndex + '-' + question.num;
+		var htmlString = '<form class="survey-question" id="section-' + cache.sectionsIndex + '-question-' + i + '">';
 		if (type === 'radio' || type === 'checkbox') {
 			htmlString += '<h4>' + question.text + '</h4>';
 			htmlString += '<div class="c-inputs-stacked">';
@@ -145,7 +145,7 @@ setCurrentQuestion = function(n) {
 	$('.survey-question').toggle(false);
 
 	// show the current question
-	$('#section-' + cache.sectionNum + '-question-' + n).toggle(true);
+	$('#section-' + cache.sectionsIndex + '-question-' + n).toggle(true);
 
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3');
@@ -166,32 +166,32 @@ requiresResponse = function(question) {
 
 // set the value of the passed in sectionNum and question
 // to the passed in value
-setResponse = function(sectionNum, question, value) {
+setResponse = function(sectionsIndex, question, value) {
 	var radio = cache.responses[question.type].radio === '1';
 	if (radio) {
-		$('[name=' + sectionNum + '-' + question.num + ']:checked').prop('checked', false);
+		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false);
 	}
-	var init = $('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked');
-	$('[name=' + sectionNum + '-' + question.num + '][value=' + value + ']').prop('checked', !init);
+	var init = $('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked');
+	$('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked', !init);
 }
 
 // has response checks whether the passed in sectionNum/question
 // combination has a response
-hasResponse = function(sectionNum, question) {
+hasResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
-		return $('[name=' + sectionNum + '-' + question.num + ']').val().length > 0;
+		return $('[name=' + sectionsIndex + '-' + question.num + ']').val().length > 0;
 	} else {
-		return $('[name=' + sectionNum + '-' + question.num + ']:checked').val() !== undefined;
+		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val() !== undefined;
 	}
 }
 
 // helper function to get the response to the question passed in
 // within the section given by sectionNum
-getResponse = function(sectionNum, question) {
+getResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
-		return $('[name=' + sectionNum + '-' + question.num + ']').val();
+		return $('[name=' + sectionsIndex + '-' + question.num + ']').val();
 	} else {
-		return $('[name=' + sectionNum + '-' + question.num + ']:checked').val();
+		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
 	}
 }
 
@@ -212,15 +212,15 @@ getResponses = function() {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
-	if (requiresResponse(cache.question) && !hasResponse(cache.sectionNum, cache.question)) {
+	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
 		return;
 	}
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
-		if ($('#section-' + (cache.sectionNum + 1) + '-question-0').length) {
-			cache.section = cache.sections[++cache.sectionNum];
+		if ($('#section-' + (cache.sectionsIndex + 1) + '-question-0').length) {
+			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
 		}
@@ -230,7 +230,7 @@ $('#next-btn').on('click', function() {
 			responses: getResponses()
 		};
 
-		getSection(cache.sectionNum + 1, params, true);
+		getSection(cache.sectionsIndex + 1, params, true);
 	} else { // proceed to next question in section
 		setCurrentQuestion(cache.questionNum);
 	}
@@ -241,7 +241,7 @@ $('#back-btn').on('click', function() {
 	showNotice(false);
 	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
-		if (cache.sectionNum === 0) { // if sectionNum is intro1
+		if (cache.sectionsIndex === 0) { // if first section
 			cache.questionNum++;
 			return;
 		}
@@ -251,6 +251,8 @@ $('#back-btn').on('click', function() {
 		} else {
 			return;
 		}
+		console.log("sec");
+		console.log(cache);
 		setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
 	} else {
 		setCurrentQuestion(cache.questionNum);
@@ -279,7 +281,7 @@ $('body').on('keyup', function(event) {
 
 	responses.options.forEach(function(option) {
 		if (key === option.button) {
-			setResponse(cache.sectionNum, cache.question, option.value);
+			setResponse(cache.sectionsIndex, cache.question, option.value);
 		}
 	});
 });
