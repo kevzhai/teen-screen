@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 
-var DEMO = "2"; 
+var DEMO = "2"; // starting variable in views/init.jade so all the other sections' indices match with the survey-questions.json
 var INTRO1 = "0";
-var ACTUAL_DEMO = "1";
+var ACTUAL_DEMO = "1"; // actual index for Demographics section
 var INTRO2 = "2";
 var FINAL_SECTION = "22";
 

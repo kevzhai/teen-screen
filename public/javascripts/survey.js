@@ -216,7 +216,7 @@ getResponses = function() {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
-	if (cache.sectionNum == FINAL_SECTION && ++cache.questionNum === cache.section.questions.length) return; // have reached end
+	if (cache.sectionNum == FINAL_SECTION && cache.questionNum === cache.section.questions.length - 1) return; // have reached end
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
 		return;
