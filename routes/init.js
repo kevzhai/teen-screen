@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 const fs = require('fs');
 
+var DEMO = "2"; 
+var INTRO1 = "0";
+var ACTUAL_DEMO = "1";
+var INTRO2 = "2";
+var FINAL_SECTION = "22";
+
 /* GET initiate survey page. */
 router.get('/', function(req, res, next) {
 	fs.readFile('./private/sections.txt', function (err, content) {
@@ -25,12 +31,12 @@ function processForm(req, res, next) {
     req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
   }
 
-  if (req.session.surveyParams.sections[0] === "2") { // Demographics was selected
-    req.session.surveyParams.sections.unshift("0", "1"); // add intro1 index and actual demographics index to array
+  if (req.session.surveyParams.sections[0] === DEMO) { // Demographics was selected
+    req.session.surveyParams.sections.unshift(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
   } else {
-    req.session.surveyParams.sections.unshift("2"); // add intro2 index to beginning
+    req.session.surveyParams.sections.unshift(INTRO2); // add intro2 index to beginning
   }
-  req.session.surveyParams.sections.push("22"); // append conclusion section
+  req.session.surveyParams.sections.push(FINAL_SECTION); // append conclusion section
 
   console.log(req.session.sectionIndex); // debuq
   console.log(req.session); // debuq

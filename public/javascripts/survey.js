@@ -19,6 +19,8 @@ var cache = {
 	sections: []
 };
 
+var FINAL_SECTION = 22;
+
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
 
@@ -48,12 +50,12 @@ $('#fullscreen').on('click', function() {
 
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params, start) {
-	console.log("public params");
-	console.log(params);
-	console.log("cache");
-	console.log(cache);
-	console.log("str");
-	console.log(JSON.stringify(cache));
+	console.log("public params"); // debuq
+	console.log(params); // debuq
+	console.log("cache"); // debuq
+	console.log(cache); // debuq
+	// console.log("str"); // debuq
+	// console.log(JSON.stringify(cache)); // debuq
 
 	if (params) {
 		console.log(JSON.stringify(params));
@@ -214,7 +216,7 @@ getResponses = function() {
 
 // listener for the next button
 $('#next-btn').on('click', function() {
-	if (cache.sectionNum == 22) return; // have reached end
+	if (cache.sectionNum == FINAL_SECTION && ++cache.questionNum === cache.section.questions.length) return; // have reached end
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
 		return;
