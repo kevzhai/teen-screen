@@ -23,9 +23,9 @@ var cache = {
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  if (screenfull.enabled) {
-    screenfull.request();
-  } 
+  // if (screenfull.enabled) {
+  //   screenfull.request();
+  // } 
 });
 $(document).keydown(function(e) {
   if(e.which == 70 && e.altKey) { // alt + 'f'
@@ -42,6 +42,7 @@ $('#fullscreen').on('click', function() {
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
 		cache.id = response;
 		getSection(0, null, true);
+		cache.sectionsIndex = 0; // index for cache.sections array
 	});
 })
 
@@ -49,12 +50,15 @@ $('#fullscreen').on('click', function() {
 getSection = function(sectionNum, params, start) {
 	console.log("public params");
 	console.log(params);
+	console.log("cache");
+	console.log(cache);
 
 	if (params) {
 		console.log(JSON.stringify(params));
 		$.post('/survey/section/' + sectionNum, JSON.stringify(params), function(response) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
+		cache.sectionsIndex++;
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
@@ -237,13 +241,17 @@ $('#back-btn').on('click', function() {
 	showNotice(false);
 	cache.audio.get(0).pause();
 	if (--cache.questionNum < 0) {
-		if (cache.sectionNum === 0) {
+		if (cache.sectionNum === 0) { // if sectionNum is intro1
 			cache.questionNum++;
 			return;
 		}
 
-		cache.section = cache.sections[--cache.sectionNum];
-		setCurrentQuestion(cache.section.questions.length - 1);
+		if (cache.sectionsIndex > 0) {
+			cache.section = cache.sections[--cache.sectionsIndex]; // previous section		    	
+		} else {
+			return;
+		}
+		setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
 	} else {
 		setCurrentQuestion(cache.questionNum);
 	}

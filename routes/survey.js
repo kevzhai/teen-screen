@@ -54,9 +54,11 @@ router.post('/section/:n', function(req, res, next) {
   // TODO: validate the id that will be passed in
 
   // record the section responses in the database
+  // var n = parseInt(req.params.n);
+  // var n = parseInt(req.session.surveyParams.sections[parseInt(req.params.n)]);
   var n = parseInt(req.session.surveyParams.sections[req.session.sectionIndex]);
   if (req.session.sectionIndex < req.session.surveyParams.sections.length - 1) {
-    req.session.sectionIndex++;
+    req.session.sectionIndex++;      
   }
 
   console.log("blah"); // debuq
