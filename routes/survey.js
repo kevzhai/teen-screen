@@ -63,6 +63,8 @@ router.post('/section/:n', function(req, res, next) {
 
   console.log("blah"); // debuq
   console.log(req.session); // debuq
+  console.log("body");
+  console.log(req.body);
 
   if (Object.keys(req.body).length) {
     var body = JSON.parse(Object.keys(req.body)[0]);

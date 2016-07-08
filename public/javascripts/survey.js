@@ -55,7 +55,7 @@ getSection = function(sectionNum, params, start) {
 	console.log("cache"); // debuq
 	console.log(cache); // debuq
 	// console.log("str"); // debuq
-	// console.log(JSON.stringify(cache)); // debuq
+	// console.log(JSON.stringify(params)); // debuq
 
 	if (params) {
 		console.log(JSON.stringify(params));
@@ -205,6 +205,7 @@ getResponses = function() {
 	var responses = {};
 	cache.sections.forEach(function(section, i) {
 		responses[i] = {};
+		responses[i].name = section.name;
 		section.questions.forEach(function(question, j) {
 			if (requiresResponse(question)) {
 				responses[i][j] = getResponse(i, question);
