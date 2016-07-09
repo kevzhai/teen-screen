@@ -255,7 +255,7 @@ next = function() {
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 
-	if (cache.sectionNum === FINAL_SECTION) {
+	if (cache.sectionNum === FINAL_SECTION && cache.sectionsIndex === cache.sections.length - 1) {
 		if (cache.questionNum === cache.section.questions.length - 1) {
 			return; // do nothing on final "thank you" page			
 		}
@@ -283,8 +283,10 @@ $('#next-btn').on('click', next);
 $('#back-btn').on('click', function() {
 	showNotice(false);
 	cache.audio.get(0).pause(); 
+	console.log("back");
+	console.log(cache);
 	if (--cache.questionNum < 0) {
-		if (cache.sectionsIndex === 0) { // if first section
+		if (cache.sectionsIndex === 0) { // if first section, can't back up any further
 			cache.questionNum++;
 			return;
 		}
