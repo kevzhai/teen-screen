@@ -107,7 +107,7 @@ compileSection = function(section, responses) {
 			options.forEach(function(option, j) {
 				htmlString += '<label class="c-input c-' + type + '">';
 				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
-					option.value + '"><span class="c-indicator"></span>';
+					option.text + '" data-keyboard="' + option.value + '"><span class="c-indicator"></span>';
 				htmlString += option.button + ' - ' + option.text + '</label>';
 			});
 			htmlString += '</div>';
@@ -173,8 +173,8 @@ setResponse = function(sectionsIndex, question, value) {
 	if (radio) {
 		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
-	var init = $('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked');
-	$('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked', !init);
+	var init = $('[name=' + sectionsIndex + '-' + question.num + '][data-keyboard=' + value + ']').prop('checked');
+	$('[name=' + sectionsIndex + '-' + question.num + '][data-keyboard=' + value + ']').prop('checked', !init);
 }
 
 // has response checks whether the passed in sectionNum/question
