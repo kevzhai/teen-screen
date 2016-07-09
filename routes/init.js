@@ -37,23 +37,34 @@ function processForm(req, res, next) {
     req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
   }
 
-  var firstSection = req.session.surveyParams.sections[0];
-  if (firstSection === DEMO) { // Demographics was selected
-    req.session.surveyParams.sections.unshift(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
-    req.session.surveyParams.sections.pop(); // remove DEMO
-  } else if (firstSection === IMPAIR) { // only has last section
-    req.session.surveyParams.sections.push(ACTUAL_IMPAIR); // IMPAIR == INTRO3 already, so just add this to the end
-  } else {
-    req.session.surveyParams.sections.unshift(INTRO2); 
+  var demoSelect = req.session.surveyParams.sections.indexOf(DEMO) != -1;
+  var impairSelect = req.session.surveyParams.sections.indexOf(IMPAIR) != -1;
+  if (demoSelect) { // Demographics was selected
+    if (req.session.surveyParams.sections.length === 1 // remove what is actually INTRO2 if only Demographics was selected
+        || demoSelect && impairSelect && req.session.surveyParams.sections.length === 2) { // remove INTRO2 if only Demographics and Impairment were selected
+      req.session.surveyParams.sections.pop(); 
+    } 
+    req.session.surveyParams.sections.push(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
   } 
+  if (impairSelect) { // Impairment was selected
+    req.session.surveyParams.sections.push(ACTUAL_IMPAIR); // IMPAIR == INTRO3 already, so just add this to the end
+  } 
+  if (!demoSelect && (!impairSelect // only other sections selected
+      || impairSelect && req.session.surveyParams.sections.length > 1)) { // Impairment isn't only thing selected, must be one of the other sections 
+    req.session.surveyParams.sections.push(INTRO2);
+  }
 
   req.session.surveyParams.sections.push(FINAL_SECTION); // always append conclusion section
+  req.session.surveyParams.sections.sort(numericSort);
 
-  console.log(req.session.sectionIndex); // debuq
+  console.log("req.session");
   console.log(req.session); // debuq
   res.status(302).redirect('/survey');
 }
 
+function numericSort(a, b) {
+  return parseInt(a) - parseInt(b);
+}
 
 router.post('/', processForm);
 
