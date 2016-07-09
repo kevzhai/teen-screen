@@ -86,13 +86,22 @@ getSection = function(sectionNum, params, start) {
 	}
 }
 
+// true if radio, false if checkbox
+isRadio = function(question) {
+	return cache.responseOptions[question.type].radio === '1';
+}
+
 // helper function to turn the JSON section into HTML elements
 compileSection = function(section, responses) {
 	section.questions.forEach(function(question, i) {
 		var type, options;
 		
 		if (responses.hasOwnProperty(question.type)) {
-			type = responses[question.type].radio === '1' ? 'radio' : 'checkbox';
+			if (isRadio(question)) {
+				type = 'radio';
+			} else {
+				type = 'checkbox';
+			}
 			options = responses[question.type].options;
 		}
 		if (question.type === '9') type = 'text';
@@ -197,6 +206,7 @@ getResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
 		return $('[name=' + sectionsIndex + '-' + question.num + ']').val();
 	} else {
+		var type = cache.responseOptions[question.type].radio === '1' ? 'radio' : 'checkbox';
 		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
 	}
 }
