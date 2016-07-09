@@ -43,7 +43,7 @@ $('#fullscreen').on('click', function() {
 	$('.handoff').toggle(false);
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
 		cache.id = response;
-		getSection(0, null, true);
+		getSection(null, true);
 		cache.sectionsIndex = 0; // index for cache.sections array
 	});
 })
@@ -61,7 +61,7 @@ cacheSection = function(response, start) {
 }
 
 // helper function to get a new section for the survey
-getSection = function(sectionNum, params, start) {
+getSection = function(params, start) {
 	console.log("public params"); // debuq
 	console.log(params); // debuq
 	console.log("cache"); // debuq
@@ -71,12 +71,14 @@ getSection = function(sectionNum, params, start) {
 
 	if (params) {
 		console.log(JSON.stringify(params));
-		$.post('/survey/section/' + sectionNum, JSON.stringify(params), function(response) {
-			cache.sectionsIndex++;
-			cacheSection(response, start);
+		$.post('/survey/section', JSON.stringify(params), function(response) {
+			if (cache.sectionNum !== FINAL_SECTION) {
+				cache.sectionsIndex++;
+				cacheSection(response, start);   	
+			}
 		});
 	} else { // initialize survey
-		$.post('/survey/section/' + sectionNum, function(response) {
+		$.post('/survey/section', function(response) {
 			cacheSection(response, start);
 		});
 	}
@@ -172,7 +174,7 @@ requiresResponse = function(question) {
 }
 
 sectionRequiresResponse = function(section) {
-	return !section.name.includes("Introduction") && !section.name.includes("Conclusion");
+	return !section.name.includes("Introduction");
 }
 
 // set the value of the passed in sectionNum and question
@@ -234,28 +236,41 @@ getResponses = function() {
 	return responses;
 }
 
+// save responses to params and proceed to next section
+sendFormResponses = function() {
+	var params = {
+		id: cache.id,
+		responses: getResponses()
+	};
+
+	getSection(params, true);
+}
+
 // used by both next button and keyboard shortcut
 next = function() {
-	if (cache.sectionNum == FINAL_SECTION && cache.questionNum === cache.section.questions.length - 1) return; // have reached end
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
 		return;
 	}
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
+
+	if (cache.sectionNum === FINAL_SECTION) {
+		if (cache.questionNum === cache.section.questions.length - 1) {
+			return; // do nothing on final "thank you" page			
+		}
+		sendFormResponses(); // submit form after first question (asking about interview form field)
+		setCurrentQuestion(++cache.questionNum);
+		return;
+	}
+
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
 		if ($('#section-' + (cache.sectionsIndex + 1) + '-question-0').length) { // if the next section already exists
 			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
 		}
-
-		var params = {
-			id: cache.id,
-			responses: getResponses()
-		};
-
-		getSection(cache.sectionsIndex + 1, params, true);
+		sendFormResponses();
 	} else { // proceed to next question in section
 		setCurrentQuestion(cache.questionNum);
 	}
