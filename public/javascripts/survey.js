@@ -48,6 +48,18 @@ $('#fullscreen').on('click', function() {
 	});
 })
 
+cacheSection = function(response, start) {
+	// cache the current section number and section
+	cache.sectionNum = parseInt(response.n);
+	cache.section = response.section;
+	cache.sections.push(response.section);
+	cache.questionNum = start ? 0 : response.section.questions.length - 1;
+	cache.responseOptions = response.responseOptions;
+
+	// put the section on the screen
+	compileSection(response.section);
+}
+
 // helper function to get a new section for the survey
 getSection = function(sectionNum, params, start) {
 	console.log("public params"); // debuq
@@ -60,28 +72,12 @@ getSection = function(sectionNum, params, start) {
 	if (params) {
 		console.log(JSON.stringify(params));
 		$.post('/survey/section/' + sectionNum, JSON.stringify(params), function(response) {
-		// cache the current section number and section
-		cache.sectionNum = parseInt(response.n);
-		cache.sectionsIndex++;
-		cache.section = response.section;
-		cache.sections.push(response.section);
-		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responseOptions = response.responseOptions;
-
-		// put the section on the screen
-		compileSection(response.section);
+			cache.sectionsIndex++;
+			cacheSection(response, start);
 		});
 	} else { // initialize survey
 		$.post('/survey/section/' + sectionNum, function(response) {
-		// cache the current section number and section
-		cache.sectionNum = parseInt(response.n);
-		cache.section = response.section;
-		cache.sections.push(response.section);
-		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responseOptions = response.responseOptions;
-
-		// put the section on the screen
-		compileSection(response.section);
+			cacheSection(response, start);
 		});
 	}
 }
@@ -208,11 +204,12 @@ getResponse = function(sectionsIndex, question) {
 	} else {
 		// if (isRadio(question)) {
 		// 	return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
-		// } else { // checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
+		// } else { 
+			// checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
 			var responseValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
 			  return this.value;
 			}).get();
-			return responsesValues;
+			return responseValues;
 		// }
 	}
 }
