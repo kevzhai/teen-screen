@@ -3,9 +3,13 @@ var router = express.Router();
 const fs = require('fs');
 
 var DEMO = "2"; // starting variable in views/init.jade so all the other sections' indices match with the survey-questions.json
-var INTRO1 = "0";
 var ACTUAL_DEMO = "1"; // actual index for Demographics section
+var IMPAIR = "21";
+var ACTUAL_IMPAIR = "22";
+
+var INTRO1 = "0";
 var INTRO2 = "2";
+var INTRO3 = "20";
 var FINAL_SECTION = "22";
 
 /* GET initiate survey page. */
@@ -33,11 +37,14 @@ function processForm(req, res, next) {
     req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
   }
 
-  if (req.session.surveyParams.sections[0] === DEMO) { // Demographics was selected
+  var firstSection = req.session.surveyParams.sections[0];
+  if (firstSection === DEMO) { // Demographics was selected
     req.session.surveyParams.sections.unshift(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
+  } else if (firstSection === IMPAIR) { // only has last section
+    req.session.surveyParams.sections.unshift(INTRO3); 
   } else {
-    req.session.surveyParams.sections.unshift(INTRO2); // add intro2 index to beginning
-  }
+    req.session.surveyParams.sections.unshift(INTRO2); 
+  } 
   req.session.surveyParams.sections.push(FINAL_SECTION); // append conclusion section
 
   console.log(req.session.sectionIndex); // debuq
