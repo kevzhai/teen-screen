@@ -69,7 +69,7 @@ getSection = function(sectionNum, params, start) {
 		cache.responseOptions = response.responseOptions;
 
 		// put the section on the screen
-		compileSection(response.section, response.responseOptions);
+		compileSection(response.section);
 		});
 	} else { // initialize survey
 		$.post('/survey/section/' + sectionNum, function(response) {
@@ -81,7 +81,7 @@ getSection = function(sectionNum, params, start) {
 		cache.responseOptions = response.responseOptions;
 
 		// put the section on the screen
-		compileSection(response.section, response.responseOptions);
+		compileSection(response.section);
 		});
 	}
 }
@@ -92,17 +92,17 @@ isRadio = function(question) {
 }
 
 // helper function to turn the JSON section into HTML elements
-compileSection = function(section, responses) {
+compileSection = function(section) {
 	section.questions.forEach(function(question, i) {
 		var type, options;
 		
-		if (responses.hasOwnProperty(question.type)) {
+		if (cache.responseOptions.hasOwnProperty(question.type)) {
 			if (isRadio(question)) {
 				type = 'radio';
 			} else {
 				type = 'checkbox';
 			}
-			options = responses[question.type].options;
+			options = cache.responseOptions[question.type].options;
 		}
 		if (question.type === '9') type = 'text';
 		if (question.type === '10') type = 'intro';
@@ -206,8 +206,14 @@ getResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
 		return $('[name=' + sectionsIndex + '-' + question.num + ']').val();
 	} else {
-		var type = cache.responseOptions[question.type].radio === '1' ? 'radio' : 'checkbox';
-		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
+		if (isRadio(question)) {
+			return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
+		} else { // checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
+			var checkboxValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
+			  return this.value;
+			}).get();
+			return checkboxValues;
+		}
 	}
 }
 
