@@ -150,8 +150,8 @@ setCurrentQuestion = function(n) {
 	$('#section-' + cache.sectionsIndex + '-question-' + n).toggle(true);
 
 	// use the HTML5 audio element
-	// cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); // uncomment
-	// cache.audio.get(0).play();
+	cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); 
+	cache.audio.get(0).play();
 }
 
 // helper to set the notice
@@ -251,7 +251,7 @@ $('#next-btn').on('click', function() {
 // listener for the back button
 $('#back-btn').on('click', function() {
 	showNotice(false);
-	// cache.audio.get(0).pause(); // uncomment
+	cache.audio.get(0).pause(); 
 	if (--cache.questionNum < 0) {
 		if (cache.sectionsIndex === 0) { // if first section
 			cache.questionNum++;
