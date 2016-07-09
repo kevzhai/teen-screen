@@ -34,7 +34,7 @@ router.post('/initiate', function(req, res, next) {
     } else {
       var newScreen = new Screen({
         subject: req.session.surveyParams.subjectId,
-        responses: []
+        formResponses: []
       });
 
       newScreen.save(function(error) {
@@ -66,13 +66,13 @@ router.post('/section/:n', function(req, res, next) {
   console.log("body"); // debuq
   console.log(req.body); // debuq
 
-  if (Object.keys(req.body).length) {
+  if (Object.keys(req.body).length) { // form has been submitted at least once
     var body = JSON.parse(Object.keys(req.body)[0]);
     Screen.findById(body.id, function(error, survey) {
       if (error) {
         console.log(error);
       }
-      survey.responses = body.responses;
+      survey.formResponses = body.formResponses; 
 
       // write these changes to the database
       survey.save(function(error) {
@@ -93,7 +93,7 @@ router.post('/section/:n', function(req, res, next) {
         }
       });
     });
-  } else {
+  } else { // first time sent
     if (questionInterface.isFinalSection(n)) {
       res.status(200).send('you\'re done');
     } else {

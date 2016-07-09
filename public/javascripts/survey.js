@@ -66,10 +66,10 @@ getSection = function(sectionNum, params, start) {
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responseTypes = response.responses;
+		cache.responseOptions = response.responseOptions;
 
 		// put the section on the screen
-		compileSection(response.section, response.responses);
+		compileSection(response.section, response.responseOptions);
 		});
 	} else { // initialize survey
 		$.post('/survey/section/' + sectionNum, function(response) {
@@ -78,10 +78,10 @@ getSection = function(sectionNum, params, start) {
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responseTypes = response.responses;
+		cache.responseOptions = response.responseOptions;
 
 		// put the section on the screen
-		compileSection(response.section, response.responses);
+		compileSection(response.section, response.responseOptions);
 		});
 	}
 }
@@ -173,7 +173,7 @@ sectionRequiresResponse = function(section) {
 // set the value of the passed in sectionNum and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
-	var radio = cache.responseTypes[question.type].radio === '1';
+	var radio = cache.responseOptions[question.type].radio === '1';
 	if (radio) {
 		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
@@ -282,18 +282,17 @@ $('body').on('keyup', function(event) {
 	if (event.keyCode === 13) next();
 
 	var key = String.fromCharCode(event.keyCode);
-	var responses = cache.responseTypes[cache.question.type];
+	var responseOption = cache.responseOptions[cache.question.type];
 
 	// if the question type doesn't have options, move on
-	if (!responses || !responses.hasOwnProperty('options')) return;
+	if (!responseOption || !responseOption.hasOwnProperty('options')) return;
 
-	responses.options.forEach(function(option) {
+	responseOption.options.forEach(function(option) {
 		if (key === option.button) {
 			setResponse(cache.sectionsIndex, cache.question, option.value);
-			// if (cache.question.type === ) {
-			    	
-			// }
-			next();
+			if (responseOption.radio === "1") { // don't automatically proceed for checkbox questions
+				next();			    	
+			}
 		}
 	});
 });

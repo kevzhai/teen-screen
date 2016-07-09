@@ -5,7 +5,7 @@
 
 var fs = require('fs');
 
-// the names of the files containing the survey questions and responses
+// the names of the files containing the survey questions and response options
 var questionsFile = './private/survey-questions.json';
 var responsesFile = './private/survey-responses.json';
 
@@ -23,7 +23,7 @@ getSection = function(n, callback) {
 			'num-sections': questions['num-sections'],
 			n: n,
 			section: questions.sections[n],
-			responses: responses
+			responseOptions: responses
 		});
 	}
 }
