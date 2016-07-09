@@ -66,7 +66,7 @@ getSection = function(sectionNum, params, start) {
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responses = response.responses;
+		cache.responseTypes = response.responses;
 
 		// put the section on the screen
 		compileSection(response.section, response.responses);
@@ -78,7 +78,7 @@ getSection = function(sectionNum, params, start) {
 		cache.section = response.section;
 		cache.sections.push(response.section);
 		cache.questionNum = start ? 0 : response.section.questions.length - 1;
-		cache.responses = response.responses;
+		cache.responseTypes = response.responses;
 
 		// put the section on the screen
 		compileSection(response.section, response.responses);
@@ -173,7 +173,7 @@ sectionRequiresResponse = function(section) {
 // set the value of the passed in sectionNum and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
-	var radio = cache.responses[question.type].radio === '1';
+	var radio = cache.responseTypes[question.type].radio === '1';
 	if (radio) {
 		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
@@ -282,7 +282,7 @@ $('body').on('keyup', function(event) {
 	if (event.keyCode === 13) next();
 
 	var key = String.fromCharCode(event.keyCode);
-	var responses = cache.responses[cache.question.type];
+	var responses = cache.responseTypes[cache.question.type];
 
 	// if the question type doesn't have options, move on
 	if (!responses || !responses.hasOwnProperty('options')) return;
@@ -290,9 +290,9 @@ $('body').on('keyup', function(event) {
 	responses.options.forEach(function(option) {
 		if (key === option.button) {
 			setResponse(cache.sectionsIndex, cache.question, option.value);
-			if (cache.question.type === ) {
+			// if (cache.question.type === ) {
 			    	
-			}
+			// }
 			next();
 		}
 	});
