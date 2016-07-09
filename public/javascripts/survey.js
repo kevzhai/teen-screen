@@ -206,14 +206,14 @@ getResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
 		return $('[name=' + sectionsIndex + '-' + question.num + ']').val();
 	} else {
-		if (isRadio(question)) {
-			return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
-		} else { // checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
-			var checkboxValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
+		// if (isRadio(question)) {
+		// 	return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
+		// } else { // checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
+			var responseValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
 			  return this.value;
 			}).get();
-			return checkboxValues;
-		}
+			return responsesValues;
+		// }
 	}
 }
 
