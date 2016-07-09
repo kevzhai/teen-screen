@@ -267,7 +267,7 @@ next = function() {
 		if (cache.questionNum === cache.section.questions.length - 1) {
 			return; // do nothing on final "thank you" page			
 		}
-		sendFormResponses(); // submit form after first question (asking about interview form field)
+		sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
 		setCurrentQuestion(++cache.questionNum);
 		return;
 	}
@@ -291,8 +291,7 @@ $('#next-btn').on('click', next);
 $('#back-btn').on('click', function() {
 	showNotice(false);
 	cache.audio.get(0).pause(); 
-	console.log("back");
-	console.log(cache);
+
 	if (--cache.questionNum < 0) {
 		if (cache.sectionsIndex === 0) { // if first section, can't back up any further
 			cache.questionNum++;
