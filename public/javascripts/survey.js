@@ -210,10 +210,10 @@ getResponses = function() {
 		 responses[i] = {};
 		 responses[i].name = section.name;
 		 responses[i].qa = {};
-		 section.questions.forEach(function(question) {
+		 section.questions.forEach(function(question, j) {
 		 	if (requiresResponse(question)) {
 		 		var escText = question.text.replace(/\./g, ';'); // MongoDB doesn't allow periods in key
-		 		responses[i].qa[escText] = getResponse(i, question);
+		 		responses[i].qa[j + ": " + escText] = getResponse(i, question);
 		 	}
 		 });   	
 		}
@@ -221,8 +221,8 @@ getResponses = function() {
 	return responses;
 }
 
-// listener for the next button
-$('#next-btn').on('click', function() {
+// used by both next button and keyboard shortcut
+next = function() {
 	if (cache.sectionNum == FINAL_SECTION && cache.questionNum === cache.section.questions.length - 1) return; // have reached end
 	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
 		showNotice(true);
@@ -246,7 +246,10 @@ $('#next-btn').on('click', function() {
 	} else { // proceed to next question in section
 		setCurrentQuestion(cache.questionNum);
 	}
-});
+}
+
+// listener for the next button
+$('#next-btn').on('click', next);
 
 // listener for the back button
 $('#back-btn').on('click', function() {
@@ -276,8 +279,7 @@ $('#repeat-btn').on('click', function() {
 $('body').on('keyup', function(event) {
 	if (!requiresResponse(cache.question)) return;
 
-	// ignore ENTER or ESC
-	if (event.keyCode === 13 || event.keyCode === 27) return;
+	if (event.keyCode === 13) next();
 
 	var key = String.fromCharCode(event.keyCode);
 	var responses = cache.responses[cache.question.type];
@@ -288,6 +290,10 @@ $('body').on('keyup', function(event) {
 	responses.options.forEach(function(option) {
 		if (key === option.button) {
 			setResponse(cache.sectionsIndex, cache.question, option.value);
+			if (cache.question.type === ) {
+			    	
+			}
+			next();
 		}
 	});
 });
