@@ -19,6 +19,6 @@ This is the GitHub repository for the Teen Screen project, being worked on under
 **Server:** Node.js  
 **Server Framework:** Express  
 **Templating:** Jade  
-**Database:** Mongo  
+**Database:** MongoDB
 **User System:** StormPath  
 **Front-End Framework:** Bootstrap  
