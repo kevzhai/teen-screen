@@ -255,6 +255,14 @@ next = function() {
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 
+	/* Check that we have reached the final section.
+		 The second check is in case the user goes back. sectionNum won't update when
+		 a user clicks back since it uses the sections already stored in the frontend params variable
+		 Thus, it won't be passed back to the server, which is how sectionNum gets updated.
+		 Checking that sectionsIndex is equal to sections.length - 1 isn't enough because sectionsIndex
+		 will always be the last index as it progresses through the survey. Thus, first check that we have
+		 finally reached the final section, then check that we are still there.
+	*/
 	if (cache.sectionNum === FINAL_SECTION && cache.sectionsIndex === cache.sections.length - 1) {
 		if (cache.questionNum === cache.section.questions.length - 1) {
 			return; // do nothing on final "thank you" page			
