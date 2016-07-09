@@ -10,7 +10,7 @@ var ACTUAL_IMPAIR = "22";
 var INTRO1 = "0";
 var INTRO2 = "2";
 var INTRO3 = "20";
-var FINAL_SECTION = "22";
+var FINAL_SECTION = "23";
 
 /* GET initiate survey page. */
 router.get('/', function(req, res, next) {

@@ -19,7 +19,7 @@ var cache = {
 	sections: []
 };
 
-var FINAL_SECTION = 22;
+var FINAL_SECTION = 23;
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);

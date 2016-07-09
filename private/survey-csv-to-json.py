@@ -7,7 +7,7 @@ import csv, json
 num_sections = 0
 sections = {}
 section_names = []
-reader = csv.DictReader(open('./questions.csv', 'rb').read().splitlines())
+reader = csv.DictReader(open('questions.csv', 'rb').read().splitlines())
 
 curr_section = {'name': 'unknown name', 'questions': [], 'treshhold': 5}
 
@@ -25,7 +25,7 @@ dump = {'num_sections': len(sections_to_output), 'sections': sections_to_output}
 json.dump(dump, open('survey-questions.json', 'wb'))
 
 ############################# CONVERT SURVEY OPTIONS TO JSON ##############################
-reader = csv.DictReader(open('./survey-responses.csv', 'rb'))
+reader = csv.DictReader(open('survey-responses.csv', 'rb'))
 
 question_type = {}
 for row in reader:
@@ -33,4 +33,4 @@ for row in reader:
 		question_type[row['type']] = {'radio': row['radio'], 'options': []}
 	question_type[row['type']]['options'].append({'text': row['text'], 'value': row['value'], 'button': row['button']})
 
-json.dump(question_type, open('./survey-responses.json', 'wb'))
+json.dump(question_type, open('survey-responses.json', 'wb'))
