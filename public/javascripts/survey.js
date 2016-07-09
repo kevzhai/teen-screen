@@ -25,7 +25,7 @@ var FINAL_SECTION = 22;
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  // if (screenfull.enabled) {
+  // if (screenfull.enabled) { // uncomment
   //   screenfull.request();
   // } 
 });
@@ -107,7 +107,7 @@ compileSection = function(section, responses) {
 			options.forEach(function(option, j) {
 				htmlString += '<label class="c-input c-' + type + '">';
 				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
-					option.text + '"><span class="c-indicator"></span>';
+					option.value + '"><span class="c-indicator"></span>';
 				htmlString += option.button + ' - ' + option.text + '</label>';
 			});
 			htmlString += '</div>';
@@ -150,8 +150,8 @@ setCurrentQuestion = function(n) {
 	$('#section-' + cache.sectionsIndex + '-question-' + n).toggle(true);
 
 	// use the HTML5 audio element
-	cache.audio = $('<audio>').attr('src', '/audio/test.mp3');
-	cache.audio.get(0).play();
+	// cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); // uncomment
+	// cache.audio.get(0).play();
 }
 
 // helper to set the notice
@@ -171,7 +171,7 @@ requiresResponse = function(question) {
 setResponse = function(sectionsIndex, question, value) {
 	var radio = cache.responses[question.type].radio === '1';
 	if (radio) {
-		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false);
+		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
 	var init = $('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked');
 	$('[name=' + sectionsIndex + '-' + question.num + '][value=' + value + ']').prop('checked', !init);
@@ -243,7 +243,7 @@ $('#next-btn').on('click', function() {
 // listener for the back button
 $('#back-btn').on('click', function() {
 	showNotice(false);
-	cache.audio.get(0).pause();
+	// cache.audio.get(0).pause(); // uncomment
 	if (--cache.questionNum < 0) {
 		if (cache.sectionsIndex === 0) { // if first section
 			cache.questionNum++;
@@ -279,7 +279,8 @@ $('body').on('keyup', function(event) {
 
 	responses.options.forEach(function(option) {
 		if (key === option.button) {
-			setResponse(cache.sectionsIndex, cache.question, option.text);
+			setResponse(cache.sectionsIndex, cache.question, option.value);
 		}
 	});
 });
+
