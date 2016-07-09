@@ -107,7 +107,7 @@ compileSection = function(section, responses) {
 			options.forEach(function(option, j) {
 				htmlString += '<label class="c-input c-' + type + '">';
 				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
-					option.value + '"><span class="c-indicator"></span>';
+					option.text + '"><span class="c-indicator"></span>';
 				htmlString += option.button + ' - ' + option.text + '</label>';
 			});
 			htmlString += '</div>';
@@ -279,7 +279,7 @@ $('body').on('keyup', function(event) {
 
 	responses.options.forEach(function(option) {
 		if (key === option.button) {
-			setResponse(cache.sectionsIndex, cache.question, option.value);
+			setResponse(cache.sectionsIndex, cache.question, option.text);
 		}
 	});
 });
