@@ -4,12 +4,12 @@ const fs = require('fs');
 
 var DEMO = "2"; // starting variable in views/init.jade so all the other sections' indices match with the survey-questions.json
 var ACTUAL_DEMO = "1"; // actual index for Demographics section
-var IMPAIR = "21";
-var ACTUAL_IMPAIR = "22";
+var IMPAIR = "21"; // in other words, this is the jade index
+var ACTUAL_IMPAIR = "22"; // and this is the json index
 
 var INTRO1 = "0";
 var INTRO2 = "2";
-var INTRO3 = "20";
+var INTRO3 = "21";
 var FINAL_SECTION = "23";
 
 /* GET initiate survey page. */
@@ -40,12 +40,14 @@ function processForm(req, res, next) {
   var firstSection = req.session.surveyParams.sections[0];
   if (firstSection === DEMO) { // Demographics was selected
     req.session.surveyParams.sections.unshift(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
+    req.session.surveyParams.sections.pop(); // remove DEMO
   } else if (firstSection === IMPAIR) { // only has last section
-    req.session.surveyParams.sections.unshift(INTRO3); 
+    req.session.surveyParams.sections.push(ACTUAL_IMPAIR); // IMPAIR == INTRO3 already, so just add this to the end
   } else {
     req.session.surveyParams.sections.unshift(INTRO2); 
   } 
-  req.session.surveyParams.sections.push(FINAL_SECTION); // append conclusion section
+
+  req.session.surveyParams.sections.push(FINAL_SECTION); // always append conclusion section
 
   console.log(req.session.sectionIndex); // debuq
   console.log(req.session); // debuq
