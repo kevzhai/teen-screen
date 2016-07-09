@@ -71,7 +71,7 @@ getSection = function(sectionNum, params, start) {
 		// put the section on the screen
 		compileSection(response.section, response.responses);
 		});
-	} else {
+	} else { // initialize survey
 		$.post('/survey/section/' + sectionNum, function(response) {
 		// cache the current section number and section
 		cache.sectionNum = parseInt(response.n);
@@ -97,9 +97,7 @@ compileSection = function(section, responses) {
 		}
 		if (question.type === '9') type = 'text';
 		if (question.type === '10') type = 'intro';
-		if (question.type === '0') {
-			type = 'age';
-		}
+		if (question.type === '0') type = 'age';
 
 		var name = cache.sectionsIndex + '-' + question.num;
 		var htmlString = '<form class="survey-question" id="section-' + cache.sectionsIndex + '-question-' + i + '">';
