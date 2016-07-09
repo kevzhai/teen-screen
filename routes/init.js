@@ -37,22 +37,26 @@ function processForm(req, res, next) {
     req.session.surveyParams.sections = Array(req.session.surveyParams.sections);
   }
 
-  var demoSelect = req.session.surveyParams.sections.indexOf(DEMO) != -1;
+  var demoIndex = req.session.surveyParams.sections.indexOf(DEMO);
+  var demoSelect = demoIndex != -1;
   var impairSelect = req.session.surveyParams.sections.indexOf(IMPAIR) != -1;
+  console.log("asdfasdfsaf");
+  console.log(req.session.surveyParams.sections);
   if (demoSelect) { // Demographics was selected
     if (req.session.surveyParams.sections.length === 1 // remove what is actually INTRO2 if only Demographics was selected
-        || demoSelect && impairSelect && req.session.surveyParams.sections.length === 2) { // remove INTRO2 if only Demographics and Impairment were selected
-      req.session.surveyParams.sections.pop(); 
+        || (impairSelect && req.session.surveyParams.sections.length === 2)) { // remove INTRO2 if only Demographics and Impairment were selected
+      req.session.surveyParams.sections.splice(demoIndex, 1);
     } 
     req.session.surveyParams.sections.push(INTRO1, ACTUAL_DEMO); // add intro1 index and actual demographics index to array
-  } 
+  } else { // Demographics wasn't selected, so INTRO2 isn't in sections
+    if (!impairSelect || (impairSelect && req.session.surveyParams.sections.length > 1)) { // Only other sections selected OR Impairment isn't only thing selected, must be one of the other sections 
+      req.session.surveyParams.sections.push(INTRO2);
+    }
+  }
+
   if (impairSelect) { // Impairment was selected
     req.session.surveyParams.sections.push(ACTUAL_IMPAIR); // IMPAIR == INTRO3 already, so just add this to the end
   } 
-  if (!demoSelect && (!impairSelect // only other sections selected
-      || impairSelect && req.session.surveyParams.sections.length > 1)) { // Impairment isn't only thing selected, must be one of the other sections 
-    req.session.surveyParams.sections.push(INTRO2);
-  }
 
   req.session.surveyParams.sections.push(FINAL_SECTION); // always append conclusion section
   req.session.surveyParams.sections.sort(numericSort);
