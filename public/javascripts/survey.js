@@ -166,6 +166,10 @@ requiresResponse = function(question) {
 	return question.type !== '10';
 }
 
+sectionRequiresResponse = function(section) {
+	return !section.name.includes("Introduction") && !section.name.includes("Conclusion");
+}
+
 // set the value of the passed in sectionNum and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
@@ -202,13 +206,17 @@ getResponse = function(sectionsIndex, question) {
 getResponses = function() {
 	var responses = {};
 	cache.sections.forEach(function(section, i) {
-		responses[i] = {};
-		responses[i].name = section.name;
-		section.questions.forEach(function(question, j) {
-			if (requiresResponse(question)) {
-				responses[i][j] = getResponse(i, question);
-			}
-		});
+		if (sectionRequiresResponse(section)) {
+		 responses[i] = {};
+		 responses[i].name = section.name;
+		 responses[i].qa = {};
+		 section.questions.forEach(function(question) {
+		 	if (requiresResponse(question)) {
+		 		var escText = question.text.replace(/\./g, ';'); // MongoDB doesn't allow periods in key
+		 		responses[i].qa[escText] = getResponse(i, question);
+		 	}
+		 });   	
+		}
 	});
 	return responses;
 }
