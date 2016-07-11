@@ -31,6 +31,8 @@ router.get('/', function(req, res, next) {
 
 // http://stackoverflow.com/questions/19035373/how-do-i-redirect-in-expressjs-while-passing-some-context
 function processForm(req, res, next) {
+  console.log("processForm");
+  console.log(req.body);
   req.session.surveyParams = req.body;
   req.session.sectionIndex = 0; // used to iterate through surveyParams.section array
   if (typeof req.session.surveyParams.sections === "string") { // if only one section is chosen, it is a string, and not an array
@@ -40,8 +42,6 @@ function processForm(req, res, next) {
   var demoIndex = req.session.surveyParams.sections.indexOf(DEMO);
   var demoSelect = demoIndex != -1;
   var impairSelect = req.session.surveyParams.sections.indexOf(IMPAIR) != -1;
-  console.log("asdfasdfsaf");
-  console.log(req.session.surveyParams.sections);
   if (demoSelect) { // Demographics was selected
     if (req.session.surveyParams.sections.length === 1 // remove what is actually INTRO2 if only Demographics was selected
         || (impairSelect && req.session.surveyParams.sections.length === 2)) { // remove INTRO2 if only Demographics and Impairment were selected

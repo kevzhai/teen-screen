@@ -17,12 +17,14 @@ router.get('/', function(req, res, next) {
 
 /* POST to initiate a new survey. */
 router.post('/initiate', function(req, res, next) {
-  Screen.find(function (err, surveys) {
-    console.log("found"); //debuq
-    console.log(surveys);
-  });
+  // show all surveys debuq
+  // Screen.find(function (err, surveys) { 
+  //   console.log("found"); //debuq
+  //   // console.log(surveys[0]);
+  //   console.log(JSON.stringify(surveys, null, 2));
+  // });
 
-  // get the id sent as a parameter, if given
+  // search for document based on 'subject' key
   Screen.findOne({subject: req.session.surveyParams.subjectId}, function (err, survey) {
     if (err) {
       console.log(err);
@@ -32,7 +34,8 @@ router.post('/initiate', function(req, res, next) {
       console.log(survey._id);
       res.json(survey._id); // equiv to res.send with JSON conversion
     } else {
-      var newScreen = new Screen({
+      // TODO include admin as field, how to include optional fields?
+      var newScreen = new Screen({ 
         subject: req.session.surveyParams.subjectId,
         formResponses: []
       });
