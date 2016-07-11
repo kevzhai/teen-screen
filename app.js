@@ -11,11 +11,25 @@ require('dotenv').config();
 var app = express();
 
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/data');
+// Here we find an appropriate database to connect to, defaulting to
+// localhost if we don't find one.
+var uristring = 'mongodb://localhost/data';
 
-mongoose.connection.on('error', function(err) {
-  console.log('MongoDB error: %s', err);
+// Makes connection asynchronously.  Mongoose will queue up database
+// operations and release them when the connection is complete.
+mongoose.connect(uristring, function (err, res) {
+  if (err) {
+    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    console.log ('Succeeded connected to: ' + uristring);
+  }
 });
+
+// var db = mongoose.connect(uristring);
+
+// mongoose.connection.on('error', function(err) {
+//   console.log('MongoDB error: %s', err);
+// });
 
 // initialize stormpath user system
 app.use(stormpath.init(app, {
