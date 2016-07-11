@@ -32,11 +32,12 @@ router.post('/initiate', function(req, res, next) {
     if (survey) {
       console.log("survey"); //debuq
       console.log(survey._id);
-      res.json(survey._id); // equiv to res.send with JSON conversion
-    } else {
+      res.json(survey._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
+    } else { 
       // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
-        subject: req.session.surveyParams.subjectId,
+        subjectID: req.session.surveyParams.subjectId,
+        
         formResponses: []
       });
 
@@ -44,7 +45,7 @@ router.post('/initiate', function(req, res, next) {
         if (error) {
           next(error);
         }
-        res.json(newScreen._id); // equiv to res.send with JSON conversion
+        res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
       });
     }
   });

@@ -42,7 +42,7 @@ $('#fullscreen').on('click', function() {
 	$('.invisible').removeClass('invisible');
 	$('.handoff').toggle(false);
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
-		cache.id = response;
+		cache.id = response; // the found survey._id OR newScreen._id
 		getSection(null, true);
 		cache.sectionsIndex = 0; // index for cache.sections array
 	});
