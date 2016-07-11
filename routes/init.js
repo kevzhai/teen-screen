@@ -61,7 +61,7 @@ function processForm(req, res, next) {
   req.session.surveyParams.sections.push(FINAL_SECTION); // always append conclusion section
   req.session.surveyParams.sections.sort(numericSort);
 
-  console.log("req.session");
+  console.log("req.session"); // debuq
   console.log(req.session); // debuq
   res.status(302).redirect('/survey');
 }
