@@ -89,32 +89,19 @@ router.post('/section', function(req, res, next) {
         if (error) {
           throw error;
         }
-
-        if (questionInterface.isFinalSection(n)) {
-          res.status(200).send('you\'re done');
-        } else {
-          questionInterface.getSection(n, function(err, section) {
-            if (err) {
-              res.status(500).send(err);
-            } else {
-              res.status(200).send(section);
-            }
-          });
-        }
       });
     });
-  } else { // first time sent
-    if (questionInterface.isFinalSection(n)) {
-      res.status(200).send('you\'re done');
-    } else {
-      questionInterface.getSection(n, function(err, section) {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.status(200).send(section);
-        }
-      });
-    }
+  } 
+  if (questionInterface.isFinalSection(n)) {
+    res.status(200).send('you\'re done');
+  } else {
+    questionInterface.getSection(n, function(err, section) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(section);
+      }
+    });
   }
 });
 
