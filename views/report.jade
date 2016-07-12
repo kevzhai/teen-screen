@@ -1,8 +1,9 @@
 extends layout
 
 block css
+	- tabletheme = "sortable-theme-bootstrap"
 	link(rel="stylesheet" href="font-awesome/css/font-awesome.min.css")
-	link(rel='stylesheet', href='/stylesheets/sortable-theme-bootstrap.css')
+	link(rel='stylesheet', href='/stylesheets/#{tabletheme}.css')
 
 block content
 	.container
@@ -14,7 +15,7 @@ block content
 		-
 			test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
 			list = ["Subject ID", "Date", "Site", "Sponsor", "Protocol", "Description"]
-		table.sortable-theme-bootstrap.table(data-sortable)
+		table.table(class="#{tabletheme}" data-sortable)
 			thead
 				tr
 					each header in list
