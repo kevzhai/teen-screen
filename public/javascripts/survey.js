@@ -6,14 +6,6 @@
  * sends the results back to the backend.
  */
 
-/**
- * TODO List
- * - Make the interface nicer
- * - At the end of a section, collect the data and send it to the server
- * - Implement a back button
- * - Cleanly deal with the end of all sections
- */
-
 // instance variable for section number
 var cache = {
 	sections: []
