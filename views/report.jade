@@ -1,5 +1,9 @@
 extends layout
 
+block css
+	link(rel="stylesheet" href="font-awesome/css/font-awesome.min.css")
+	link(rel='stylesheet', href='/stylesheets/sortable-theme-bootstrap.css')
+
 block content
 	.container
 		.row
@@ -10,12 +14,11 @@ block content
 		-
 			test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
 			list = ["Subject ID", "Date", "Site", "Sponsor", "Protocol", "Description"]
-		table.table
+		table.sortable-theme-bootstrap.table(data-sortable)
 			thead
 				tr
 					each header in list
 						th #{header} 
-							i(class="fa fa-arrows-v" aria-hidden="true")
 			tbody
 				each person in test
 					tr
@@ -38,6 +41,5 @@ block content
 					//- 				p= r
 
 block scripts
-	link(rel="stylesheet" href="font-awesome/css/font-awesome.min.css")
-	script(src='/javascripts/libraries/jquery.tablesorter.js')
+	script(src='/javascripts/libraries/sortable.min.js')
 	script(src='/javascripts/report.js')
