@@ -118,7 +118,7 @@ app.use(cookieParser());
 app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: '#72HphJrCY5JujWY',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));

@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var request = require('request');
+
 var router = express.Router();
 
 var Screen = require('../lib/screen');
@@ -37,13 +38,13 @@ router.post('/initiate', function(req, res, next) {
       // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
         subjectID: req.session.surveyParams.subjectId,
-        
+
         formResponses: []
       });
 
       newScreen.save(function(error) {
         if (error) {
-          next(error);
+          throw error;
         }
         res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
       });
