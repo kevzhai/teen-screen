@@ -25,7 +25,7 @@ router.post('/initiate', function(req, res, next) {
   // });
 
   // search for document based on 'subject' key
-  Screen.findOne({subject: req.session.surveyParams.subjectId}, function (err, survey) {
+  Screen.findOne({subjectID: req.session.surveyParams.subjectId}, function (err, survey) {
     if (err) {
       console.log(err);
     }
@@ -38,6 +38,11 @@ router.post('/initiate', function(req, res, next) {
       var newScreen = new Screen({ 
         subjectID: req.session.surveyParams.subjectId,
         admin: req.user.username, // logged-in Stormpath user
+        language: req.session.surveyParams.language,
+        description: req.session.surveyParams.description,
+        sponsor: req.session.surveyParams.sponsor,
+        protocol: req.session.surveyParams.protocol,
+        site: req.session.surveyParams.site,
         formResponses: []
       });
 
