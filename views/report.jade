@@ -14,7 +14,8 @@ block content
 			thead
 				tr
 					each header in list
-						th #{header}
+						th #{header} 
+							i(class="fa fa-arrows-v" aria-hidden="true")
 			tbody
 				each person in test
 					tr
@@ -36,3 +37,7 @@ block content
 					//- 			a(href="#")
 					//- 				p= r
 
+block scripts
+	link(rel="stylesheet" href="font-awesome/css/font-awesome.min.css")
+	script(src='/javascripts/libraries/jquery.tablesorter.js')
+	script(src='/javascripts/report.js')
