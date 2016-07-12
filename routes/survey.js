@@ -34,8 +34,8 @@ router.post('/initiate', function(req, res, next) {
     } else { 
       // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
-        subjectID: req.session.surveyParams.subjectId,
         admin: req.user.username, // logged-in Stormpath user
+        subjectID: req.session.surveyParams.subjectId,
         language: req.session.surveyParams.language,
         description: req.session.surveyParams.description,
         sponsor: req.session.surveyParams.sponsor,
@@ -80,8 +80,9 @@ router.post('/section', function(req, res, next) {
         console.log(error);
       }
       survey.formResponses = body.responses; 
-      console.log("tee");
-      console.log(JSON.stringify(survey));
+      survey.lastUpdated = new Date();
+      console.log("tee"); // debuq
+      console.log(JSON.stringify(survey)); // debuq
 
       // write these changes to the database
       survey.save(function(error) {
