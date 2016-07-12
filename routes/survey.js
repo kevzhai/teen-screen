@@ -1,7 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var request = require('request');
-var stormpath = require('express-stormpath');
 var router = express.Router();
 
 var Screen = require('../lib/screen');
@@ -38,7 +37,7 @@ router.post('/initiate', function(req, res, next) {
       // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
         subjectID: req.session.surveyParams.subjectId,
-
+        admin: req.user.username, // logged-in Stormpath user
         formResponses: []
       });
 
