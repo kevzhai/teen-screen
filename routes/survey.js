@@ -30,8 +30,6 @@ router.post('/initiate', function(req, res, next) {
       console.log(err);
     }
     if (survey) {
-      console.log("survey"); //debuq
-      console.log(survey._id);
       res.json(survey._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
     } else { 
       // TODO include admin as field, how to include optional fields?
@@ -70,8 +68,8 @@ router.post('/section', function(req, res, next) {
     req.session.sectionIndex++;      
   }
 
-  console.log("blah"); // debuq
-  console.log(req.session); // debuq
+  // console.log("blah"); // debuq
+  // console.log(req.session); // debuq
   console.log("body"); // debuq
   console.log(req.body); // debuq
 
@@ -81,7 +79,9 @@ router.post('/section', function(req, res, next) {
       if (error) {
         console.log(error);
       }
-      survey.formResponses = body.formResponses; 
+      survey.formResponses = body.responses; 
+      console.log("tee");
+      console.log(JSON.stringify(survey));
 
       // write these changes to the database
       survey.save(function(error) {

@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
         nav: true
       });
   });
-  console.log("req");
-  console.log(req);
+  // console.log("req"); // debuq
+  // console.log(req); // debuq
 });
 
 // http://stackoverflow.com/questions/19035373/how-do-i-redirect-in-expressjs-while-passing-some-context

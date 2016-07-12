@@ -228,7 +228,8 @@ getResponses = function() {
 		 section.questions.forEach(function(question, j) {
 		 	if (requiresResponse(question)) {
 		 		var escText = question.text.replace(/\./g, ';'); // MongoDB doesn't allow periods in key
-		 		responses[i].qa[j + ": " + escText] = getResponse(i, question);
+		 		var oneIndex = j + 1; // more intuitive for a layperson than zero-indexed questions
+		 		responses[i].qa[oneIndex + ": " + escText] = getResponse(i, question);
 		 	}
 		 });   	
 		}
@@ -239,7 +240,7 @@ getResponses = function() {
 // save responses to params and proceed to next section
 sendFormResponses = function() {
 	var params = {
-		id: cache.id,
+		id: cache.id, // survey._id
 		responses: getResponses()
 	};
 
