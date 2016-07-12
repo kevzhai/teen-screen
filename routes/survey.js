@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var request = require('request');
-
+var stormpath = require('express-stormpath');
 var router = express.Router();
 
 var Screen = require('../lib/screen');
