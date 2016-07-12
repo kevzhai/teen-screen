@@ -11,8 +11,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:subjectID', function(req, res, next) {
-  res.render('report', {
-    title: 'Teen Screen Reports Page',
+  res.render('admin', {
+    title: 'Teen Screen Admin Page',
     user: req.user ? req.user.fullName : '',
     nav: true
   });
