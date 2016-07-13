@@ -15,6 +15,16 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// error checking
+function saveSurvey(survey) { 
+  // write these changes to the database
+  survey.save(function(error) {
+    if (error) {
+      throw error;
+    }
+  });
+}
+
 /* POST to initiate a new survey. */
 router.post('/initiate', function(req, res, next) {
   // show all surveys debuq
@@ -24,14 +34,20 @@ router.post('/initiate', function(req, res, next) {
   //   console.log(JSON.stringify(surveys, null, 2));
   // });
 
-  // search for document based on 'subject' key
+  // search for document based on 'subjectID' key
   Screen.findOne({subjectID: req.session.surveyParams.subjectId}, function (err, survey) {
     if (err) {
       console.log(err);
     }
-    if (survey) {
+    if (survey) { // if found
+      survey.language = req.session.surveyParams.language;
+      survey.description = req.session.surveyParams.description;
+      survey.sponsor = req.session.surveyParams.sponsor;
+      survey.protocol = req.session.surveyParams.protocol;
+      survey.site = req.session.surveyParams.site;
+      saveSurvey(survey);
       res.json(survey._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
-    } else { 
+    } else { // create new
       // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
         admin: req.user.username, // logged-in Stormpath user
@@ -84,12 +100,7 @@ router.post('/section', function(req, res, next) {
       console.log("tee"); // debuq
       console.log(JSON.stringify(survey)); // debuq
 
-      // write these changes to the database
-      survey.save(function(error) {
-        if (error) {
-          throw error;
-        }
-      });
+      saveSurvey(survey);
     });
   } 
   if (questionInterface.isFinalSection(n)) {

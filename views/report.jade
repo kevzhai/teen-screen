@@ -12,40 +12,24 @@ block content
 				h1= title
 				p Stub reports page. View the tests that you have administered. Click a column header to sort with it. You need to be in the 'admin' user group to see this page.
 		.row
-		//- script.
-		//- 	var results = !{reports};
-		//- 	console.log(results);
-		- results = JSON.parse(reports)
-		each result in results
-			p #{result.subjectID}
 		-
-			test = [{id: "joe", site: "x district", report: ["test1", "test2"]}, {id: "jenn", site: "y district", report: ["test3", "test4"]}, {id: "jane", site: "z district", report: ["test5", "test6"]}]
-			list = ["Subject ID", "Date", "Site", "Sponsor", "Protocol", "Description"]
+			allSubjects = JSON.parse(reports)
+			list = ["Subject ID", "Last Updated", "Site", "Sponsor", "Protocol", "Description"]
 		table.table(class="#{tabletheme}" data-sortable)
 			thead
 				tr
 					each header in list
 						th #{header} 
 			tbody
-				each person in test
+				each subject in allSubjects
 					tr
 						td 
-							a(href="/report/#{person.id}") #{person.id}
-						td
-							| date
-						td
-							| #{person.site}
-						td
-							| sponsor (#{person.id})
-						td
-							| protocol (#{person.id})
-						td
-							| descrip (#{person.id})
-					//- tr.collapse(id="#{person.id}")
-					//- 	td
-					//- 		each r in person.report						
-					//- 			a(href="#")
-					//- 				p= r
+							a(href="/report/#{subject.subjectID}") #{subject.subjectID}
+						td a
+						td #{subject.site}
+						td #{subject.sponsor}
+						td #{subject.protocol}
+						td #{subject.description}
 
 block scripts
 	script(src='/javascripts/libraries/sortable.min.js')
