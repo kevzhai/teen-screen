@@ -7,11 +7,10 @@ block content
         h1= title
         -
           report = JSON.parse(report)
-          optionalSections = ["site", "sponsor", "protocol"]
+          optionalSections = ["site", "sponsor", "protocol", "description"]
 
         each section in optionalSections
           //- Square bracket notation allows selection of properties using variables
           if report[section] 
             h2 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
         h2 Language: #{report.language}
-        
