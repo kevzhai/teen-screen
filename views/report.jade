@@ -14,7 +14,7 @@ block content
 		.row
 		-
 			allSubjects = JSON.parse(reports)
-			list = ["Subject ID", "Last Updated", "Site", "Sponsor", "Protocol", "Description"]
+			list = ["Subject ID", "Created", "Last Updated", "Site", "Sponsor", "Protocol", "Description"]
 		table.table(class="#{tabletheme}" data-sortable)
 			thead
 				tr
@@ -25,7 +25,9 @@ block content
 					tr
 						td 
 							a(href="/report/#{subject.subjectID}") #{subject.subjectID}
-						td a
+						//- JSON parsed so dates are type String, not Date, so harder to format
+						td #{subject.creationDate.substr(0,10)}
+						td #{subject.lastUpdated.substr(0,10)}
 						td #{subject.site}
 						td #{subject.sponsor}
 						td #{subject.protocol}
