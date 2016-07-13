@@ -5,4 +5,13 @@ block content
     .row
       .col-xs-12
         h1= title
-        h2= subjectID
+        -
+          report = JSON.parse(report)
+          optionalSections = ["site", "sponsor", "protocol"]
+
+        each section in optionalSections
+          //- Square bracket notation allows selection of properties using variables
+          if report[section] 
+            h2 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
+        h2 Language: #{report.language}
+        
