@@ -34,8 +34,10 @@ block content
                 th Answer
                 th Score
             tbody
+              - num = 1
               each response in section.qa
                 tr
-                  td #{response.question}
+                  td #{num}. #{response.question}
                   td #{response.answer}
                   td 23
+                - num++

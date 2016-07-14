@@ -40,8 +40,8 @@ function processForm(req, res, next) {
   }
 
   var demoIndex = req.session.surveyParams.sections.indexOf(DEMO);
-  var demoSelect = demoIndex != -1;
-  var impairSelect = req.session.surveyParams.sections.indexOf(IMPAIR) != -1;
+  var demoSelect = demoIndex !== -1;
+  var impairSelect = req.session.surveyParams.sections.indexOf(IMPAIR) !== -1;
   if (demoSelect) { // Demographics was selected
     if (req.session.surveyParams.sections.length === 1 // remove what is actually INTRO2 if only Demographics was selected
         || (impairSelect && req.session.surveyParams.sections.length === 2)) { // remove INTRO2 if only Demographics and Impairment were selected
