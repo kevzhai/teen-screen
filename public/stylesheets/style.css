@@ -1,14 +1,9 @@
-/*body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}*/
-
 a {
   color: #00B7FF;
 }
 
 textarea {
-    height: 7em;
+  height: 7em;
 }
 
 .form-control-label {
@@ -25,4 +20,15 @@ textarea {
 
 #no-nav {
 	margin-top: 5em;
+}
+
+@media print {
+  /* collapse columns for print */
+  .print-expand { 
+    width: 100%;
+  }
+  .print-expand * {
+    font-size: 1rem;
+    font-weight: normal;
+  }
 }

@@ -8,6 +8,7 @@ table[data-sortable] th {
   vertical-align: bottom;
   font-weight: bold;
 }
+
 /* line 10, ../sass/_sortable.sass */
 table[data-sortable] th, table[data-sortable] td {
   text-align: left;

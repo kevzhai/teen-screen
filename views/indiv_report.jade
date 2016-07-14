@@ -11,7 +11,7 @@ block content
 		.row.hidden-print
 			.col-xs-12
 				h1 Diagnostic Predictive Scales (DPS) Report
-				p The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
+				p.lead The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
 				p In any of the tables, click a column header to sort with it.
 				.btn-group
 					a.btn.btn-secondary(href="/report") 
@@ -24,7 +24,7 @@ block content
 			-
 				col1   = "col-sm-4"
 				col2   = "col-sm-8"
-			div(class="#{col1}")
+			div.print-expand(class="#{col1}")
 				h2 Report for #{report.subjectID}
 				-
 					optionalSections = ["site", "sponsor", "protocol", "description"]
@@ -34,7 +34,8 @@ block content
 					if report[section] 
 						h4 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
 				h4 Language: #{report.language}
-			div(class="#{col2}")
+				br
+			div.print-expand(class="#{col2}")
 				-
 					one   = 6
 					two   = 4
