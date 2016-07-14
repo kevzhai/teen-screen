@@ -31,7 +31,6 @@ router.get('/:subjectID', function(req, res) {
     // console.log('lone'); // debuq
     // console.log(report); // debuq
     res.render('indiv_report', {
-      title: `Report for ${req.params.subjectID}`,
       report: JSON.stringify(report),
       user: req.user.fullName,
       nav: true
