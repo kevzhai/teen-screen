@@ -6,6 +6,7 @@ block css
 	link(rel='stylesheet', href='/stylesheets/#{tabletheme}.css')
 
 block content
+	- report = JSON.parse(report)
 	.container
 		.row.hidden-print
 			.col-xs-12
@@ -17,13 +18,12 @@ block content
 						i.fa.fa-chevron-left(aria-hidden="true")
 						|  Back to all reports
 					a.btn.btn-secondary(onClick="window.print()") Print Report
-					a.btn.btn-secondary#save Save Report
+					a.btn.btn-secondary(href="#{report.subjectID}" download) Save Report
 
 		.row.m-t-3
 			-
 				col1   = "col-sm-4"
 				col2   = "col-sm-8"
-				report = JSON.parse(report)
 			div(class="#{col1}")
 				h2 Report for #{report.subjectID}
 				-
