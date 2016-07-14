@@ -28,8 +28,8 @@ router.get('/:subjectID', function(req, res) {
   checkLoggedIn(req.user);
 
   Screen.findOne({ subjectID: req.params.subjectID }, function(err, report) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
-    console.log('lone');
-    console.log(report);
+    // console.log('lone'); // debuq
+    // console.log(report); // debuq
     res.render('indiv_report', {
       title: `Report for ${req.params.subjectID}`,
       report: JSON.stringify(report),

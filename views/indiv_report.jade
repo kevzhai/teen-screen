@@ -1,16 +1,40 @@
 extends layout
 
+block css
+  link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
+
 block content
   .container
     .row
       .col-xs-12
+        a.btn.btn-secondary(href="/report") 
+          i.fa.fa-chevron-left(aria-hidden="true")
+          |  Back to all reports
         h1= title
+    .row
+      -
+        col1 = "col-sm-4"
+        col2 = "col-sm-8"
+      div(class="#{col1}")
         -
           report = JSON.parse(report)
           optionalSections = ["site", "sponsor", "protocol", "description"]
-
         each section in optionalSections
           //- Square bracket notation allows selection of properties using variables
           if report[section] 
-            h2 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
-        h2 Language: #{report.language}
+            h3 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
+        h3 Language: #{report.language}
+      div(class="#{col2}")
+        - allsections = report.formResponses
+          - console.log(allsections.length)
+          //- h2 #{section.name}
+          //- table.table.table-striped
+          //-   thead
+          //-     tr
+          //-       th Question
+          //-       th Answer
+          //-       th Score
+            //- tbody
+            //-   for question in section.qa
+            //-     tr
+            //-       td #{question}
