@@ -17,9 +17,9 @@ var FINAL_SECTION = 23;
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  // if (screenfull.enabled) { // uncomment
-  //   screenfull.request();
-  // } 
+  if (screenfull.enabled) { // uncomment
+    screenfull.request();
+  } 
 });
 $(document).keydown(function(e) {
   if(e.which == 70 && e.altKey) { // alt + 'f'

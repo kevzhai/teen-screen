@@ -1,63 +1,80 @@
 extends layout
 
 block css
-  link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
-  - tabletheme = "sortable-theme-bootstrap"
-  link(rel='stylesheet', href='/stylesheets/#{tabletheme}.css')
+	link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
+	- tabletheme = "sortable-theme-bootstrap"
+	link(rel='stylesheet', href='/stylesheets/#{tabletheme}.css')
 
 block content
-  .container
-    .row
-      .col-xs-12
-        h1 Diagnostic Predictive Scales (DPS) Report
-        p NOTE: The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
-        a.btn.btn-secondary(href="/report") 
-          i.fa.fa-chevron-left(aria-hidden="true")
-          |  Back to all reports
+	.container
+		.row
+			.col-xs-12
+				h1 Diagnostic Predictive Scales (DPS) Report
+				p NOTE: The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
+				a.btn.btn-secondary(href="/report") 
+					i.fa.fa-chevron-left(aria-hidden="true")
+					|  Back to all reports
 
-    .row.m-t-3
-      -
-        col1 = "col-sm-4" 
-        col2 = "col-sm-8"
-      div(class="#{col1}")
-        h2= title
-        -
-          report = JSON.parse(report)
-          optionalSections = ["site", "sponsor", "protocol", "description"]
-        br 
-        each section in optionalSections
-          //- Square bracket notation allows selection of properties using variables
-          if report[section] 
-            h4 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
-        h4 Language: #{report.language}
-        br
-        .btn-group
-          a.btn.btn-secondary#print Print Report
-          a.btn.btn-secondary#save Save Report
-      div(class="#{col2}")
-        -
-          one   = "col-xs-6"
-          two   = "col-xs-4"
-          three = "col-xs-2"
-        each section in report.formResponses
-          h3 #{section.name}
-          table.table.table-striped(class="#{tabletheme}" data-sortable)
-            thead
-              tr
-                th(class="#{one}") Question
-                th(class="#{two}") Answer
-                th(class="#{three}") Score
-            tbody
-              - num = 1
-              each response in section.qa
-                tr
-                  td(class="#{one}") #{num}. #{response.question}
-                  td(class="#{two}") #{response.answer}
-                  td(class="#{three}") 
-                    //- placeholder number
-                    =response.answer.length 
-                - num++
+		.row.m-t-3
+			-
+				col1 = "col-sm-4" 
+				col2 = "col-sm-8"
+			div(class="#{col1}")
+				h2= title
+				-
+					report = JSON.parse(report)
+					optionalSections = ["site", "sponsor", "protocol", "description"]
+				br 
+				each section in optionalSections
+					//- Square bracket notation allows selection of properties using variables
+					if report[section] 
+						h4 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
+				h4 Language: #{report.language}
+				br
+				.btn-group
+					a.btn.btn-secondary#print Print Report
+					a.btn.btn-secondary#save Save Report
+			div(class="#{col2}")
+				-
+					one   = "col-xs-6"
+					two   = "col-xs-4"
+					three = "col-xs-2"
+					dpsScore = 0
+				each section in report.formResponses
+					h3 #{section.name}
+					table.table.table-striped(class="#{tabletheme}" data-sortable)
+						thead
+							tr
+								th(class="#{one}") Question
+								th(class="#{two}") Answer
+								th(class="#{three}") Score
+						tbody
+							-
+								questionNum = 1
+								sectionScore = 0
+							each response in section.qa
+								tr
+									td(class="#{one}") #{questionNum}. #{response.question}
+									td(class="#{two}") #{response.answer}
+									- placeholder = response.answer.length % 2; //- placeholder number
+									td(class="#{three}") #{placeholder}
+								-
+									questionNum++
+									sectionScore += placeholder //- placeholder number
+							tr
+								td(class="#{one}") 
+								td(class="#{two}") 
+									b #{section.name} Score
+								td(class="#{three}") #{sectionScore}
+							- dpsScore += sectionScore
+				table.table
+					tr
+						td(class="#{one}")
+						td(class="#{two}") 
+							h4 Total DPS Score
+						td(class="#{three}") 
+							h4 #{dpsScore}
 
 
 block scripts
-  script(src='/javascripts/libraries/sortable.min.js')
+	script(src='/javascripts/libraries/sortable.min.js')
