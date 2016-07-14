@@ -10,7 +10,8 @@ block content
 		.row
 			.col-xs-12
 				h1 Diagnostic Predictive Scales (DPS) Report
-				p NOTE: The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
+				p The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
+				p In any of the tables, click a column header to sort with it.
 				a.btn.btn-secondary(href="/report") 
 					i.fa.fa-chevron-left(aria-hidden="true")
 					|  Back to all reports
@@ -36,29 +37,35 @@ block content
 					a.btn.btn-secondary#save Save Report
 			div(class="#{col2}")
 				-
-					one   = "col-xs-6"
-					two   = "col-xs-4"
-					three = "col-xs-2"
+					one   = 6
+					two   = 4
+					three = 12 - one - two
 					dpsScore = 0
+					var col = function(num) { 
+						return 'col-xs-' + num
+					}
 				each section in report.formResponses
-					h3 #{section.name}
+					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
+						- conc = section.name === "Conclusion"
 						thead
 							tr
-								th(class="#{one}") Question
-								th(class="#{two}") Answer
-								th(class="#{three}") Score
+								th(class="#{col(one)}") Question
+								if conc
+									th(class="#{col(12 - one)}") Answer
+								else
+									th(class="#{col(two)}") Answer
+									th(class="#{col(three)}") Score
 						tbody
 							-
 								questionNum  = 1
 								sectionScore = 0
-								conc         = section.name === "Conclusion"
 							each response in section.qa
 								tr
-									td(class="#{one}") #{questionNum}. #{response.question}
-									td(class="#{two}") #{response.answer}
+									td(class="#{col(one)}") #{questionNum}. #{response.question}
+									td(class="#{col(two)}") #{response.answer}
 									- placeholder = response.answer.length % 2; //- placeholder number
-									td(class="#{three}") 
+									td(class="#{col(three)}") 
 										if !conc
 											=placeholder
 								-
@@ -66,20 +73,19 @@ block content
 									sectionScore += placeholder //- placeholder number
 					table.table
 						tr
-							td(class="#{one}") 
-							td(class="#{two}")
+							td(class="#{col(one + two)}")
 								if !conc 
 									b #{section.name} Score
-							td(class="#{three}") 
+							td(class="#{col(three)}") 
 								if !conc
 									=sectionScore
 						- dpsScore += sectionScore
 				table.table
 					tr
-						td(class="#{one}")
-						td(class="#{two}") 
+						td(class="#{col(one)}")
+						td(class="#{col(two)}") 
 							h4 Total DPS Score
-						td(class="#{three}") 
+						td(class="#{col(three)}") 
 							h4 #{dpsScore}
 
 
