@@ -223,7 +223,6 @@ getResponses = function() {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
   		 		response.question = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
-  		 		// var oneIndex = j + 1; // more intuitive for a layperson than zero-indexed questions
           response.answer = getResponse(i, question);
           s.qa.push(response);
   		 	}
