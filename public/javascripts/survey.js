@@ -194,7 +194,7 @@ hasResponse = function(sectionsIndex, question) {
 // within the section given by sectionNum
 getResponse = function(sectionsIndex, question) {
 	if (question.type === '0' || question.type === '9') {
-		return $('[name=' + sectionsIndex + '-' + question.num + ']').val();
+		return $('[name=' + sectionsIndex + '-' + question.num + ']').val(); // TODO turn into array for consistentcy
 	} else {
 		// if (isRadio(question)) {
 		// 	return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
@@ -203,6 +203,8 @@ getResponse = function(sectionsIndex, question) {
 			var responseValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
 			  return this.value;
 			}).get();
+      console.log('getResponse');
+      console.log(responseValues);
 			return responseValues;
 		// }
 	}
@@ -211,29 +213,32 @@ getResponse = function(sectionsIndex, question) {
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
-	var responses = {};
+	var allsections = [];
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
-		 responses[i] = {};
-		 responses[i].name = section.name;
-		 responses[i].qa = {};
-		 section.questions.forEach(function(question, j) {
-		 	if (requiresResponse(question)) {
-		 		var escText = question.text.replace(/\./g, ';'); // MongoDB doesn't allow periods in key
-		 		var oneIndex = j + 1; // more intuitive for a layperson than zero-indexed questions
-		 		responses[i].qa[oneIndex + ": " + escText] = getResponse(i, question);
-		 	}
+      var s = {}; 
+      s.name = section.name;
+      s.qa = []; // array for questions and answers
+      section.questions.forEach(function(question, j) {
+  		 	if (requiresResponse(question)) {
+          var response = {}; // object holding question and answer
+  		 		var escQuestion  = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
+  		 		// var oneIndex = j + 1; // more intuitive for a layperson than zero-indexed questions
+          response[escQuestion] = getResponse(j, question);
+          s.qa.push(response);
+  		 	}
+      allsections.push(s);
 		 });   	
 		}
 	});
-	return responses;
+	return allsections;
 }
 
 // save responses to params and proceed to next section
 sendFormResponses = function() {
 	var params = {
 		id: cache.id, // survey._id
-		responses: getResponses()
+		formResponses: getResponses()
 	};
 
 	getSection(params, true);

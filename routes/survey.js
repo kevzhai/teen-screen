@@ -95,7 +95,7 @@ router.post('/section', function(req, res, next) {
       if (error) {
         console.log(error);
       }
-      survey.formResponses = body.responses; 
+      survey.formResponses = body.formResponses; 
       survey.lastUpdated = new Date();
       console.log("tee"); // debuq
       console.log(JSON.stringify(survey)); // debuq
