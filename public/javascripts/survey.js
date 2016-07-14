@@ -193,23 +193,28 @@ hasResponse = function(sectionsIndex, question) {
 // helper function to get the response to the question passed in
 // within the section given by sectionNum
 getResponse = function(sectionsIndex, question) {
+  console.log('getResponse');
+  var selector = `[name=${sectionsIndex}-${question.num}]`;
 	if (question.type === '0' || question.type === '9') {
-		return $('[name=' + sectionsIndex + '-' + question.num + ']').val(); // TODO turn into array for consistentcy
+		return $(selector).val(); // TODO turn into array for consistentcy
 	} else {
+    console.log('radio or checkboxk');
 		// if (isRadio(question)) {
-		// 	return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val();
+  //     selector = selector + ':checked';
+		// 	return $(selector).val();
 		// } else { 
 			// checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
-			var responseValues = $('[name=' + sectionsIndex + '-' + question.num + ']:checked').map(function () {
+			var responseValues = $(selector + ':checked').map(function () {
+        console.log('this.value');
+        console.log(this.value);
 			  return this.value;
 			}).get();
-      console.log('getResponse');
+      console.log('responseValues');
       console.log(responseValues);
 			return responseValues;
 		// }
 	}
 }
-
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
@@ -222,9 +227,9 @@ getResponses = function() {
       section.questions.forEach(function(question, j) {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
-  		 		var escQuestion  = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
+  		 		response.question = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
   		 		// var oneIndex = j + 1; // more intuitive for a layperson than zero-indexed questions
-          response[escQuestion] = getResponse(j, question);
+          response.answer = getResponse(i, question);
           s.qa.push(response);
   		 	}
       allsections.push(s);
