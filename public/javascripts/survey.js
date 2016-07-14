@@ -196,23 +196,18 @@ getResponse = function(sectionsIndex, question) {
   console.log('getResponse');
   var selector = `[name=${sectionsIndex}-${question.num}]`;
 	if (question.type === '0' || question.type === '9') {
-		return $(selector).val(); // TODO turn into array for consistentcy
+		return $(selector).val(); 
 	} else {
-    console.log('radio or checkboxk');
-		// if (isRadio(question)) {
-  //     selector = selector + ':checked';
-		// 	return $(selector).val();
-		// } else { 
+		if (isRadio(question)) {
+      selector = selector + ':checked';
+			return $(selector).val();
+		} else { 
 			// checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
 			var responseValues = $(selector + ':checked').map(function () {
-        console.log('this.value');
-        console.log(this.value);
 			  return this.value;
 			}).get();
-      console.log('responseValues');
-      console.log(responseValues);
 			return responseValues;
-		// }
+		}
 	}
 }
 // get the responses to all questions displayed thus far in an object
@@ -224,7 +219,7 @@ getResponses = function() {
       var s = {}; 
       s.name = section.name;
       s.qa = []; // array for questions and answers
-      section.questions.forEach(function(question, j) {
+      section.questions.forEach(function(question) {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
   		 		response.question = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
@@ -232,8 +227,8 @@ getResponses = function() {
           response.answer = getResponse(i, question);
           s.qa.push(response);
   		 	}
+		  });   	
       allsections.push(s);
-		 });   	
 		}
 	});
 	return allsections;
