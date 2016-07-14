@@ -20,7 +20,8 @@ function saveSurvey(survey) {
   // write these changes to the database
   survey.save(function(error) {
     if (error) {
-      throw error;
+      console.log(error);
+      return error;
     }
   });
 }
@@ -48,7 +49,6 @@ router.post('/initiate', function(req, res, next) {
       saveSurvey(survey);
       res.json(survey._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
     } else { // create new
-      // TODO include admin as field, how to include optional fields?
       var newScreen = new Screen({ 
         admin: req.user.username, // logged-in Stormpath user
         subjectID: req.session.surveyParams.subjectId,
@@ -60,12 +60,8 @@ router.post('/initiate', function(req, res, next) {
         formResponses: []
       });
 
-      newScreen.save(function(error) {
-        if (error) {
-          throw error;
-        }
-        res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
-      });
+      saveSurvey(newScreen);
+      res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
     }
   });
 });

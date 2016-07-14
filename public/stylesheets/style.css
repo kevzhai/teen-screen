@@ -22,6 +22,7 @@ textarea {
 	margin-top: 5em;
 }
 
+/* http://stackoverflow.com/questions/468881/print-div-id-printarea-div-only/7532581#7532581 */
 @media print {
   /* collapse columns for print */
   .print-expand { 
