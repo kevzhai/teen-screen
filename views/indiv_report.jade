@@ -25,16 +25,17 @@ block content
             h3 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
         h3 Language: #{report.language}
       div(class="#{col2}")
-        - allsections = report.formResponses
-          - console.log(allsections.length)
-          //- h2 #{section.name}
-          //- table.table.table-striped
-          //-   thead
-          //-     tr
-          //-       th Question
-          //-       th Answer
-          //-       th Score
-            //- tbody
-            //-   for question in section.qa
-            //-     tr
-            //-       td #{question}
+        each section in report.formResponses
+          h2 #{section.name}
+          table.table.table-striped
+            thead
+              tr
+                th Question
+                th Answer
+                th Score
+            tbody
+              each response in section.qa
+                tr
+                  td #{response.question}
+                  td #{response.answer}
+                  td 23
