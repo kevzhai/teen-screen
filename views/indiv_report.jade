@@ -17,8 +17,8 @@ block content
 
 		.row.m-t-3
 			-
-				col1 = "col-sm-4" 
-				col2 = "col-sm-8"
+				col1   = "col-sm-4"
+				col2   = "col-sm-8"
 				report = JSON.parse(report)
 			div(class="#{col1}")
 				h2 Report for #{report.subjectID}
@@ -50,9 +50,9 @@ block content
 								th(class="#{three}") Score
 						tbody
 							-
-								questionNum = 1
+								questionNum  = 1
 								sectionScore = 0
-								conc = section.name === "Conclusion"
+								conc         = section.name === "Conclusion"
 							each response in section.qa
 								tr
 									td(class="#{one}") #{questionNum}. #{response.question}
@@ -64,15 +64,16 @@ block content
 								-
 									questionNum++
 									sectionScore += placeholder //- placeholder number
-							tr
-								td(class="#{one}") 
-								td(class="#{two}")
-									if !conc 
-										b #{section.name} Score
-								td(class="#{three}") 
-									if !conc
-										=sectionScore
-							- dpsScore += sectionScore
+					table.table
+						tr
+							td(class="#{one}") 
+							td(class="#{two}")
+								if !conc 
+									b #{section.name} Score
+							td(class="#{three}") 
+								if !conc
+									=sectionScore
+						- dpsScore += sectionScore
 				table.table
 					tr
 						td(class="#{one}")
