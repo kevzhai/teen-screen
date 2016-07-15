@@ -99,33 +99,33 @@ compileSection = function(section) {
 		if (question.type === '0') type = 'age';
 
 		var name = cache.sectionsIndex + '-' + question.num;
-		var htmlString = '<form class="survey-question" id="section-' + cache.sectionsIndex + '-question-' + i + '">';
+		var htmlString = `<form class="survey-question" id="section-${ cache.sectionsIndex }-question-${ i }">`;
 		if (type === 'radio' || type === 'checkbox') {
-			htmlString += '<h4>' + question.text + '</h4>';
-			htmlString += '<div class="c-inputs-stacked">';
+			htmlString +=  `<h4>${ question.text }</h4>
+                      <div class="c-inputs-stacked">`;
 			options.forEach(function(option, j) {
-				htmlString += '<label class="c-input c-' + type + '">';
-				htmlString += '<input type="' + type + '" name="' + name + '" value="' +
-					option.text + '" data-keyboard="' + option.value + '"><span class="c-indicator"></span>';
-				htmlString += option.button + ' - ' + option.text + '</label>';
+  		  htmlString +=  `<label class="c-input c-${ type }">
+				                  <input type="${ type }" name="${ name }" value="${ option.text }" data-keyboard="${ option.value }">
+                          <span class="c-indicator"></span>
+				                  ${ option.button } - ${ option.text }
+                        </label>`;
 			});
-			htmlString += '</div>';
+			htmlString +=  '</div>';
 		} else if (type === 'intro') {
-			htmlString += '<p>' + question.text + '</p>';
+			htmlString += `<p>${ question.text }</p>`;
 		} else if (type === 'text') {
-			htmlString += '<fieldset class="form-group">';
-			htmlString += '<label for="' + name + '">' + options[0].text + '</label>';
-			htmlString += '<textarea class="form-control" id="' + name +
-							'" name="' + name + '"></textarea>';
-			htmlString += '</fieldset>';
+			htmlString +=  `<fieldset class="form-group">
+  			                <label for="${ name }">${ options[0].text }</label>
+  			                <textarea class="form-control" id="${ name }" name="${ name }"></textarea>
+			                </fieldset>`;
 		} else if (type === 'age') {
-			htmlString += '<fieldset class="form-group">';
-			htmlString += '<label for="' + name + '">How old are you?</label>';
-			htmlString += '<input type="number" class="form-control" id="' + name +
-				'" name="' + name + '" step="1" min="0" max="100">';
-			htmlString += '</fieldset>';
+			htmlString +=  `<fieldset class="form-group">
+                  			<label for="${ name }">How old are you?</label>
+                  			<input type="number" class="form-control" id="${ name }
+                  				" name="${ name }" step="1" min="0" max="100">
+                			</fieldset>`;
 		} else {
-			htmlString += '<p>TODO: type ' + type + '</p>';
+			htmlString += `<p>TODO: type${ type }</p>`;
 		}
 		htmlString += '</form>';
 		$(htmlString).appendTo('#questions')
