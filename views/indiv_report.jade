@@ -11,7 +11,7 @@ block content
 		.row.hidden-print
 			.col-xs-12
 				h1 Diagnostic Predictive Scales (DPS) Report
-				p.lead The DPS is a screen, and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
+				p.lead The DPS is a screen and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
 				p In any of the tables, click a column header to sort with it.
 				.btn-group
 					a.btn.btn-secondary(href="/report") 
@@ -47,11 +47,11 @@ block content
 				each section in report.formResponses
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
-						- conc = section.name === "Conclusion"
+						- noScore = section.name === "Conclusion" || section.name === "Demographics"
 						thead
 							tr
 								th(class="#{col(one)}") Question
-								if conc
+								if noScore
 									th(class="#{col(12 - one)}") Answer
 								else
 									th(class="#{col(two)}") Answer
@@ -66,7 +66,7 @@ block content
 									td(class="#{col(two)}") #{response.answer}
 									- placeholder = response.answer.length % 2; //- placeholder number
 									td(class="#{col(three)}") 
-										if !conc
+										if !noScore
 											=placeholder
 								-
 									questionNum++
@@ -74,10 +74,10 @@ block content
 					table.table
 						tr
 							td(class="#{col(one + two)}")
-								if !conc 
+								if !noScore 
 									b #{section.name} Score
 							td(class="#{col(three)}") 
-								if !conc
+								if !noScore
 									=sectionScore
 						- dpsScore += sectionScore
 				table.table

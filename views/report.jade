@@ -11,26 +11,26 @@ block content
 				h1= title
 				p View the tests that you have administered. Click a column header to sort with it. You need to be in the 'admin' user group to see this page.
 		.row
-		-
-			allSubjects = JSON.parse(reports)
-			list = ["Subject ID", "Created", "Last Updated", "Site", "Sponsor", "Protocol", "Description"]
-		table.table(class="#{tabletheme}" data-sortable)
-			thead
-				tr
-					each header in list
-						th #{header} 
-			tbody
-				each subject in allSubjects
+			-
+				allSubjects = JSON.parse(reports)
+				list = ["Subject ID", "Created", "Last Updated", "Site", "Sponsor", "Protocol", "Description"]
+			table.table(class="#{tabletheme}" data-sortable)
+				thead
 					tr
-						td 
-							a(href="/report/#{subject.subjectID}") #{subject.subjectID}
-						//- JSON parsed so dates are type String, not Date, so harder to format
-						td #{subject.creationDate.substr(0,10)}
-						td #{subject.lastUpdated.substr(0,10)}
-						td #{subject.site}
-						td #{subject.sponsor}
-						td #{subject.protocol}
-						td #{subject.description}
+						each header in list
+							th #{header} 
+				tbody
+					each subject in allSubjects
+						tr
+							td 
+								a(href="/report/#{subject.subjectID}") #{subject.subjectID}
+							//- JSON parsed so dates are type String, not Date, so harder to format
+							td #{subject.creationDate.substr(0,10)}
+							td #{subject.lastUpdated.substr(0,10)}
+							td #{subject.site}
+							td #{subject.sponsor}
+							td #{subject.protocol}
+							td #{subject.description}
 
 block scripts
 	script(src='/javascripts/libraries/sortable.min.js')
