@@ -9,7 +9,7 @@ Intro1,Most of the following questions will be about the last three months. Some
 7,Think of the adults that live with you. Which of these people do you miss the most when you can't be with them?,7,Demographics
 Intro2,The next set of questions is about the kinds of things you have been doing and feeling.,10,Introduction2
 8,During the last three months did you have trouble seeing the whiteboard?,4,Health
-8A, Do you wear glasses?,4,Health
+8A,Do you wear glasses?,4,Health
 9,"During the last three months, did you have trouble hearing?",4,Health
 9A,Did you see an ear doctor about this?,4,Health
 10,During the last three months did you have a toothache?,4,Health
@@ -31,10 +31,10 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 15,"In the last three months, have you been more scared about traveling or going outside by yourself than other people your age?",4,Agoraphobia
 16,"In the last three months, if you really had to travel or leave the house by yourself, could you have done that?",4,Agoraphobia
 17,"In the last three months, have you gotten worried or scared just thinking about having to travel or leave the house by yourself?",4,Agoraphobia
-18,"For this question I want to know if you have ever had a sudden attack of feeling very afraid. In the kind of attack I mean someone becomes very afraid even though there is nothing around them to frighten them. Sometimes they feel they can't breathe, or sometimes their hearts beat very fast. The attacks come on very suddenly and then go away but they get afraid that the attacks might come back. In the last three months, have you had an attack when all of a sudden you felt you very afraid or strange?",4,Panic Attacks 
-19,Have you had a time when you suddenly felt that you were suffocating or you couldn't breathe?,4,Panic Attacks 
-20,Do you have asthma?,4,Panic Attacks 
-21,Is the only time you felt afraid or like you couldn't breathe when you were having an asthma attack? ,4,Panic Attacks 
+18,"For this question I want to know if you have ever had a sudden attack of feeling very afraid. In the kind of attack I mean someone becomes very afraid even though there is nothing around them to frighten them. Sometimes they feel they can't breathe, or sometimes their hearts beat very fast. The attacks come on very suddenly and then go away but they get afraid that the attacks might come back. In the last three months, have you had an attack when all of a sudden you felt you very afraid or strange?",4,Panic Attacks
+19,Have you had a time when you suddenly felt that you were suffocating or you couldn't breathe?,4,Panic Attacks
+20,Do you have asthma?,4,Panic Attacks
+21,Is the only time you felt afraid or like you couldn't breathe when you were having an asthma attack?,4,Panic Attacks
 22,"In the last three months, have you often worried a lot before you were going to play a sport or game or do some other activity?",4,Generalized Anxiety
 23,"In the last three months, have you had a lot of headaches?",4,Generalized Anxiety
 24,"In the last three months, have you had a lot of other aches and pains?",4,Generalized Anxiety
@@ -62,15 +62,15 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 46,Has anyone close to you ever died very suddenly?,4,PTSD
 47,"Have you ever seen anyone be killed or die suddenly in front of you, not on TV or in the movies?",4,PTSD
 48,"In the last three months, have you often thought about any of these events?",4,PTSD
-49," These next questions are about how you have been acting and feeling in the last three months, because of the upsetting event that you said happened to you.  In the last three months ... have you had problems falling asleep or staying asleep?",4,PTSD
-50," In the last three months, have you had a lot of nightmares about what happened?",4,PTSD
+49,"These next questions are about how you have been acting and feeling in the last three months, because of the upsetting event that you said happened to you.  In the last three months ... have you had problems falling asleep or staying asleep?",4,PTSD
+50,"In the last three months, have you had a lot of nightmares about what happened?",4,PTSD
 51,"In the last three months, have you tried very hard not to think about what happened and not to hear about it or talk about it?",4,PTSD
-52,"In the last three months, have you stopped going places or doing things that might make you think about what happened? ",4,PTSD
-53,"In the last three months, have you tried to keep away from people who might remind you of what happened?  ",4,PTSD
-54,"In the last three months, have you stopped thinking about the future or about things that you might do when you are older?  ",4,PTSD
-55,"In the last three months, has it been harder to keep your mind on things or to concentrate? ",4,PTSD
-56,"In the last three months, have you been very upset, afraid or sad when something has made you think about what happened?  ",4,PTSD
-57,"In the last three months, have you had trouble remembering important parts of what happened? ",4,PTSD
+52,"In the last three months, have you stopped going places or doing things that might make you think about what happened?",4,PTSD
+53,"In the last three months, have you tried to keep away from people who might remind you of what happened?",4,PTSD
+54,"In the last three months, have you stopped thinking about the future or about things that you might do when you are older?",4,PTSD
+55,"In the last three months, has it been harder to keep your mind on things or to concentrate?",4,PTSD
+56,"In the last three months, have you been very upset, afraid or sad when something has made you think about what happened?",4,PTSD
+57,"In the last three months, have you had trouble remembering important parts of what happened?",4,PTSD
 58,"In the last three months, have you had upsetting thoughts or pictures of what happened come into your mind, when you didn't want them to?",4,PTSD
 59,"In the last three months, has anyone worried that you were much too thin?",4,Eating Disorder
 60,"In the last three months, have you often felt bad about yourself because you thought you were fat or overweight?",4,Eating Disorder
@@ -109,37 +109,37 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 93,"In the last year, have you stolen from anyone else when they weren't around or weren't looking?",4,Conduct Disorder
 94,"In the last year, have you been physically cruel to an animal and hurt it on purpose?",4,Conduct Disorder
 95,"In the last year, have you broken into a house, a building, or a car?",4,Conduct Disorder
-96,"The next questions are about your use of alcohol - beer, wine, or hard liquors like vodka, gin, or whiskey. Each can or bottle of beer, glass of wine, wine cooler, shot of liquor, or mixed drink with liquor in it counts as one drink.Have you had at least 2 drinks in the last 3 months?",4,Alcohol
+96,"The next questions are about your use of alcohol - beer, wine, or hard liquors like vodka, gin, or whiskey. Each can or bottle of beer, glass of wine, wine cooler, shot of liquor, or mixed drink with liquor in it counts as one drink. Have you had at least 2 drinks in the least 3 months?",4,Alcohol
 97,"In the last year, did you get in trouble with the police when you were drunk or because you had been drinking?",4,Alcohol
 98,"In the last year, did you get into arguments with your family or friends because of drinking?",4,Alcohol
 99,"In the last year, did you miss school to go drinking or because you were hung over?",4,Alcohol
-100,"In the last year, have you used marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter six or more times?",4,Marijuana
-101,"In the last year, did you miss school to use marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter or because you were too high on marijuana to go to school?",4,Marijuana
-102,"In the last year, did you get into arguments with your family or friends because you were using marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter?",4,Marijuana
-103,"Have you used any opiates to get high? This includes things likecodeine, Demerol, morphine, percodan, methadone, Tramadol (Ultram), Buprenorphine (Subutex), Propoxyphene (Darvocet) Darvon, opium, Delaudid, Talwin, Pethidine (Demerol), Hydrocodone (Lortab/Vicodin), Oxycodone (Percocet, Oxycontin, Oxy), Hydromorphone  Oxymorphone (Opana), Fentanyl, and so on. In the last year, have you used any of these to get high?",4,Other Substances
-104,"In the last year, have you used any kind of hallucinogen? This includes LSD or ""acid,"" mescaline, peyote, DMT, psilocybin, magic mushrooms, shrooms, Ketamine, special K, K2, PCP, Spice and so on. Have you used any of these?",4,Other Substances
-105,"In the last year, have you used stimulants or amphetamines - like speed, diet pills, Benzedrine, methamphetamine, Adderall, Addies, Ritalin, Bath Salts, Khat, or anything like that to get high?",4,Other Substances
+100,"In the last year, have you used marijuana six or more times?",4,Marijuana
+101,"In the last year, did you miss school to use marijuana or because you were too high on marijuana to go to school?",4,Marijuana
+102,"In the last year, did you get into arguments with your family or friends because you were using marijuana?",4,Marijuana
+103,"Have you used any opiates to get high? This includes things like codeine, Demerol, morphine, percodan, methadone, Darvon, opium, Delaudid, Talwin, and so on. In the last year, have you used any of these to get high?",4,Other Substances
+104,"In the last year, have you used any kind of hallucinogen? This includes LSD or ""acid,"" mescaline, peyote, DMT, psilocybin, and so on. Have you used any of these?",4,Other Substances
+105,"In the last year, have you used stimulants or amphetamines - like speed, diet pills, Benzedrine, methamphetamine, or anything like that to get high?",4,Other Substances
 106,"In the last year, have you used cocaine or ""crack""?",4,Other Substances
-107,"In the last year, have you used heroin, “horse”, “H”, or smack?",4,Other Substances
-108,"In the last year, have you used sedatives such as Xanax, Valium, or Rohypnol?",4,Other Substances
-109,"In the last year, have you used Ecstasy, ""E"", Molly,  MDMA, XTC, Thizz?",4,Other Substances
-110,"In the last year, have you used any inhalants or cough syrup - like glue, cleaning fluid, gasoline, or paint to get high? Or have you used any kind of cough syrup like Benylin DM, Mucinex DM, Robitussin, NyQuil, Dimetapp, Vicks, Coricidin, Delsym, TheraFlu, DXM, Purple Drank, Barre, Oil, Purple Tonic, Lean (or Southern Lean,) Drank, and Syrup (Sizzurp) and so on.  Have you used any of these?",4,Other Substances
+107,"In the last year, have you used heroin?",4,Other Substances
+108,"In the last year, have you used PCP or ""Angel Dust""?",4,Other Substances
+109,"In the last year, have you used Ecstasy or ""E""?",4,Other Substances
+110,"In the last year, have you used any inhalants - like glue, cleaning fluid, gasoline, or paint to get high?",4,Other Substances
 Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  feeling anxious or worried, feeling sad or depressed, being angry or irritable or in a bad mood, problems with food or eating or weight, your behavior, alcohol or drugs, and other things you did.  Now I'd like you to think about problems you may have been having at home,",10,Introduction3
-111," In the last three months, how often did your parents feel worried or concerned about the way you were feeling or acting?",5,Impairment
+111,"In the last three months, how often did your parents feel worried or concerned about the way you were feeling or acting?",5,Impairment
 111A,Were they worried or concerned because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
-112," In the last three months, how often did your parents get annoyed or upset with you because of the way you were feeling or acting?",5,Impairment
+112,"In the last three months, how often did your parents get annoyed or upset with you because of the way you were feeling or acting?",5,Impairment
 112A,Were they annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
-113," In the last three months, how often were you not able to do things or go places with your family because of the way you felt or acted?",5,Impairment
+113,"In the last three months, how often were you not able to do things or go places with your family because of the way you felt or acted?",5,Impairment
 113A,Were you not able to do things or go places because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
-114," In the last three months, how often were you not able to do things or go places with other people your age because of the way you felt or acted?",5,Impairment
-114A, Were you not able to do things or go places because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
-115," In the last three months, how often did the way you were feeling or acting make it difficult to do your schoolwork or cause problems with your grades?",5,Impairment
-115A,  Did you have problems with your schoolwork or grades because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
-116," In the last three months, how often were your teachers annoyed or upset with you because of the way you were feeling or acting?",5,Impairment
-116A, Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
-117," In the last three months, how often did the way you were feeling or acting make you feel bad or feel upset?",5,Impairment
-117A, Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
-118," In the last three months, have you been to see someone at a hospital or at a clinic or a therapist/counselor because of the way you were feeling or acting?",5,Impairment
-118A, Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
-119, I'd like to ask you about the interview you just completed.What did you think of it?,9,Conclusion
-End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,10,Conclusion
+114,"In the last three months, how often were you not able to do things or go places with other people your age because of the way you felt or acted?",5,Impairment
+114A,Were you not able to do things or go places because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
+115,"In the last three months, how often did the way you were feeling or acting make it difficult to do your schoolwork or cause problems with your grades?",5,Impairment
+115A,Did you have problems with your schoolwork or grades because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
+116,"In the last three months, how often were your teachers annoyed or upset with you because of the way you were feeling or acting?",5,Impairment
+116A,Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
+117,"In the last three months, how often did the way you were feeling or acting make you feel bad or feel upset?",5,Impairment
+117A,Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
+118,"In the last three months, have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?",5,Impairment
+118A,Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
+119,I'd like to ask you about the interview you just completed.What did you think of it?,9,Conclusion
+End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!,10,Conclusion
