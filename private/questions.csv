@@ -113,10 +113,10 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 97,"In the last year, did you get in trouble with the police when you were drunk or because you had been drinking?",4,Alcohol
 98,"In the last year, did you get into arguments with your family or friends because of drinking?",4,Alcohol
 99,"In the last year, did you miss school to go drinking or because you were hung over?",4,Alcohol
-100,"In the last year, have you used marijuana six or more times?",4,Marijuana
-101,"In the last year, did you miss school to use marijuana or because you were too high on marijuana to go to school?",4,Marijuana
-102,"In the last year, did you get into arguments with your family or friends because you were using marijuana?",4,Marijuana
-103,"Have you used any opiates to get high? This includes things like codeine, Demerol, morphine, percodan, methadone, Darvon, opium, Delaudid, Talwin, and so on. In the last year, have you used any of these to get high?",4,Other Substances
+100,"In the last year, have you used marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter six or more times?",4,Marijuana
+101,"In the last year, did you miss school to use marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter or because you were too high to go to school?",4,Marijuana
+102,"In the last year, did you get into arguments with your family or friends because you were using marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter?",4,Marijuana
+103,"Have you used any opiates to get high? This includes things like codeine, Demerol, morphine, percodan, methadone, Tramadol (Ultram), Buprenorphine (Subutex), Propoxyphene (Darvocet) Darvon, opium, Delaudid, Talwin, Pethidine (Demerol), Hydrocodone (Lortab/Vicodin), Oxycodone (Percocet, Oxycontin, Oxy), Hydromorphone  Oxymorphone (Opana), Fentanyl, and so on. In the last year, have you used any of these to get high?",4,Other Substances
 104,"In the last year, have you used any kind of hallucinogen? This includes LSD or ""acid,"" mescaline, peyote, DMT, psilocybin, and so on. Have you used any of these?",4,Other Substances
 105,"In the last year, have you used stimulants or amphetamines - like speed, diet pills, Benzedrine, methamphetamine, or anything like that to get high?",4,Other Substances
 106,"In the last year, have you used cocaine or ""crack""?",4,Other Substances
