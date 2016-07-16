@@ -122,8 +122,8 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 106,"In the last year, have you used cocaine or ""crack""?",4,Other Substances
 107,"In the last year, have you used heroin, ""horse"", H, or smack?",4,Other Substances
 108,"In the last year, have you used sedatives such as sedatives such as Xanax, Valium, Rohypnol?",4,Other Substances
-109,"In the last year, have you used Ecstasy or ""E""?",4,Other Substances
-110,"In the last year, have you used any inhalants - like glue, cleaning fluid, gasoline, or paint to get high?",4,Other Substances
+109,"In the last year, have you used Ecstacy, Molly,  MDMA, ""E"", XTC, Thizz?",4,Other Substances
+110,"In the last year, have you used any inhalants or cough syrup - like glue, cleaning fluid, gasoline, or paint to get high? Or have you used any kind of cough syrup like Benylin DM, Mucinex DM, Robitussin, NyQuil, Dimetapp, Vicks, Coricidin, Delsym, TheraFlu, DXM, Purple Drank, Barre, Oil, Purple Tonic, Lean (or Southern Lean,) Drank, and Syrup (Sizzurp) and so on.  Have you used any of these?",4,Other Substances
 Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  feeling anxious or worried, feeling sad or depressed, being angry or irritable or in a bad mood, problems with food or eating or weight, your behavior, alcohol or drugs, and other things you did.  Now I'd like you to think about problems you may have been having at home,",10,Introduction3
 111,"In the last three months, how often did your parents feel worried or concerned about the way you were feeling or acting?",5,Impairment
 111A,Were they worried or concerned because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
@@ -139,7 +139,7 @@ Intro3,"In the first part of this interview you were asked about how you have be
 116A,Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
 117,"In the last three months, how often did the way you were feeling or acting make you feel bad or feel upset?",5,Impairment
 117A,Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
-118,"In the last three months, have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?",5,Impairment
+118,"In the last three months, have you been to see someone at a hospital or at a clinic or a therapist/counselor because of the way you were feeling or acting?",5,Impairment
 118A,Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
 119,I'd like to ask you about the interview you just completed.What did you think of it?,9,Conclusion
 End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!,10,Conclusion
