@@ -109,21 +109,21 @@ Intro2,The next set of questions is about the kinds of things you have been doin
 93,"In the last year, have you stolen from anyone else when they weren't around or weren't looking?",4,Conduct Disorder
 94,"In the last year, have you been physically cruel to an animal and hurt it on purpose?",4,Conduct Disorder
 95,"In the last year, have you broken into a house, a building, or a car?",4,Conduct Disorder
-96,"The next questions are about your use of alcohol - beer, wine, wine coolers, or hard liquors like vodka, gin, or whiskey. Each can or bottle of beer, glass of wine, wine cooler, shot of liquor, or mixed drink with liquor in it counts as one drink. In the last year, have you had six or more drinks?",4,Alcohol
+96,"The next questions are about your use of alcohol - beer, wine, or hard liquors like vodka, gin, or whiskey. Each can or bottle of beer, glass of wine, wine cooler, shot of liquor, or mixed drink with liquor in it counts as one drink.Have you had at least 2 drinks in the last 3 months?",4,Alcohol
 97,"In the last year, did you get in trouble with the police when you were drunk or because you had been drinking?",4,Alcohol
 98,"In the last year, did you get into arguments with your family or friends because of drinking?",4,Alcohol
 99,"In the last year, did you miss school to go drinking or because you were hung over?",4,Alcohol
-100,"In the last year, have you used marijuana six or more times?",4,Marijuana
-101,"In the last year, did you miss school to use marijuana or because you were too high on marijuana to go to school?",4,Marijuana
-102,"In the last year, did you get into arguments with your family or friends because you were using marijuana?",4,Marijuana
-103,"Have you used any opiates to get high? This includes things like codeine, Demerol, morphine, percodan, methadone, Darvon, opium, Delaudid, Talwin, and so on. In the last year, have you used any of these to get high?",4,Other Substances
-104,"In the last year, have you used any kind of hallucinogen? This includes LSD or ""acid,"" mescaline, peyote, DMT, psilocybin, and so on. Have you used any of these?",4,Other Substances
-105,"In the last year, have you used stimulants or amphetamines - like speed, diet pills, Benzedrine, methamphetamine, or anything like that to get high?",4,Other Substances
+100,"In the last year, have you used marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter six or more times?",4,Marijuana
+101,"In the last year, did you miss school to use marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter or because you were too high on marijuana to go to school?",4,Marijuana
+102,"In the last year, did you get into arguments with your family or friends because you were using marijuana, cannabis, pot, grass, weed, edibles, wax, dabs, or butter?",4,Marijuana
+103,"Have you used any opiates to get high? This includes things likecodeine, Demerol, morphine, percodan, methadone, Tramadol (Ultram), Buprenorphine (Subutex), Propoxyphene (Darvocet) Darvon, opium, Delaudid, Talwin, Pethidine (Demerol), Hydrocodone (Lortab/Vicodin), Oxycodone (Percocet, Oxycontin, Oxy), Hydromorphone  Oxymorphone (Opana), Fentanyl, and so on. In the last year, have you used any of these to get high?",4,Other Substances
+104,"In the last year, have you used any kind of hallucinogen? This includes LSD or ""acid,"" mescaline, peyote, DMT, psilocybin, magic mushrooms, shrooms, Ketamine, special K, K2, PCP, Spice and so on. Have you used any of these?",4,Other Substances
+105,"In the last year, have you used stimulants or amphetamines - like speed, diet pills, Benzedrine, methamphetamine, Adderall, Addies, Ritalin, Bath Salts, Khat, or anything like that to get high?",4,Other Substances
 106,"In the last year, have you used cocaine or ""crack""?",4,Other Substances
-107,"In the last year, have you used heroin?",4,Other Substances
-108,"In the last year, have you used PCP or ""Angel Dust""?",4,Other Substances
-109,"In the last year, have you used Ecstasy or ""E""?",4,Other Substances
-110,"In the last year, have you used any inhalants - like glue, cleaning fluid, gasoline, or paint to get high?",4,Other Substances
+107,"In the last year, have you used heroin, “horse”, “H”, or smack?",4,Other Substances
+108,"In the last year, have you used sedatives such as Xanax, Valium, or Rohypnol?",4,Other Substances
+109,"In the last year, have you used Ecstasy, ""E"", Molly,  MDMA, XTC, Thizz?",4,Other Substances
+110,"In the last year, have you used any inhalants or cough syrup - like glue, cleaning fluid, gasoline, or paint to get high? Or have you used any kind of cough syrup like Benylin DM, Mucinex DM, Robitussin, NyQuil, Dimetapp, Vicks, Coricidin, Delsym, TheraFlu, DXM, Purple Drank, Barre, Oil, Purple Tonic, Lean (or Southern Lean,) Drank, and Syrup (Sizzurp) and so on.  Have you used any of these?",4,Other Substances
 Intro3,"In the first part of this interview you were asked about how you have been feeling and acting in the last year. This included questions about the following areas:  feeling anxious or worried, feeling sad or depressed, being angry or irritable or in a bad mood, problems with food or eating or weight, your behavior, alcohol or drugs, and other things you did.  Now I'd like you to think about problems you may have been having at home,",10,Introduction3
 111," In the last three months, how often did your parents feel worried or concerned about the way you were feeling or acting?",5,Impairment
 111A,Were they worried or concerned because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
@@ -139,7 +139,7 @@ Intro3,"In the first part of this interview you were asked about how you have be
 116A, Were your teachers annoyed or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
 117," In the last three months, how often did the way you were feeling or acting make you feel bad or feel upset?",5,Impairment
 117A, Did you feel bad or upset because of:  Select all that apply and then press the [ENTER] key to continue ,8,Impairment
-118," In the last three months, have you been to see someone at a hospital or at a clinic because of the way you were feeling or acting?",5,Impairment
+118," In the last three months, have you been to see someone at a hospital or at a clinic or a therapist/counselor because of the way you were feeling or acting?",5,Impairment
 118A, Did you go to see someone because of:  Select all that apply and then press the [ENTER] key to continue,8,Impairment
 119, I'd like to ask you about the interview you just completed.What did you think of it?,9,Conclusion
 End,The interview has ended.  Please contact the person supervising and tell them you have finished.  Thank you!  ,10,Conclusion

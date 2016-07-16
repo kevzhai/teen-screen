@@ -44,6 +44,13 @@ block content
 					col = function(num) { 
 						return 'col-sm-' + num
 					}
+					getScore = function(response) { 
+						if (response === 'Yes') { 
+							return 1;
+						} else { 
+							return 0;
+						}
+					}
 				each section in report.formResponses
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
@@ -64,13 +71,13 @@ block content
 								tr
 									td(class="#{col(one)}") #{questionNum}. #{response.question}
 									td(class="#{col(two)}") #{response.answer}
-									- placeholder = response.answer.length % 2; //- placeholder number
+									- score = getScore(response.answer);
 									td(class="#{col(three)}") 
 										if !noScore
-											=placeholder
+											=score
 								-
 									questionNum++
-									sectionScore += placeholder //- placeholder number
+									sectionScore += score 
 					table.table
 						tr
 							td(class="#{col(one + two)}")
@@ -82,8 +89,7 @@ block content
 						- dpsScore += sectionScore
 				table.table
 					tr
-						td(class="#{col(one)}")
-						td(class="#{col(two)}") 
+						td(class="#{col(two)} #{col('offset-' + one)}") 
 							h4 Total DPS Score
 						td(class="#{col(three)}") 
 							h4 #{dpsScore}
