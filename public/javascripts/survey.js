@@ -76,28 +76,40 @@ getSection = function(params, start) {
 	}
 }
 
-// true if radio, false if checkbox
-isRadio = function(question) {
-	return cache.responseOptions[question.type].radio === '1';
+isFreeResponse = function(type) { 
+  var type = getType(type);
+  if (type === 'radio' || type === 'checkbox') {
+    return false;
+  } else { 
+    return true;
+  }
+}
+
+// returns readable string for type integer
+getType = function(type) { 
+  // refer to /private/question-type-reference.csv
+  // text entry
+  if (type === '0') return 'age';
+  if (type === '3') return 'grade';
+  if (type === '9') return 'text';
+  if (type === '10') return 'intro';
+  // others are all choice selection (i.e. radio or checkbox)
+  if (cache.responseOptions[type].radio === '1') {
+    return 'radio';
+  } else { 
+    return 'checkbox';
+  }
+  return 'undefined';
 }
 
 // helper function to turn the JSON section into HTML elements
 compileSection = function(section) {
 	section.questions.forEach(function(question, i) {
-		var type, options;
-		
-		if (cache.responseOptions.hasOwnProperty(question.type)) {
-			if (isRadio(question)) {
-				type = 'radio';
-			} else {
-				type = 'checkbox';
-			}
+    var type = getType(question.type);
+    var options;
+		if (type === 'radio' || type === 'checkbox') {
 			options = cache.responseOptions[question.type].options;
-		}
-		if (question.type === '9') type = 'text';
-		if (question.type === '10') type = 'intro';
-		if (question.type === '0') type = 'age';
-
+    }
 		var name = cache.sectionsIndex + '-' + question.num;
 		var htmlString = `<form class="survey-question" id="section-${ cache.sectionsIndex }-question-${ i }">`;
 		if (type === 'radio' || type === 'checkbox') {
@@ -118,17 +130,21 @@ compileSection = function(section) {
   			                <label for="${ name }">${ options[0].text }</label>
   			                <textarea class="form-control" id="${ name }" name="${ name }"></textarea>
 			                </fieldset>`;
-		} else if (type === 'age') {
+		} else if (type === 'age' || type === 'grade') {
+      var extraParams = '';
+      if (type === 'age') {
+        extraParams = 'type="number" step="1" min="0" max="100"';
+      }
 			htmlString +=  `<fieldset class="form-group">
-                  			<label for="${ name }">How old are you?</label>
-                  			<input type="number" class="form-control" id="${ name }
-                  				" name="${ name }" step="1" min="0" max="100">
+                  			<label for="${ name }">${ question.text }</label>
+                  			<input class="form-control" ${ extraParams } id="${ name }
+                  				" name="${ name }">
                 			</fieldset>`;
 		} else {
 			htmlString += `<p>TODO: type${ type }</p>`;
 		}
 		htmlString += '</form>';
-		$(htmlString).appendTo('#questions')
+		$(htmlString).appendTo('#questions');
 	});
 
 	setCurrentQuestion(cache.questionNum);
@@ -183,7 +199,7 @@ setResponse = function(sectionsIndex, question, value) {
 // has response checks whether the passed in sectionNum/question
 // combination has a response
 hasResponse = function(sectionsIndex, question) {
-	if (question.type === '0' || question.type === '9') {
+	if (isFreeResponse(question.type)) {
 		return $('[name=' + sectionsIndex + '-' + question.num + ']').val().length > 0;
 	} else {
 		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val() !== undefined;
@@ -195,10 +211,11 @@ hasResponse = function(sectionsIndex, question) {
 getResponse = function(sectionsIndex, question) {
   console.log('getResponse');
   var selector = `[name=${sectionsIndex}-${question.num}]`;
-	if (question.type === '0' || question.type === '9') {
+  var type = question.type;
+	if (isFreeResponse(type)) {
 		return $(selector).val(); 
 	} else {
-		if (isRadio(question)) {
+		if (getType(type) === 'radio') {
       selector = selector + ':checked';
 			return $(selector).val();
 		} else { 
