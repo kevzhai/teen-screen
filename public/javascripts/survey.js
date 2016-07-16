@@ -107,7 +107,7 @@ compileSection = function(section) {
 	section.questions.forEach(function(question, i) {
     var type = getType(question.type);
     var options;
-		if (type === 'radio' || type === 'checkbox') {
+		if (cache.responseOptions.hasOwnProperty(question.type)) {
 			options = cache.responseOptions[question.type].options;
     }
 		var name = cache.sectionsIndex + '-' + question.num;
