@@ -23,13 +23,14 @@ type,value,button,text,radio
 6,5,6,Aunt / Uncle,1
 6,6,7,Foster Parent(s),1
 6,7,8,Other Adult(s),1
-7,0,1,Mother,1
-7,1,2,Father,1
-7,2,3,Stepmother,1
-7,3,4,Stepfather,1
-7,4,5,Grandmother,1
-7,5,6,Grandfather,1
-7,6,7,Other Adult(s),1
+7,0,1,Both Parents,1
+7,1,2,Mother,1
+7,2,3,Father,1
+7,3,4,Stepmother,1
+7,4,5,Stepfather,1
+7,5,6,Grandmother,1
+7,6,7,Grandfather,1
+7,7,8,Other Adult(s),1
 8,0,1,Feeling anxious or worried,0
 8,1,2,Feeling sad or depressed,0
 8,2,3,"Being angry, irritable, or in a bad mood",0
