@@ -12,6 +12,7 @@ var cache = {
 };
 
 var FINAL_SECTION = 23;
+var ENTER = 13; // 'enter' keycode
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
@@ -287,7 +288,6 @@ next = function() {
 
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
 		if ($(`#section-${ cache.sectionsIndex + 1 }-question-0`).length) { // if the next section already exists
-      console.log('blorp');
 			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
@@ -330,7 +330,7 @@ $('#repeat-btn').on('click', function() {
 $('body').on('keyup', function(event) {
 	if (!requiresResponse(cache.question)) return;
 
-	if (event.keyCode === 13) next();
+	if (event.keyCode === ENTER) next(); 
 
 	var key = String.fromCharCode(event.keyCode);
 	var responseOption = cache.responseOptions[cache.question.type];
@@ -346,5 +346,25 @@ $('body').on('keyup', function(event) {
 			}
 		}
 	});
+});
+
+// Prevent the backspace key from navigating back.
+// http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
+$(document).unbind('keydown').bind('keydown', function (event) {
+  var doPrevent = false;
+  if (event.keyCode === 8) {
+      var d = event.srcElement || event.target;
+      if ((d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT' )  
+            || d.tagName.toUpperCase() === 'TEXTAREA') {
+          doPrevent = d.readOnly || d.disabled;
+        }
+      else {
+        doPrevent = true;
+      }
+  }
+
+  if (doPrevent) {
+    event.preventDefault();
+  }
 });
 
