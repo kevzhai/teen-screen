@@ -76,13 +76,13 @@ getSection = function(params, start) {
 	}
 }
 
+isRadio = function(type) {
+  return cache.responseOptions[type].radio === '1';
+}
+
 isFreeResponse = function(type) { 
   var type = getType(type);
-  if (type === 'radio' || type === 'checkbox') {
-    return false;
-  } else { 
-    return true;
-  }
+  return (type !== 'radio' && type !== 'checkbox');
 }
 
 // returns readable string for type integer
@@ -162,7 +162,7 @@ setCurrentQuestion = function(n) {
 	$('.survey-question').toggle(false);
 
 	// show the current question
-	$('#section-' + cache.sectionsIndex + '-question-' + n).toggle(true);
+	$(`#section-${ cache.sectionsIndex }-question-${ n }`).toggle(true);
 
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); 
@@ -188,21 +188,20 @@ sectionRequiresResponse = function(section) {
 // set the value of the passed in sectionNum and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
-	var radio = cache.responseOptions[question.type].radio === '1';
-	if (radio) {
-		$('[name=' + sectionsIndex + '-' + question.num + ']:checked').prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
+	if (isRadio(question.type)) {
+		$(`[name=${ sectionsIndex }-${ question.num }]:checked`).prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
-	var init = $('[name=' + sectionsIndex + '-' + question.num + '][data-keyboard=' + value + ']').prop('checked');
-	$('[name=' + sectionsIndex + '-' + question.num + '][data-keyboard=' + value + ']').prop('checked', !init);
+	var init = $(`[name=${ sectionsIndex }-${ question.num }][data-keyboard=${ value }]`).prop('checked');
+	$(`[name=${ sectionsIndex }-${ question.num }][data-keyboard=${ value }]`).prop('checked', !init);
 }
 
 // has response checks whether the passed in sectionNum/question
 // combination has a response
 hasResponse = function(sectionsIndex, question) {
 	if (isFreeResponse(question.type)) {
-		return $('[name=' + sectionsIndex + '-' + question.num + ']').val().length > 0;
+		return $(`[name=${ sectionsIndex }-${ question.num }]`).val().length > 0;
 	} else {
-		return $('[name=' + sectionsIndex + '-' + question.num + ']:checked').val() !== undefined;
+		return $(`[name=${ sectionsIndex }-${ question.num }]:checked`).val() !== undefined;
 	}
 }
 
@@ -215,12 +214,12 @@ getResponse = function(sectionsIndex, question) {
 	if (isFreeResponse(type)) {
 		return $(selector).val(); 
 	} else {
-		if (getType(type) === 'radio') {
-      selector = selector + ':checked';
+    selector = `${ selector }:checked`;
+		if (isRadio(type)) {
 			return $(selector).val();
 		} else { 
 			// checkbox http://stackoverflow.com/questions/13530700/submit-multiple-checkboxes-values
-			var responseValues = $(selector + ':checked').map(function () {
+			var responseValues = $(selector).map(function () {
 			  return this.value;
 			}).get();
 			return responseValues;
@@ -287,7 +286,8 @@ next = function() {
 	}
 
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
-		if ($('#section-' + (cache.sectionsIndex + 1) + '-question-0').length) { // if the next section already exists
+		if ($(`#section-${ cache.sectionsIndex + 1 }-question-0`).length) { // if the next section already exists
+      console.log('blorp');
 			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
