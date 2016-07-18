@@ -13,6 +13,7 @@ var cache = {
 
 var FINAL_SECTION = 23;
 var ENTER = 13; // 'enter' keycode
+var BACKSPACE = 8; // 'backspace' keycode
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
@@ -330,8 +331,6 @@ $('#repeat-btn').on('click', function() {
 $('body').on('keyup', function(event) {
 	if (!requiresResponse(cache.question)) return;
 
-	if (event.keyCode === ENTER) next(); 
-
 	var key = String.fromCharCode(event.keyCode);
 	var responseOption = cache.responseOptions[cache.question.type];
 
@@ -348,23 +347,29 @@ $('body').on('keyup', function(event) {
 	});
 });
 
-// Prevent the backspace key from navigating back.
 // http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
 $(document).unbind('keydown').bind('keydown', function (event) {
   var doPrevent = false;
-  if (event.keyCode === 8) {
-      var d = event.srcElement || event.target;
-      if ((d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT' )  
-            || d.tagName.toUpperCase() === 'TEXTAREA') {
-          doPrevent = d.readOnly || d.disabled;
-        }
-      else {
-        doPrevent = true;
+  if (event.keyCode === BACKSPACE) {
+    var d = event.srcElement || event.target;
+    if (
+        (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT')  
+          || d.tagName.toUpperCase() === 'TEXTAREA') {
+        doPrevent = d.readOnly || d.disabled;
       }
+    else {
+      doPrevent = true;
+    }
   }
 
   if (doPrevent) {
     event.preventDefault();
+  } 
+
+  // prevents the error code from coming up if 'next' button is selected (happens on checkboxes in Impairment section)
+  if (event.keyCode === ENTER) {
+    event.preventDefault();
+    next();
   }
 });
 
