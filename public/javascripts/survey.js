@@ -282,7 +282,7 @@ next = function() {
 		 will always be the last index as it progresses through the survey. Thus, first check that we have
 		 finally reached the final section, then check that we are still there.
 	*/
-	if (isFinalSection(cache.section) && cache.sectionsIndex === cache.sections.length - 1) {
+	if (isFinalSection(cache.section)) {
 		if (cache.questionNum === cache.section.questions.length - 1) {
 			return; // do nothing on final "thank you" page			
 		}
@@ -303,26 +303,28 @@ next = function() {
 	}
 }
 
+prev = function() {
+  showNotice(false);
+  cache.audio.get(0).pause(); 
+
+  if (--cache.questionNum < 0) {
+    if (cache.sectionsIndex === 0) { // if first section, can't back up any further
+      cache.questionNum++;
+      return;
+    }
+
+    cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
+    setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
+  } else {
+    setCurrentQuestion(cache.questionNum);
+  }
+}
+
 // listener for the next button
 $('#next-btn').on('click', next);
 
 // listener for the back button
-$('#back-btn').on('click', function() {
-	showNotice(false);
-	cache.audio.get(0).pause(); 
-
-	if (--cache.questionNum < 0) {
-		if (cache.sectionsIndex === 0) { // if first section, can't back up any further
-			cache.questionNum++;
-			return;
-		}
-
-		cache.section = cache.sections[--cache.sectionsIndex]; // previous section		    	
-		setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
-	} else {
-		setCurrentQuestion(cache.questionNum);
-	}
-});
+$('#back-btn').on('click', prev);
 
 // listener for the repeat button
 $('#repeat-btn').on('click', function() {
@@ -368,6 +370,7 @@ $(document).unbind('keydown').bind('keydown', function (event) {
 
   if (doPrevent) {
     event.preventDefault();
+    prev();
   } 
 
   // prevents the error code from coming up if 'next' button is selected (happens on checkboxes in Impairment section)
