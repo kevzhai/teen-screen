@@ -318,6 +318,8 @@ prev = function() {
   } else {
     setCurrentQuestion(cache.questionNum);
   }
+  console.log('back');
+  console.log(cache);
 }
 
 // listener for the next button
@@ -367,10 +369,8 @@ $(document).unbind('keydown').bind('keydown', function (event) {
       doPrevent = true;
     }
   }
-
   if (doPrevent) {
     event.preventDefault();
-    prev();
   } 
 
   // prevents the error code from coming up if 'next' button is selected (happens on checkboxes in Impairment section)
