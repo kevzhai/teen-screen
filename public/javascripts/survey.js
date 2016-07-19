@@ -361,7 +361,7 @@ $(document).unbind('keydown').bind('keydown', function (event) {
   if (event.keyCode === BACKSPACE) {
     var d = event.srcElement || event.target;
     if (
-        (d.tagName.toUpperCase() === 'INPUT' && d.type.toUpperCase() === 'TEXT')  
+        (d.tagName.toUpperCase() === 'INPUT')  
           || d.tagName.toUpperCase() === 'TEXTAREA') {
         doPrevent = d.readOnly || d.disabled;
       }
@@ -371,6 +371,7 @@ $(document).unbind('keydown').bind('keydown', function (event) {
   }
   if (doPrevent) {
     event.preventDefault();
+    prev();
   } 
 
   // prevents the error code from coming up if 'next' button is selected (happens on checkboxes in Impairment section)
