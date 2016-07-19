@@ -20,7 +20,6 @@ getSection = function(n, callback) {
 		callback(new Error('The requested section ' + n + ' is out of bounds.'));
 	} else {
 		callback(null, {
-			n: n,
 			section: questions.sections[n],
 			responseOptions: responses
 		});

@@ -11,7 +11,6 @@ var cache = {
 	sections: []
 };
 
-var FINAL_SECTION = 23;
 var ENTER = 13; // 'enter' keycode
 var BACKSPACE = 8; // 'backspace' keycode
 
@@ -44,7 +43,6 @@ $('#fullscreen').on('click', function() {
 
 cacheSection = function(response, start) {
 	// cache the current section number and section
-	cache.sectionNum = parseInt(response.n);
 	cache.section = response.section;
 	cache.sections.push(response.section);
 	cache.questionNum = start ? 0 : response.section.questions.length - 1;
@@ -66,7 +64,7 @@ getSection = function(params, start) {
 	if (params) {
 		console.log(JSON.stringify(params));
 		$.post('/survey/section', JSON.stringify(params), function(response) {
-			if (cache.sectionNum !== FINAL_SECTION) {
+			if (!isFinalSection(cache.section)) {
 				cache.sectionsIndex++;
 				cacheSection(response, start);   	
 			}
@@ -76,6 +74,10 @@ getSection = function(params, start) {
 			cacheSection(response, start);
 		});
 	}
+}
+
+isFinalSection = function(section) {
+  return section.name === 'Conclusion';
 }
 
 isRadio = function(type) {
@@ -166,9 +168,7 @@ setCurrentQuestion = function(n) {
 	// show the current question
   var currentQuestion = $(`#section-${ cache.sectionsIndex }-question-${ n }`);
 	currentQuestion.toggle(true);
-  if (currentQuestion.has(".form-control")) {
-    $(".form-control").focus();
-  }
+  $(".form-control").focus(); // focus for text fields
 
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); 
@@ -191,7 +191,7 @@ sectionRequiresResponse = function(section) {
 	return !section.name.includes("Introduction");
 }
 
-// set the value of the passed in sectionNum and question
+// set the value of the passed in sectionsIndex and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
 	if (isRadio(question.type)) {
@@ -201,7 +201,7 @@ setResponse = function(sectionsIndex, question, value) {
 	$(`[name=${ sectionsIndex }-${ question.num }][data-keyboard=${ value }]`).prop('checked', !init);
 }
 
-// has response checks whether the passed in sectionNum/question
+// has response checks whether the passed in sectionsIndex/question
 // combination has a response
 hasResponse = function(sectionsIndex, question) {
 	if (isFreeResponse(question.type)) {
@@ -212,7 +212,7 @@ hasResponse = function(sectionsIndex, question) {
 }
 
 // helper function to get the response to the question passed in
-// within the section given by sectionNum
+// within the section given by sectionsIndex
 getResponse = function(sectionsIndex, question) {
   console.log('getResponse');
   var selector = `[name=${sectionsIndex}-${question.num}]`;
@@ -282,7 +282,7 @@ next = function() {
 		 will always be the last index as it progresses through the survey. Thus, first check that we have
 		 finally reached the final section, then check that we are still there.
 	*/
-	if (cache.sectionNum === FINAL_SECTION && cache.sectionsIndex === cache.sections.length - 1) {
+	if (isFinalSection(cache.section) && cache.sectionsIndex === cache.sections.length - 1) {
 		if (cache.questionNum === cache.section.questions.length - 1) {
 			return; // do nothing on final "thank you" page			
 		}
