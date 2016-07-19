@@ -164,7 +164,11 @@ setCurrentQuestion = function(n) {
 	$('.survey-question').toggle(false);
 
 	// show the current question
-	$(`#section-${ cache.sectionsIndex }-question-${ n }`).toggle(true);
+  var currentQuestion = $(`#section-${ cache.sectionsIndex }-question-${ n }`);
+	currentQuestion.toggle(true);
+  if (currentQuestion.has(".form-control")) {
+    $(".form-control").focus();
+  }
 
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); 
