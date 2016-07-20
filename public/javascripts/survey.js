@@ -153,20 +153,6 @@ compileSection = function(section) {
   setToFirstQuestion();
 }
 
-// Impairment 
-// FOLLOWUP
-// A lot of the time - 2 
-// Some of the time - 1
-// SKIP
-// Hardly ever - 0
-// Not at all - 0
-
-// Health, doesn't affect DPS score
-// FOLLOWUP
-// Yes
-// SKIP
-// No
-
 isHealthSection = function() {
   return cache.section.name === 'Health';
 }
@@ -180,16 +166,41 @@ isFollowUp = function() {
   return cache.question.num.includes('A');
 }
 
+skip = function() {
+  cache.questionNum += 2;
+  if (cache.questionNum === cache.section.questions.length) {
+    getNextSection();
+  } else {
+    setQuestion(cache.questionNum);
+  }
+}
+
 twoResponse = function(val) {
   if (val === 'Yes') {
     setQuestion(++cache.questionNum);  
   } else {
-    cache.questionNum += 2;
-    if (cache.questionNum >= cache.section.questions.length) {
-      getNextSection();
-    } else {
-      setQuestion(cache.questionNum);
-    }
+    skip();
+  }
+}
+
+fourResponse = function(val) {
+  switch (val) {
+    case 'A lot of the time':
+      // score 2
+      setQuestion(++cache.questionNum);
+      break;
+    case 'Some of the time':
+      // score 1
+      setQuestion(++cache.questionNum);
+      break;
+    case 'Hardly ever':
+      // score 0
+      skip();
+      break;
+    case 'Not at all':
+      // score 0
+      skip();
+      break;
   }
 }
 
@@ -203,21 +214,13 @@ checkFollowUp = function(responseFn) {
   }
 }
 
-fourResponse = function() {
-  if (!isFollowUp()) { 
-
-  } else {
-
-  }
-}
-
 // forward or backwards
 proceedToQuestion = function(forward) {
   if (forward) {
     if (isHealthSection()) {
       checkFollowUp(twoResponse);
     } else if (isImpairSection()) {
-      // fourResponse();
+      checkFollowUp(fourResponse);
     } else {
       setQuestion(++cache.questionNum);      
     }
