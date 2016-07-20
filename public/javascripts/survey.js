@@ -41,11 +41,10 @@ $('#fullscreen').on('click', function() {
 	});
 })
 
-cacheSection = function(response, start) {
+cacheSection = function(response) {
 	// cache the current section number and section
 	cache.section = response.section;
 	cache.sections.push(response.section);
-	cache.questionNum = start ? 0 : response.section.questions.length - 1;
 	cache.responseOptions = response.responseOptions;
 
 	// put the section on the screen
@@ -66,12 +65,12 @@ getSection = function(params, start) {
 		$.post('/survey/section', JSON.stringify(params), function(response) {
 			if (!isFinalSection(cache.section)) {
 				cache.sectionsIndex++;
-				cacheSection(response, start);   	
+				cacheSection(response);   	
 			}
 		});
 	} else { // initialize survey
 		$.post('/survey/section', function(response) {
-			cacheSection(response, start);
+			cacheSection(response);
 		});
 	}
 }
@@ -151,7 +150,7 @@ compileSection = function(section) {
 		$(htmlString).appendTo('#questions');
 	});
 
-	setQuestion(cache.questionNum);
+  setToFirstQuestion();
 }
 
 // Impairment 
@@ -182,6 +181,14 @@ proceedToQuestion = function(forward) {
     setQuestion(--cache.questionNum);
   }
 
+}
+
+setToFirstQuestion = function() {
+  setQuestion(0);
+}
+
+setToLastQuestion = function() {
+  setQuestion(cache.section.questions.length - 1);
 }
 
 // set the question by number
@@ -298,7 +305,7 @@ sendFormResponses = function() {
 }
 
 finalSection = function() {
-  if (cache.questionNum === cache.section.questions.length - 1) {
+  if (lastSecQuestion()) {
     return; // do nothing on final "thank you" page     
   }
   sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
@@ -315,14 +322,19 @@ lastSecQuestion = function() {
   return cache.questionNum === cache.section.questions.length - 1;
 }
 
+// reset to default state for presenting question
+resetQuestion = function() {
+  showNotice(false);
+  if (cache.audio) cache.audio.get(0).pause();
+}
+
 // used by both next button and keyboard shortcut
 next = function() {
   if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
     showNotice(true);
     return;
   }
-	showNotice(false);
-	if (cache.audio) cache.audio.get(0).pause();
+  resetQuestion();
 
   if (isFinalSection(cache.section)) {
     finalSection();
@@ -331,7 +343,8 @@ next = function() {
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
 		if (nextSecCached()) { 
 			cache.section = cache.sections[++cache.sectionsIndex];
-			setQuestion(0);
+      setToFirstQuestion();
+			// setQuestion(0);
 			return;
 		}
 		sendFormResponses();
@@ -341,8 +354,7 @@ next = function() {
 }
 
 prev = function() {
-  showNotice(false);
-  cache.audio.get(0).pause(); 
+  resetQuestion();
 
   if (cache.questionNum === 0) { // first question of section
     if (cache.sectionsIndex === 0) { // if first section, can't back up any further
@@ -350,7 +362,7 @@ prev = function() {
     }
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
-    setQuestion(cache.section.questions.length - 1); // get last question from section
+    setToLastQuestion();
   } else {
     proceedToQuestion(false);
   }
