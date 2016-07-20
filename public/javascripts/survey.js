@@ -180,9 +180,9 @@ isFollowUp = function() {
   return cache.question.num.includes('A');
 }
 
-twoResponse = function(sectionNum) {
+twoResponse = function() {
   if (!isFollowUp()) {
-    var selector = `[name=${sectionNum}-${cache.question.num}]:checked`;
+    var selector = `[name=${cache.sectionsIndex}-${cache.question.num}]:checked`;
     var val = $(selector).val();
     if (val === 'Yes') {
       setQuestion(++cache.questionNum);  
@@ -203,7 +203,7 @@ twoResponse = function(sectionNum) {
 proceedToQuestion = function(forward) {
   if (forward) {
     if (isHealthSection()) {
-      twoResponse(HEALTH_SEC);
+      twoResponse();
     } else if (isImpairSection()) {
 
     } else {
