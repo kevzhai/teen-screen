@@ -180,22 +180,34 @@ isFollowUp = function() {
   return cache.question.num.includes('A');
 }
 
-twoResponse = function() {
+twoResponse = function(val) {
+  if (val === 'Yes') {
+    setQuestion(++cache.questionNum);  
+  } else {
+    cache.questionNum += 2;
+    if (cache.questionNum >= cache.section.questions.length) {
+      getNextSection();
+    } else {
+      setQuestion(cache.questionNum);
+    }
+  }
+}
+
+checkFollowUp = function(responseFn) {
   if (!isFollowUp()) {
     var selector = `[name=${cache.sectionsIndex}-${cache.question.num}]:checked`;
     var val = $(selector).val();
-    if (val === 'Yes') {
-      setQuestion(++cache.questionNum);  
-    } else {
-      cache.questionNum += 2;
-      if (cache.questionNum >= cache.section.questions.length) {
-        getNextSection();
-      } else {
-        setQuestion(cache.questionNum);
-      }
-    }
+    responseFn(val);
   } else {
     setQuestion(++cache.questionNum);  
+  }
+}
+
+fourResponse = function() {
+  if (!isFollowUp()) { 
+
+  } else {
+
   }
 }
 
@@ -203,9 +215,9 @@ twoResponse = function() {
 proceedToQuestion = function(forward) {
   if (forward) {
     if (isHealthSection()) {
-      twoResponse();
+      checkFollowUp(twoResponse);
     } else if (isImpairSection()) {
-
+      // fourResponse();
     } else {
       setQuestion(++cache.questionNum);      
     }
