@@ -114,7 +114,7 @@ compileSection = function(section) {
 		if (cache.responseOptions.hasOwnProperty(question.type)) {
 			options = cache.responseOptions[question.type].options;
     }
-		var name = cache.sectionsIndex + '-' + question.num;
+		var name = `${ cache.sectionsIndex }-${ question.num }`;
 		var htmlString = `<form class="survey-question" id="section-${ cache.sectionsIndex }-question-${ i }">`;
 		if (type === 'radio' || type === 'checkbox') {
 			htmlString +=  `<h4>${ question.text }</h4>
@@ -178,6 +178,8 @@ proceedToQuestion = function(forward) {
 
   if (forward) {
     setQuestion(++cache.questionNum);
+  } else {
+    setQuestion(--cache.questionNum);
   }
 
 }
@@ -300,7 +302,6 @@ finalSection = function() {
     return; // do nothing on final "thank you" page     
   }
   sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
-  // setQuestion(++cache.questionNum);
   proceedToQuestion(true);
   return;
 }
@@ -335,7 +336,6 @@ next = function() {
 		}
 		sendFormResponses();
 	} else { // proceed to next question in section
-		// setQuestion(++cache.questionNum);
     proceedToQuestion(true);
 	}
 }
@@ -344,18 +344,15 @@ prev = function() {
   showNotice(false);
   cache.audio.get(0).pause(); 
 
-  if (--cache.questionNum < 0) {
+  if (cache.questionNum === 0) { // first question of section
     if (cache.sectionsIndex === 0) { // if first section, can't back up any further
-      cache.questionNum++;
       return;
     }
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
     setQuestion(cache.section.questions.length - 1); // get last question from section
-    console.log('back');
-    console.log(cache);
   } else {
-    setQuestion(cache.questionNum);
+    proceedToQuestion(false);
   }
 }
 
