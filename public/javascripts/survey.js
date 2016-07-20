@@ -36,7 +36,7 @@ $('#fullscreen').on('click', function() {
 	$('.handoff').toggle(false);
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
 		cache.id = response; // the found survey._id OR newScreen._id
-		getSection(null, true);
+		getSection(null);
 		cache.sectionsIndex = 0; // index for cache.sections array
 	});
 })
@@ -52,7 +52,7 @@ cacheSection = function(response) {
 }
 
 // helper function to get a new section for the survey
-getSection = function(params, start) {
+getSection = function(params) {
 	console.log("public params"); // debuq
 	console.log(params); // debuq
 	console.log("cache"); // debuq
@@ -97,7 +97,7 @@ getType = function(type) {
   if (type === '9') return 'text';
   if (type === '10') return 'intro';
   // others are all choice selection (i.e. radio or checkbox)
-  if (cache.responseOptions[type].radio === '1') {
+  if (isRadio(type)) {
     return 'radio';
   } else { 
     return 'checkbox';
@@ -167,16 +167,48 @@ compileSection = function(section) {
 // SKIP
 // No
 
+isHealthSection = function() {
+  return cache.section.name === 'Health';
+}
+
+isImpairSection = function() {
+  return cache.section.name === 'Impairment';
+}
+
+// currently, follow-up questions contain the letter 'A' in them
+isFollowUp = function() {
+  return cache.question.num.includes('A');
+}
+
+twoResponse = function(sectionNum) {
+  if (!isFollowUp()) {
+    var selector = `[name=${sectionNum}-${cache.question.num}]:checked`;
+    var val = $(selector).val();
+    if (val === 'Yes') {
+      setQuestion(++cache.questionNum);  
+    } else {
+      cache.questionNum += 2;
+      if (cache.questionNum >= cache.section.questions.length) {
+        getNextSection();
+      } else {
+        setQuestion(cache.questionNum);
+      }
+    }
+  } else {
+    setQuestion(++cache.questionNum);  
+  }
+}
+
 // forward or backwards
 proceedToQuestion = function(forward) {
-  if (cache.section.name === 'Health') {
-  }
-
-  if (cache.section.name === 'Impairment') {
-  }
-
   if (forward) {
-    setQuestion(++cache.questionNum);
+    if (isHealthSection()) {
+      twoResponse(HEALTH_SEC);
+    } else if (isImpairSection()) {
+
+    } else {
+      setQuestion(++cache.questionNum);      
+    }
   } else {
     setQuestion(--cache.questionNum);
   }
@@ -193,6 +225,7 @@ setToLastQuestion = function() {
 
 // set the question by number
 setQuestion = function(n) {
+  console.log('setQuestion', n);
 	cache.questionNum = n;
 	cache.question = cache.section.questions[n];
 
@@ -253,7 +286,6 @@ hasResponse = function(sectionsIndex, question) {
 // helper function to get the response to the question passed in
 // within the section given by sectionsIndex
 getResponse = function(sectionsIndex, question) {
-  console.log('getResponse');
   var selector = `[name=${sectionsIndex}-${question.num}]`;
   var type = question.type;
 	if (isFreeResponse(type)) {
@@ -301,7 +333,7 @@ sendFormResponses = function() {
 		formResponses: getResponses()
 	};
 
-	getSection(params, true);
+	getSection(params);
 }
 
 finalSection = function() {
@@ -328,6 +360,15 @@ resetQuestion = function() {
   if (cache.audio) cache.audio.get(0).pause();
 }
 
+getNextSection = function() {
+  if (nextSecCached()) { 
+    cache.section = cache.sections[++cache.sectionsIndex];
+    setToFirstQuestion();
+  } else {
+    sendFormResponses();  
+  }
+}
+
 // used by both next button and keyboard shortcut
 next = function() {
   if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
@@ -341,13 +382,7 @@ next = function() {
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
-		if (nextSecCached()) { 
-			cache.section = cache.sections[++cache.sectionsIndex];
-      setToFirstQuestion();
-			// setQuestion(0);
-			return;
-		}
-		sendFormResponses();
+    getNextSection();
 	} else { // proceed to next question in section
     proceedToQuestion(true);
 	}

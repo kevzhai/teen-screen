@@ -54,7 +54,7 @@ block content
 				each section in report.formResponses
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
-						- noScore = section.name === "Conclusion" || section.name === "Demographics"
+						- noScore = section.name === "Conclusion" || section.name === "Demographics" || section.name === "Health"
 						thead
 							tr
 								th(class="#{col(one)}") Question
@@ -68,16 +68,18 @@ block content
 								questionNum  = 1
 								sectionScore = 0
 							each response in section.qa
-								tr
-									td(class="#{col(one)}") #{questionNum}. #{response.question}
-									td(class="#{col(two)}") #{response.answer}
-									- score = getScore(response.answer);
-									td(class="#{col(three)}") 
-										if !noScore
-											=score
-								-
-									questionNum++
-									sectionScore += score 
+								//- if there's no followup response, don't display the row for followup question and the blank answer
+								if response.answer
+									tr
+										td(class="#{col(one)}") #{questionNum}. #{response.question}
+										td(class="#{col(two)}") #{response.answer}
+										- score = getScore(response.answer);
+										td(class="#{col(three)}") 
+											if !noScore
+												=score
+									-
+										questionNum++
+										sectionScore += score 
 					table.table
 						tr
 							td(class="#{col(one + two)}")
