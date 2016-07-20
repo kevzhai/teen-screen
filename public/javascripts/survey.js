@@ -154,8 +154,27 @@ compileSection = function(section) {
 	setCurrentQuestion(cache.questionNum);
 }
 
+// Impairment 
+// FOLLOWUP
+// A lot of the time - 2 
+// Some of the time - 1
+// SKIP
+// Hardly ever - 0
+// Not at all - 0
+
+// Health, doesn't affect DPS score
+// FOLLOWUP
+// Yes
+// SKIP
+// No
+
 // set the question by number
 setCurrentQuestion = function(n) {
+  if (cache.section.name === 'Health') {
+  }
+
+  if (cache.section.name === 'Impairment') {
+  }
 	cache.questionNum = n;
 	cache.question = cache.section.questions[n];
 
@@ -168,8 +187,10 @@ setCurrentQuestion = function(n) {
 	// show the current question
   var currentQuestion = $(`#section-${ cache.sectionsIndex }-question-${ n }`);
 	currentQuestion.toggle(true);
-  $(".form-control").focus(); // focus for text fields
-
+  var textField = ".form-control"; // selector for Bootstrap text field
+  if (currentQuestion.has(textField).length) {
+    $(textField).focus(); // focus for text fields
+  }
 	// use the HTML5 audio element
 	cache.audio = $('<audio>').attr('src', '/audio/test.mp3'); 
 	cache.audio.get(0).play();
@@ -265,34 +286,38 @@ sendFormResponses = function() {
 	getSection(params, true);
 }
 
+errorCheck = function() {
+  if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
+    showNotice(true);
+    return;
+  }
+}
+
+finalSection = function() {
+  if (cache.questionNum === cache.section.questions.length - 1) {
+    return; // do nothing on final "thank you" page     
+  }
+  sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
+  setCurrentQuestion(++cache.questionNum);
+  return;
+}
+
+nextSecCached = function() {
+  return $(`#section-${ cache.sectionsIndex + 1 }-question-0`).length;
+}
+
 // used by both next button and keyboard shortcut
 next = function() {
-	if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
-		showNotice(true);
-		return;
-	}
+  errorCheck();
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 
-	/* Check that we have reached the final section.
-		 The second check is in case the user goes back. sectionNum won't update when
-		 a user clicks back since it uses the sections already stored in the frontend params variable
-		 Thus, it won't be passed back to the server, which is how sectionNum gets updated.
-		 Checking that sectionsIndex is equal to sections.length - 1 isn't enough because sectionsIndex
-		 will always be the last index as it progresses through the survey. Thus, first check that we have
-		 finally reached the final section, then check that we are still there.
-	*/
-	if (isFinalSection(cache.section)) {
-		if (cache.questionNum === cache.section.questions.length - 1) {
-			return; // do nothing on final "thank you" page			
-		}
-		sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
-		setCurrentQuestion(++cache.questionNum);
-		return;
-	}
+  if (isFinalSection(cache.section)) {
+    finalSection();
+  }
 
 	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
-		if ($(`#section-${ cache.sectionsIndex + 1 }-question-0`).length) { // if the next section already exists
+		if (nextSecCached()) { 
 			cache.section = cache.sections[++cache.sectionsIndex];
 			setCurrentQuestion(0);
 			return;
@@ -315,11 +340,11 @@ prev = function() {
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
     setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
+    console.log('back');
+    console.log(cache);
   } else {
     setCurrentQuestion(cache.questionNum);
   }
-  console.log('back');
-  console.log(cache);
 }
 
 // listener for the next button
@@ -360,9 +385,7 @@ $(document).unbind('keydown').bind('keydown', function (event) {
   var doPrevent = false;
   if (event.keyCode === BACKSPACE) {
     var d = event.srcElement || event.target;
-    if (
-        (d.tagName.toUpperCase() === 'INPUT')  
-          || d.tagName.toUpperCase() === 'TEXTAREA') {
+    if (d.tagName.toUpperCase() === 'INPUT'  || d.tagName.toUpperCase() === 'TEXTAREA') {
         doPrevent = d.readOnly || d.disabled;
       }
     else {
