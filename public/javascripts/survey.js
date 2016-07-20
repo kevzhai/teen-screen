@@ -168,13 +168,18 @@ compileSection = function(section) {
 // SKIP
 // No
 
-// forward or backwards, start or end of section
-proceedToQuestion = function(forward, start) {
+// forward or backwards
+proceedToQuestion = function(forward) {
   if (cache.section.name === 'Health') {
   }
 
   if (cache.section.name === 'Impairment') {
   }
+
+  if (forward) {
+    setQuestion(++cache.questionNum);
+  }
+
 }
 
 // set the question by number
@@ -295,7 +300,8 @@ finalSection = function() {
     return; // do nothing on final "thank you" page     
   }
   sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
-  setQuestion(++cache.questionNum);
+  // setQuestion(++cache.questionNum);
+  proceedToQuestion(true);
   return;
 }
 
@@ -329,7 +335,8 @@ next = function() {
 		}
 		sendFormResponses();
 	} else { // proceed to next question in section
-		setQuestion(++cache.questionNum);
+		// setQuestion(++cache.questionNum);
+    proceedToQuestion(true);
 	}
 }
 
