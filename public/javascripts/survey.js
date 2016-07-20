@@ -151,7 +151,7 @@ compileSection = function(section) {
 		$(htmlString).appendTo('#questions');
 	});
 
-	setCurrentQuestion(cache.questionNum);
+	setQuestion(cache.questionNum);
 }
 
 // Impairment 
@@ -168,13 +168,17 @@ compileSection = function(section) {
 // SKIP
 // No
 
-// set the question by number
-setCurrentQuestion = function(n) {
+// forward or backwards, start or end of section
+proceedToQuestion = function(forward, start) {
   if (cache.section.name === 'Health') {
   }
 
   if (cache.section.name === 'Impairment') {
   }
+}
+
+// set the question by number
+setQuestion = function(n) {
 	cache.questionNum = n;
 	cache.question = cache.section.questions[n];
 
@@ -286,19 +290,12 @@ sendFormResponses = function() {
 	getSection(params, true);
 }
 
-errorCheck = function() {
-  if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
-    showNotice(true);
-    return;
-  }
-}
-
 finalSection = function() {
   if (cache.questionNum === cache.section.questions.length - 1) {
     return; // do nothing on final "thank you" page     
   }
   sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
-  setCurrentQuestion(++cache.questionNum);
+  setQuestion(++cache.questionNum);
   return;
 }
 
@@ -306,9 +303,17 @@ nextSecCached = function() {
   return $(`#section-${ cache.sectionsIndex + 1 }-question-0`).length;
 }
 
+// check if last question in section
+lastSecQuestion = function() {
+  return cache.questionNum === cache.section.questions.length - 1;
+}
+
 // used by both next button and keyboard shortcut
 next = function() {
-  errorCheck();
+  if (requiresResponse(cache.question) && !hasResponse(cache.sectionsIndex, cache.question)) {
+    showNotice(true);
+    return;
+  }
 	showNotice(false);
 	if (cache.audio) cache.audio.get(0).pause();
 
@@ -316,15 +321,15 @@ next = function() {
     finalSection();
   }
 
-	if (++cache.questionNum === cache.section.questions.length) { // reached last question in section, proceed to next section
+	if (lastSecQuestion()) { // reached last question in section, proceed to next section
 		if (nextSecCached()) { 
 			cache.section = cache.sections[++cache.sectionsIndex];
-			setCurrentQuestion(0);
+			setQuestion(0);
 			return;
 		}
 		sendFormResponses();
 	} else { // proceed to next question in section
-		setCurrentQuestion(cache.questionNum);
+		setQuestion(++cache.questionNum);
 	}
 }
 
@@ -339,11 +344,11 @@ prev = function() {
     }
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
-    setCurrentQuestion(cache.section.questions.length - 1); // get last question from section
+    setQuestion(cache.section.questions.length - 1); // get last question from section
     console.log('back');
     console.log(cache);
   } else {
-    setCurrentQuestion(cache.questionNum);
+    setQuestion(cache.questionNum);
   }
 }
 
