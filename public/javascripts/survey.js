@@ -321,12 +321,16 @@ getResponse = function(sectionsIndex, question) {
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
+  // formResponses = {}
+    // includes allsections, dpsScore, impairmentScore
 	var allsections = [];
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
       s.name = section.name;
       s.qa = []; // array for questions and answers
+      // TODO s.score = 0 
+        // calculate score except for noScore sections, port from indiv_report
       section.questions.forEach(function(question) {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
@@ -345,6 +349,11 @@ getResponses = function() {
 sendFormResponses = function() {
 	var params = {
 		id: cache.id, // survey._id
+    // TODO
+    // var all = getResponses()
+    // formResponses: all.allsections
+    // dpsScore: all.dpsScore
+    // impairmentScore: all.impairmentScore
 		formResponses: getResponses()
 	};
 

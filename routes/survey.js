@@ -91,6 +91,10 @@ router.post('/section', function(req, res, next) {
       if (error) {
         console.log(error);
       }
+      // TODO
+      // suvery.formResponses = body.allsections
+      // suvery.dpsScore = body.dpsScore
+      // suvery.impairmentScore = body.impairmentScore
       survey.formResponses = body.formResponses; 
       survey.lastUpdated = new Date();
       console.log("tee"); // debuq
