@@ -35,6 +35,10 @@ block content
 							strong DPS Score
 						td #{report.dpsScore}
 					tr
+						td
+							strong Impairment Score
+						td #{report.impairmentScore}
+					tr
 						td 
 							strong Language
 						td #{report.language}
@@ -79,10 +83,10 @@ block content
 										if section.score
 											td(class="#{col(two)}") #{response.answer}
 											td(class="#{col(three)}") 
-												if response.score === 1
-													strong #{response.score}
-												else
+												if response.score === 0
 													| #{response.score}
+												else
+													strong #{response.score}
 										else 
 											td(class="#{col(two + three)}") #{response.answer}
 									- questionNum++
@@ -93,12 +97,7 @@ block content
 									b #{section.name} Score
 								td(class="#{col(three)}")
 									strong #{section.score}
-				table.table
-					tr
-						td(class="#{col(one + two)} text-xs-right") 
-							h4 Total DPS Score
-						td(class="#{col(three)}") 
-							h4 #{report.dpsScore}
+
 
 
 block scripts

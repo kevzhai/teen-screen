@@ -355,7 +355,7 @@ getResponses = function() {
       var dpsSection = isDpsSection(section); // boolean
       var isImpairment = section.name === 'Impairment';
 
-      if (dpsSection) {
+      if (dpsSection || isImpairment) {
         s.score = 0; // section score
       }
 
@@ -374,7 +374,7 @@ getResponses = function() {
           } else if (isImpairment) {
             var val = fourResponse(answer, true);
             if (val !== -1) { // -1 means followup checkbox response, not part of impairment score
-              r.impairmentScore += val;
+              s.score += val;
               response.score = val;
             }
           }
@@ -383,6 +383,8 @@ getResponses = function() {
 		  }); 
       if (dpsSection) {
         r.dpsScore += s.score;        
+      } else if (isImpairment) {
+        r.impairmentScore = s.score;
       }
       r.allsections.push(s);
 		}
