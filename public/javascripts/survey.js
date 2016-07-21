@@ -8,8 +8,7 @@
 
 // instance variable for section number
 var cache = {
-	sections: [],
-  dpsScore: 0
+	sections: []
 };
 
 var ENTER = 13; // 'enter' keycode
@@ -330,8 +329,9 @@ isDpsSection = function(section) {
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
-
-	allsections = [];
+  var r = {};
+	r.allsections = [];
+  r.dpsScore = 0;
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
@@ -358,21 +358,22 @@ getResponses = function() {
   		 	}
 		  }); 
       if (dpsSection) {
-        cache.dpsScore += s.score;        
+        r.dpsScore += s.score;        
       }
-      allsections.push(s);
+      r.allsections.push(s);
 		}
 	});
-	return allsections;
+	return r;
 }
 
 // save responses to params and proceed to next section
 sendFormResponses = function() {
+  var r = getResponses();
 	var params = {
 		id: cache.id, // survey._id
     // TODO
-    formResponses: getResponses(),
-    dpsScore: cache.dpsScore
+    formResponses: r.allsections,
+    dpsScore: r.dpsScore
     // impairmentScore: all.impairmentScore
 	};
 
