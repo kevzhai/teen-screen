@@ -29,72 +29,76 @@ block content
 				-
 					optionalSections = ["site", "sponsor", "protocol", "description"]
 				br 
-				each section in optionalSections
-					//- Square bracket notation allows selection of properties using variables
-					if report[section] 
-						h4 #{section.charAt(0).toUpperCase() + section.slice(1)}: #{report[section]}
-				h4 Language: #{report.language}
+				table.table.table-striped
+					tr
+						td
+							strong DPS Score
+						td #{report.dpsScore}
+					tr
+						td 
+							strong Language
+						td #{report.language}
+					tr 
+						td
+							strong Interview Date
+						td #{report.lastUpdated.substr(0,10)}
+					each section in optionalSections
+						//- Square bracket notation allows selection of properties using variables
+						if report[section] 
+							tr
+								td
+									strong.text-capitalize #{section}
+								td #{report[section]}
 				br
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
 					two   = 4
 					three = 12 - one - two
-					dpsScore = 0
 					col = function(num) { 
 						return 'col-sm-' + num
-					}
-					getScore = function(response) { 
-						if (response === 'Yes') { 
-							return 1;
-						} else { 
-							return 0;
-						}
 					}
 				each section in report.formResponses
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
-						- noScore = section.name === "Conclusion" || section.name === "Demographics" || section.name === "Health"
 						thead
 							tr
 								th(class="#{col(one)}") Question
-								if noScore
-									th(class="#{col(12 - one)}") Answer
-								else
+								if section.score
 									th(class="#{col(two)}") Answer
 									th(class="#{col(three)}") Score
+								else
+									th(class="#{col(two + three)}") Answer
 						tbody
-							-
-								questionNum  = 1
-								sectionScore = 0
+							- questionNum  = 1
 							each response in section.qa
 								//- if there's no followup response, don't display the row for followup question and the blank answer
 								if response.answer
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}
-										td(class="#{col(two)}") #{response.answer}
-										- score = getScore(response.answer);
-										td(class="#{col(three)}") 
-											if !noScore
-												=score
-									-
-										questionNum++
-										sectionScore += score 
-					table.table
-						tr
-							td(class="#{col(one + two)}")
-								if !noScore 
+										if section.score
+											td(class="#{col(two)}") #{response.answer}
+											td(class="#{col(three)}") 
+												if response.score === 1
+													strong #{response.score}
+												else
+													| #{response.score}
+										else 
+											td(class="#{col(two + three)}") #{response.answer}
+									- questionNum++
+					if section.score
+						table.table
+							tr
+								td(class="#{col(one + two)} text-xs-right")
 									b #{section.name} Score
-							td(class="#{col(three)}") 
-								if !noScore
-									=sectionScore
-						- dpsScore += sectionScore
+								td(class="#{col(three)}")
+									strong #{section.score}
 				table.table
 					tr
-						td(class="#{col(two)} #{col('offset-' + one)}") 
+						td(class="#{col(one + two)} text-xs-right") 
 							h4 Total DPS Score
 						td(class="#{col(three)}") 
-							h4 #{dpsScore}
+							h4 #{report.dpsScore}
 
 
 block scripts
