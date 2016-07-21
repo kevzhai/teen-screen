@@ -153,12 +153,9 @@ compileSection = function(section) {
   setToFirstQuestion();
 }
 
-isHealthSection = function() {
-  return cache.section.name === 'Health';
-}
-
-isImpairSection = function() {
-  return cache.section.name === 'Impairment';
+// checks if current cache section is given name
+isCacheSection = function(name) {
+  return cache.section.name === name;
 }
 
 // currently, follow-up questions contain the letter 'A' in them
@@ -183,44 +180,60 @@ twoResponse = function(val) {
   }
 }
 
-fourResponse = function(val) {
+// used either to set the next question or to return the score
+fourResponse = function(val, score) {
+  console.log('fourResponse', val);
   switch (val) {
     case 'A lot of the time':
-      // score 2
-      setQuestion(++cache.questionNum);
+      if (score) {
+        return 2;
+      } else {      
+        setQuestion(++cache.questionNum);
+      }
       break;
     case 'Some of the time':
-      // score 1
-      setQuestion(++cache.questionNum);
+      if (score) {
+        return 1;
+      } else {      
+        setQuestion(++cache.questionNum);
+      }
       break;
     case 'Hardly ever':
-      // score 0
-      skip();
+      if (score) {
+        return 0;
+      } else {      
+        skip();
+      }
       break;
     case 'Not at all':
-      // score 0
-      skip();
+      if (score) {
+        return 0;
+      } else {      
+        skip();
+      }
       break;
+    default: // when the value of a followup checkbox response is passed in while parsing through the impairment section
+      return -1;
   }
 }
 
 checkFollowUp = function(responseFn) {
-  if (!isFollowUp()) {
+  if (isFollowUp()) {
+    setQuestion(++cache.questionNum);  
+  } else {
     var selector = `[name=${cache.sectionsIndex}-${cache.question.num}]:checked`;
     var val = $(selector).val();
     responseFn(val);
-  } else {
-    setQuestion(++cache.questionNum);  
   }
 }
 
 // forward or backwards
 proceedToQuestion = function(forward) {
   if (forward) {
-    if (isHealthSection()) {
+    if (isCacheSection('Health')) {
       checkFollowUp(twoResponse);
-    } else if (isImpairSection()) {
-      checkFollowUp(fourResponse);
+    } else if (isCacheSection('Impairment')) {
+      checkFollowUp(fourResponse, false);
     } else {
       setQuestion(++cache.questionNum);      
     }
@@ -332,15 +345,20 @@ getResponses = function() {
   var r = {};
 	r.allsections = [];
   r.dpsScore = 0;
+  r.impairmentScore = 0;
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
       s.name = section.name;
       s.qa = []; // array for questions and answers
+
       var dpsSection = isDpsSection(section); // boolean
+      var isImpairment = section.name === 'Impairment';
+
       if (dpsSection) {
         s.score = 0; // section score
       }
+
       section.questions.forEach(function(question) {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
@@ -352,6 +370,12 @@ getResponses = function() {
             if (answer === 'Yes') {
               s.score++;
               response.score = 1;
+            }
+          } else if (isImpairment) {
+            var val = fourResponse(answer, true);
+            if (val !== -1) { // -1 means followup checkbox response, not part of impairment score
+              r.impairmentScore += val;
+              response.score = val;
             }
           }
           s.qa.push(response);
@@ -373,7 +397,8 @@ sendFormResponses = function() {
 		id: cache.id, // survey._id
     // TODO
     formResponses: r.allsections,
-    dpsScore: r.dpsScore
+    dpsScore: r.dpsScore,
+    impairmentScore: r.impairmentScore
     // impairmentScore: all.impairmentScore
 	};
 

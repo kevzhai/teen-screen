@@ -58,6 +58,7 @@ router.post('/initiate', function(req, res, next) {
         protocol: req.session.surveyParams.protocol,
         site: req.session.surveyParams.site,
         dpsScore: 0,
+        impairmentScore: 0,
         formResponses: []
       });
 
@@ -93,10 +94,9 @@ router.post('/section', function(req, res, next) {
         console.log(error);
       }
       // TODO
-      survey.formResponses = body.formResponses
-      survey.dpsScore = body.dpsScore
-      // suvery.impairmentScore = body.impairmentScore
-      // survey.formResponses = body.formResponses; 
+      survey.formResponses = body.formResponses;
+      survey.dpsScore = body.dpsScore;
+      survey.impairmentScore = body.impairmentScore;
       survey.lastUpdated = new Date();
       console.log("tee"); // debuq
       console.log(JSON.stringify(survey)); // debuq
