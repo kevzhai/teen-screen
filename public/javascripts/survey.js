@@ -323,12 +323,14 @@ getResponse = function(sectionsIndex, question) {
 // returns true if it is a section that counts towards calculating the DPS score
 isDpsSection = function(section) {
   return section.name !== "Conclusion" && section.name !== "Demographics" 
-         && section.name !== "Health" && section.name !== "Impairment";
+         && section.name !== "Health" && section.name !== "Impairment"
+         && !section.name.includes("Intro");
 }
 
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
+
 	allsections = [];
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
