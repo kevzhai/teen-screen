@@ -8,7 +8,8 @@
 
 // instance variable for section number
 var cache = {
-	sections: []
+	sections: [],
+  dpsScore: 0
 };
 
 var ENTER = 13; // 'enter' keycode
@@ -318,45 +319,59 @@ getResponse = function(sectionsIndex, question) {
 		}
 	}
 }
+
+// returns true if it is a section that counts towards calculating the DPS score
+isDpsSection = function(section) {
+  return section.name !== "Conclusion" && section.name !== "Demographics" 
+         && section.name !== "Health" && section.name !== "Impairment";
+}
+
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
-  var r = {};
-    // includes allsections, dpsScore, impairmentScore
-	r.allsections = [];
-  r.dpsScore = 5;
+	allsections = [];
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
       s.name = section.name;
       s.qa = []; // array for questions and answers
-      // TODO s.score = 0 
-        // calculate score except for noScore sections, port from indiv_report
+      var dpsSection = isDpsSection(section); // boolean
+      if (dpsSection) {
+        s.score = 0; // section score
+      }
       section.questions.forEach(function(question) {
   		 	if (requiresResponse(question)) {
           var response = {}; // object holding question and answer
   		 		response.question = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
-          response.answer = getResponse(i, question);
+          var answer = getResponse(i, question);
+          response.answer = answer;
+          if (dpsSection) {
+            response.score = 0;
+            if (answer === 'Yes') {
+              s.score++;
+              response.score = 1;
+            }
+          }
           s.qa.push(response);
   		 	}
-		  });   	
-      r.allsections.push(s);
+		  }); 
+      if (dpsSection) {
+        cache.dpsScore += s.score;        
+      }
+      allsections.push(s);
 		}
 	});
-	return r;
+	return allsections;
 }
 
 // save responses to params and proceed to next section
 sendFormResponses = function() {
-  var r = getResponses();
 	var params = {
 		id: cache.id, // survey._id
     // TODO
-    // var all = getResponses()
-    formResponses: r.allsections,
-    dpsScore: r.dpsScore
+    formResponses: getResponses(),
+    dpsScore: cache.dpsScore
     // impairmentScore: all.impairmentScore
-		// formResponses: getResponses()
 	};
 
 	getSection(params);
