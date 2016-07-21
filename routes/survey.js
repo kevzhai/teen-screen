@@ -57,6 +57,7 @@ router.post('/initiate', function(req, res, next) {
         sponsor: req.session.surveyParams.sponsor,
         protocol: req.session.surveyParams.protocol,
         site: req.session.surveyParams.site,
+        dpsScore: 0,
         formResponses: []
       });
 
@@ -83,7 +84,7 @@ router.post('/section', function(req, res, next) {
   // console.log("blah"); // debuq
   // console.log(req.session); // debuq
   console.log("body"); // debuq
-  console.log(req.body); // debuq
+  console.log(JSON.stringify(req.body)); // debuq
 
   if (Object.keys(req.body).length) { // form has been submitted at least once
     var body = JSON.parse(Object.keys(req.body)[0]);
@@ -92,10 +93,10 @@ router.post('/section', function(req, res, next) {
         console.log(error);
       }
       // TODO
-      // suvery.formResponses = body.allsections
-      // suvery.dpsScore = body.dpsScore
+      survey.formResponses = body.formResponses
+      survey.dpsScore = body.dpsScore
       // suvery.impairmentScore = body.impairmentScore
-      survey.formResponses = body.formResponses; 
+      // survey.formResponses = body.formResponses; 
       survey.lastUpdated = new Date();
       console.log("tee"); // debuq
       console.log(JSON.stringify(survey)); // debuq

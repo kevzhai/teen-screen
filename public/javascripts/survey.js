@@ -321,9 +321,10 @@ getResponse = function(sectionsIndex, question) {
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
-  // formResponses = {}
+  var r = {};
     // includes allsections, dpsScore, impairmentScore
-	var allsections = [];
+	r.allsections = [];
+  r.dpsScore = 5;
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
@@ -339,22 +340,23 @@ getResponses = function() {
           s.qa.push(response);
   		 	}
 		  });   	
-      allsections.push(s);
+      r.allsections.push(s);
 		}
 	});
-	return allsections;
+	return r;
 }
 
 // save responses to params and proceed to next section
 sendFormResponses = function() {
+  var r = getResponses();
 	var params = {
 		id: cache.id, // survey._id
     // TODO
     // var all = getResponses()
-    // formResponses: all.allsections
-    // dpsScore: all.dpsScore
+    formResponses: r.allsections,
+    dpsScore: r.dpsScore
     // impairmentScore: all.impairmentScore
-		formResponses: getResponses()
+		// formResponses: getResponses()
 	};
 
 	getSection(params);
