@@ -26,33 +26,22 @@ block content
 				col2   = "col-sm-8"
 			div.print-expand(class="#{col1}")
 				h2 Report for #{report.subjectID}
-				-
-					optionalSections = ["site", "sponsor", "protocol", "description"]
+				- optionalSections = ["site", "sponsor", "protocol", "description"]
+				mixin tableRow(title, name)
+					tr
+						td
+							strong.text-capitalize= title
+						td= name 
 				br 
 				table.table.table-striped
-					tr
-						td
-							strong DPS Score
-						td #{report.dpsScore}
-					tr
-						td
-							strong Impairment Score
-						td #{report.impairmentScore}
-					tr
-						td 
-							strong Language
-						td #{report.language}
-					tr 
-						td
-							strong Interview Date
-						td #{report.lastUpdated.substr(0,10)}
+					+tableRow('DPS Score', report.dpsScore)
+					+tableRow('Impairment Score', report.impairmentScore)
+					+tableRow('Language', report.language)
+					+tableRow('Interview Date', report.lastUpdated.substr(0,10))
 					each section in optionalSections
 						//- Square bracket notation allows selection of properties using variables
 						if report[section] 
-							tr
-								td
-									strong.text-capitalize #{section}
-								td #{report[section]}
+							+tableRow(section, report[section])
 				br
 			div.print-expand(class="#{col2}")
 				-
@@ -77,7 +66,7 @@ block content
 							- questionNum  = 1
 							each response in section.qa
 								//- if there's no followup response, don't display the row for followup question and the blank answer
-								if response.answer
+								if response.answer.length
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}
 										if section.score
@@ -93,7 +82,7 @@ block content
 					if section.score
 						table.table
 							tr
-								td(class="#{col(one + two)} text-xs-right")
+								td.text-xs-right(class="#{col(one + two)}")
 									b #{section.name} Score
 								td(class="#{col(three)}")
 									strong #{section.score}
