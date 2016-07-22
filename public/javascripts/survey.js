@@ -116,7 +116,7 @@ compileSection = function(section) {
 			options = cache.responseOptions[question.type].options;
     }
 		var name = `${ cache.sectionsIndex }-${ question.num }`;
-		var htmlString = `<form class="survey-question" id="section-${ cache.sectionsIndex }-question-${ i }">`;
+		var htmlString = `<form class="survey-question" id=${ generateQuestionId(i) }>`;
 		if (type === 'radio' || type === 'checkbox') {
 			htmlString +=  `<h4>${ question.text }</h4>
                       <div class="c-inputs-stacked">`;
@@ -165,10 +165,15 @@ isFollowUp = function() {
   return cache.question.num.includes('A');
 }
 
+// return the ID attribute given a question number
+generateQuestionId = function(num) {
+  return `section-${ cache.sectionsIndex }-question-${ num }`;
+}
+
 skip = function() {
   // add question to skippedQuestions
   // questionNum must be incremented to store the skipped question's rather than the leading question's
-  var skippedQuestion = `#section-${ cache.sectionsIndex }-question-${ ++cache.questionNum }`;
+  var skippedQuestion = generateQuestionId(++cache.questionNum);
   cache.skippedQuestions.push(skippedQuestion);
 
   // increment to the question after the skipped question
