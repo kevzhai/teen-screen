@@ -8,12 +8,13 @@
 
 // instance variable for section number
 var cache = {
-	sections: []
+	sections: [],
+  skippedQuestions: []
 };
 
 var ENTER = 13; // 'enter' keycode
 var BACKSPACE = 8; // 'backspace' keycode
-var FOUR_RADIO = '5'; // question code
+var FOUR_RADIO = '5'; // question type code
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
@@ -165,7 +166,13 @@ isFollowUp = function() {
 }
 
 skip = function() {
-  cache.questionNum += 2;
+  // add question to skippedQuestions
+  // questionNum must be incremented to store the skipped question's rather than the leading question's
+  var skippedQuestion = `#section-${ cache.sectionsIndex }-question-${ ++cache.questionNum }`;
+  cache.skippedQuestions.push(skippedQuestion);
+
+  // increment to the question after the skipped question
+  cache.questionNum++;
   if (cache.questionNum === cache.section.questions.length) {
     getNextSection();
   } else {
@@ -220,6 +227,9 @@ fourResponse = function(val) {
   }
 }
 
+// If the current question is a followup, increment regularly to go to
+// the next leading question. Otherwise, check the leading question's response
+// with responseFn to figure out whether to go to followup or skip
 checkFollowUp = function(responseFn) {
   if (isFollowUp()) {
     setQuestion(++cache.questionNum);  
@@ -228,12 +238,6 @@ checkFollowUp = function(responseFn) {
     var val = $(selector).val();
     responseFn(val);
   }
-}
-
-// when going to a previous question in the Impairment section,
-// if it's an unanswered followup question, skip to the leading question 
-checkFollowUpSkip = function() {
-
 }
 
 // forward or backwards
@@ -251,11 +255,8 @@ proceedToQuestion = function(forward) {
       setQuestion(++cache.questionNum);      
     }
   } else { // prev
-    // if (isCacheSection('Impairment')) {
-    //   checkFollowUpSkip();
-    // } else {
-      setQuestion(--cache.questionNum);
-    // }
+    // check skippedQuestions
+    setQuestion(--cache.questionNum);
   }
 
 }
@@ -270,9 +271,10 @@ setToLastQuestion = function() {
 
 // set the question by number
 setQuestion = function(n) {
-  console.log('setQuestion', n);
 	cache.questionNum = n;
 	cache.question = cache.section.questions[n];
+
+  // remove from skippedQuestions if it was previously there
 
 	var type = cache.question.type;
 	cache.requiresResponse = requiresResponse(cache.question);
