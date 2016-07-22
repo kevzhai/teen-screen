@@ -261,7 +261,13 @@ proceedToQuestion = function(forward) {
     }
   } else { // prev
     // check skippedQuestions
-    setQuestion(--cache.questionNum);
+    var prevQuestion = generateQuestionId(--cache.questionNum);
+    if (cache.skippedQuestions.includes(prevQuestion)) {
+      // skip one more
+      setQuestion(--cache.questionNum);
+    } else { // this followup has been answered
+      setQuestion(cache.questionNum);
+    }
   }
 
 }
@@ -280,6 +286,12 @@ setQuestion = function(n) {
 	cache.question = cache.section.questions[n];
 
   // remove from skippedQuestions if it was previously there
+  var questionId = generateQuestionId(n);
+  var index = cache.skippedQuestions.indexOf(questionId);
+  if (index !== -1) {
+    cache.skippedQuestions.splice(index, 1);
+    console.log('added back');
+  }
 
 	var type = cache.question.type;
 	cache.requiresResponse = requiresResponse(cache.question);
