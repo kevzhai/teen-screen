@@ -61,13 +61,13 @@ block content
 						}
 					}
 				each section in report.formResponses
-					- var hasScore = section.hasOwnProperty('score')
+					- var sectionHasScore = section.hasOwnProperty('score')
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
 						thead
 							tr
 								th(class="#{col(one)}") Question
-								if hasScore
+								if sectionHasScore
 									th(class="#{col(two)}") Answer
 									th(class="#{col(three)}") Score
 								else
@@ -80,8 +80,15 @@ block content
 								if hasResponse(response.answer)
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}
-										if hasScore
-											td(class="#{col(two)}") #{response.answer}
+										if sectionHasScore
+											td(class="#{col(two)}") 
+												//- array of checkbox responses
+												if typeof response.answer === 'object' 
+													ul.list-unstyled
+														each item in response.answer
+															li - #{item}
+												else
+													|#{response.answer}
 											td(class="#{col(three)}") 
 												if response.score === 0
 													| #{response.score}
@@ -90,7 +97,7 @@ block content
 										else 
 											td(class="#{col(two + three)}") #{response.answer}
 									- questionNum++
-					if hasScore
+					if sectionHasScore
 						table.table
 							tr
 								td.text-xs-right(class="#{col(one + two)}")
