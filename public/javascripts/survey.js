@@ -181,40 +181,42 @@ twoResponse = function(val) {
   }
 }
 
-// used either to set the next question or to return the score
-fourResponse = function(val, score) {
-  console.log('fourResponse', val);
+calcImpairment = function(val) {
   switch (val) {
     case 'A lot of the time':
-      if (score) {
-        return 2;
-      } else {      
-        setQuestion(++cache.questionNum);
-      }
+      return 2;
       break;
     case 'Some of the time':
-      if (score) {
-        return 1;
-      } else {      
-        setQuestion(++cache.questionNum);
-      }
+    case 'Yes': // on q118
+      return 1;
       break;
     case 'Hardly ever':
-      if (score) {
-        return 0;
-      } else {      
-        skip();
-      }
+    case 'Not at all':
+    case 'No': // on q118
+      return 0;
+      break;
+    default:  // when the value of a followup checkbox response is passed in while parsing through the impairment section
+      return -1;
+  }
+}
+
+// used either to set the next question or to return the score
+fourResponse = function(val) {
+  switch (val) {
+    case 'A lot of the time':
+      setQuestion(++cache.questionNum);
+      break;
+    case 'Some of the time':
+      setQuestion(++cache.questionNum);
+      break;
+    case 'Hardly ever':
+      skip();
       break;
     case 'Not at all':
-      if (score) {
-        return 0;
-      } else {      
-        skip();
-      }
+      skip();
       break;
-    default: // when the value of a followup checkbox response is passed in while parsing through the impairment section
-      return -1;
+    default:
+      console.log('fourResponse undefined', val);
   }
 }
 
@@ -241,7 +243,7 @@ proceedToQuestion = function(forward) {
       checkFollowUp(twoResponse);
     } else if (isCacheSection('Impairment')) {
       if (cache.question.type === FOUR_RADIO) {
-        checkFollowUp(fourResponse, false);
+        checkFollowUp(fourResponse);
       } else { // question 118 is a yes or no
         checkFollowUp(twoResponse);
       }
@@ -387,7 +389,7 @@ getResponses = function() {
               response.score = 1;
             }
           } else if (isImpairment) {
-            var val = fourResponse(answer, true);
+            var val = calcImpairment(answer);
             if (val !== -1) { // -1 means followup checkbox response, not part of impairment score
               s.score += val;
               response.score = val;
