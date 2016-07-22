@@ -13,6 +13,7 @@ var cache = {
 
 var ENTER = 13; // 'enter' keycode
 var BACKSPACE = 8; // 'backspace' keycode
+var FOUR_RADIO = '5'; // question code
 
 // initialize to not showing the incomplete notice to start
 $('#incomplete-notice').toggle(false);
@@ -227,18 +228,32 @@ checkFollowUp = function(responseFn) {
   }
 }
 
+// when going to a previous question in the Impairment section,
+// if it's an unanswered followup question, skip to the leading question 
+checkFollowUpSkip = function() {
+
+}
+
 // forward or backwards
 proceedToQuestion = function(forward) {
   if (forward) {
     if (isCacheSection('Health')) {
       checkFollowUp(twoResponse);
     } else if (isCacheSection('Impairment')) {
-      checkFollowUp(fourResponse, false);
+      if (cache.question.type === FOUR_RADIO) {
+        checkFollowUp(fourResponse, false);
+      } else { // question 118 is a yes or no
+        checkFollowUp(twoResponse);
+      }
     } else {
       setQuestion(++cache.questionNum);      
     }
-  } else {
-    setQuestion(--cache.questionNum);
+  } else { // prev
+    // if (isCacheSection('Impairment')) {
+    //   checkFollowUpSkip();
+    // } else {
+      setQuestion(--cache.questionNum);
+    // }
   }
 
 }
