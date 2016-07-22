@@ -179,8 +179,14 @@ isSkipped = function(num) {
 skip = function() {
   // add question to skippedQuestions
   // questionNum must be incremented to store the skipped question's rather than the leading question's
-  var skippedQuestion = generateQuestionId(++cache.questionNum);
-  cache.skippedQuestions.push(skippedQuestion);
+  var skippedQuestionId = generateQuestionId(++cache.questionNum);
+  cache.skippedQuestions.push(skippedQuestionId);
+
+  // clear the skipped followup question if it was previously filled in
+  var skippedQuestion = cache.section.questions[cache.questionNum];
+  // selector for the form fields (radio or checkboxes)
+  var selector = `[name=${ cache.sectionsIndex }-${ skippedQuestion.num }]`;
+  $(selector).prop('checked', false);
 
   // increment to the question after the skipped question
   cache.questionNum++;
@@ -342,11 +348,12 @@ sectionRequiresResponse = function(section) {
 // set the value of the passed in sectionsIndex and question
 // to the passed in value
 setResponse = function(sectionsIndex, question, value) {
+  var name = `[name=${ sectionsIndex }-${ question.num }]`;
 	if (isRadio(question.type)) {
-		$(`[name=${ sectionsIndex }-${ question.num }]:checked`).prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
+		$(`${ name }:checked`).prop('checked', false); // remove any current selections (only for radio, keep all for checkboxes)
 	}
-	var init = $(`[name=${ sectionsIndex }-${ question.num }][data-keyboard=${ value }]`).prop('checked');
-	$(`[name=${ sectionsIndex }-${ question.num }][data-keyboard=${ value }]`).prop('checked', !init);
+	var init = $(`${ name }[data-keyboard=${ value }]`).prop('checked');
+	$(`${ name }[data-keyboard=${ value }]`).prop('checked', !init); // toggle selection to opposite
 }
 
 // has response checks whether the passed in sectionsIndex/question
