@@ -170,6 +170,12 @@ generateQuestionId = function(num) {
   return `section-${ cache.sectionsIndex }-question-${ num }`;
 }
 
+// boolean for whether or not a question is contained in the skippedQuestions array
+isSkipped = function(num) {
+  var questionId = generateQuestionId(num);
+  return cache.skippedQuestions.includes(questionId);
+}
+
 skip = function() {
   // add question to skippedQuestions
   // questionNum must be incremented to store the skipped question's rather than the leading question's
@@ -261,8 +267,7 @@ proceedToQuestion = function(forward) {
     }
   } else { // prev
     // check skippedQuestions
-    var prevQuestion = generateQuestionId(--cache.questionNum);
-    if (cache.skippedQuestions.includes(prevQuestion)) {
+    if (isSkipped(--cache.questionNum)) {
       // skip one more
       setQuestion(--cache.questionNum);
     } else { // this followup has been answered
@@ -277,7 +282,14 @@ setToFirstQuestion = function() {
 }
 
 setToLastQuestion = function() {
-  setQuestion(cache.section.questions.length - 1);
+  // last question in a section
+  var lastQuestion = cache.section.questions.length - 1;
+  if (isSkipped(lastQuestion)) {
+    // if last question was a skipped followup, set to second-to-last
+    setQuestion(--lastQuestion); 
+  } else {
+    setQuestion(lastQuestion);
+  }
 }
 
 // set the question by number
