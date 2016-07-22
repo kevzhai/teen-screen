@@ -22,8 +22,8 @@ block content
 
 		.row.m-t-3
 			-
-				col1   = "col-sm-4"
-				col2   = "col-sm-8"
+				col1 = "col-sm-4"
+				col2 = "col-sm-8"
 			div.print-expand(class="#{col1}")
 				h2 Report for #{report.subjectID}
 				- optionalSections = ["site", "sponsor", "protocol", "description"]
@@ -51,13 +51,23 @@ block content
 					col = function(num) { 
 						return 'col-sm-' + num
 					}
+					hasResponse = function(answer) {
+						if (typeof answer === 'string') {
+							return answer;
+						} else if (typeof answer === 'object') {
+							return answer.length;
+						} else { // responding 'no' to a Health question skips the followup, therefore undefined
+							return false;
+						}
+					}
 				each section in report.formResponses
+					- var hasScore = section.hasOwnProperty('score')
 					h3= section.name
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
 						thead
 							tr
 								th(class="#{col(one)}") Question
-								if section.score
+								if hasScore
 									th(class="#{col(two)}") Answer
 									th(class="#{col(three)}") Score
 								else
@@ -66,10 +76,11 @@ block content
 							- questionNum  = 1
 							each response in section.qa
 								//- if there's no followup response, don't display the row for followup question and the blank answer
-								if response.answer.length
+								- console.log('response', response);
+								if hasResponse(response.answer)
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}
-										if section.score
+										if hasScore
 											td(class="#{col(two)}") #{response.answer}
 											td(class="#{col(three)}") 
 												if response.score === 0
@@ -79,7 +90,7 @@ block content
 										else 
 											td(class="#{col(two + three)}") #{response.answer}
 									- questionNum++
-					if section.score
+					if hasScore
 						table.table
 							tr
 								td.text-xs-right(class="#{col(one + two)}")
