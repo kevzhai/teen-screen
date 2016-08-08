@@ -59,7 +59,8 @@ router.post('/initiate', function(req, res, next) {
         site: req.session.surveyParams.site,
         dpsScore: 0,
         impairmentScore: 0,
-        formResponses: []
+        formResponses: [],
+        clinicSig: {}
       });
 
       saveSurvey(newScreen);
@@ -95,11 +96,14 @@ router.post('/section', function(req, res, next) {
       }
       // TODO
       survey.formResponses = body.formResponses;
+      console.log('body.sig', body.clinicSig);
+      console.log('survey.clinicSig before', survey.clinicSig);
+      survey.clinicSig = body.clinicSig;
+      console.log('survey.clinicSig after', survey.clinicSig);
       survey.dpsScore = body.dpsScore;
       survey.impairmentScore = body.impairmentScore;
       survey.lastUpdated = new Date();
-      console.log("tee"); // debuq
-      console.log(JSON.stringify(survey)); // debuq
+      console.log('$post section', JSON.stringify(survey)); // debuq
 
       saveSurvey(survey);
     });

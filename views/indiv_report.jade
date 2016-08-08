@@ -34,7 +34,7 @@ block content
 						td= name 
 				br 
 				table.table.table-striped
-					+tableRow('DPS Score', report.dpsScore)
+					+tableRow('Symptom Score', report.dpsScore)
 					+tableRow('Impairment Score', report.impairmentScore)
 					+tableRow('Language', report.language)
 					+tableRow('Interview Date', report.lastUpdated.substr(0,10))
@@ -43,6 +43,8 @@ block content
 						if report[section] 
 							+tableRow(section, report[section])
 				br
+				h2 Clinically Significant Information
+					- console.log(report.clinicSig)
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
@@ -76,7 +78,7 @@ block content
 							- questionNum  = 1
 							each response in section.qa
 								//- if there's no followup response, don't display the row for followup question and the blank answer
-								- console.log('response', response);
+								//- - console.log('response', response);
 								if hasResponse(response.answer)
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}

@@ -9,7 +9,8 @@
 // instance variable for section number
 var cache = {
 	sections: [],
-  skippedQuestions: []
+  skippedQuestions: [],
+  clinicSig: {}
 };
 
 var ENTER = 13; // 'enter' keycode
@@ -394,6 +395,19 @@ isDpsSection = function(section) {
          && !section.name.includes("Intro");
 }
 
+
+// Returns whether a question should be displayed in the Clinically Significant Information section
+isClinicSig = function(name, question) {
+  if (name === 'Depression') {
+    return (question === 'Have you tried to kill yourself in the last year?'
+            || question === 'In the last three months, has there been a time when you thought seriously about killing yourself?');
+  } else if (name === 'Impairment') {
+    return question === 'In the last three months, have you been to see someone at a hospital or at a clinic or a therapist/counselor because of the way you were feeling or acting?';
+  } 
+  // return false for anything else
+  return false;
+}
+
 // get the responses to all questions displayed thus far in an object
 // mapping from section to question to response
 getResponses = function() {
@@ -420,6 +434,9 @@ getResponses = function() {
   		 		response.question = question.text.replace(/\./g, ';'); // escaped text because MongoDB doesn't allow periods in key
           var answer = getResponse(i, question);
           response.answer = answer;
+          if (isClinicSig(s.name, response.question)) {
+            cache.clinicSig[response.question] = answer;
+          }
           if (dpsSection) {
             response.score = 0;
             if (answer === 'Yes') {
@@ -455,7 +472,8 @@ sendFormResponses = function() {
     // TODO
     formResponses: r.allsections,
     dpsScore: r.dpsScore,
-    impairmentScore: r.impairmentScore
+    impairmentScore: r.impairmentScore,
+    clinicSig: cache.clinicSig
     // impairmentScore: all.impairmentScore
 	};
 
