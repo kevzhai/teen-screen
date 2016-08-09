@@ -57,7 +57,18 @@ block content
 								if section.score >= sectionSymptomScore
 									+symptomScaleCols(section.name, 'Present', section.score, sectionSymptomScore)
 								else
-									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)									
+									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)		
+				h2 Scoring Criteria for Further Evaluation:
+				ol
+					li Suicide ideation and/or suicide attempt endorsed.
+					li A specific disorder is 'Present' in Symptom Scale AND the Total DPS Impairment Score &ge; 6 
+						ul
+							li Impairment need not be taken into account for Alcohol, Marijuana or Other Substances
+					li The Total DPS Symptom Score is 
+						ul
+							li &ge; 9 (valid ONLY if Social Phobia, General Anxiety, Depression, Alcohol, Marijuana &amp; Other Substances have been included in the screen) 
+							li OR
+							li &ge; 7 (valid ONLY if Social Phobia, General Anxiety &amp; Depression have been included in the screen.							
 		.row.m-t-3
 			-
 				col1 = "col-sm-4"
@@ -67,8 +78,8 @@ block content
 				- optionalSections = ["site", "sponsor", "protocol", "description"]
 				br 
 				table.table.table-striped
-					+tableRow('Symptom Score', report.dpsScore, true)
-					+tableRow('Impairment Score', report.impairmentScore, true)
+					+tableRow('Total Symptom Score', report.dpsScore, true)
+					+tableRow('Total Impairment Score', report.impairmentScore, true)
 					+tableRow('Language', report.language, true)
 					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
 					each section in optionalSections
