@@ -27,24 +27,30 @@ block content
 			div.print-expand(class="#{col1}")
 				h2 Report for #{report.subjectID}
 				- optionalSections = ["site", "sponsor", "protocol", "description"]
-				mixin tableRow(title, name)
+				mixin tableRow(title, name, cap)
 					tr
 						td
-							strong.text-capitalize= title
+							if cap
+								strong.text-capitalize= title
+							else
+								| #{title}
 						td= name 
 				br 
 				table.table.table-striped
-					+tableRow('Symptom Score', report.dpsScore)
-					+tableRow('Impairment Score', report.impairmentScore)
-					+tableRow('Language', report.language)
-					+tableRow('Interview Date', report.lastUpdated.substr(0,10))
+					+tableRow('Symptom Score', report.dpsScore, true)
+					+tableRow('Impairment Score', report.impairmentScore, true)
+					+tableRow('Language', report.language, true)
+					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
 					each section in optionalSections
 						//- Square bracket notation allows selection of properties using variables
 						if report[section] 
-							+tableRow(section, report[section])
+							+tableRow(section, report[section], true)
 				br
-				h2 Clinically Significant Information
-					- console.log(report.clinicSig)
+				if report.clinicSig
+					h2 Clinically Significant Information
+					table.table.table-striped
+						each val, key in report.clinicSig
+							+tableRow(key, val, false)
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
