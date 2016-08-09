@@ -19,7 +19,39 @@ block content
 						|  Back to all reports
 					a.btn.btn-secondary(onClick="window.print()") Print Report
 					a.btn.btn-secondary(href="#{report.subjectID}" download) Save Report
-
+		mixin tableRow(title, name, cap)
+			tr
+				td
+					if cap
+						strong.text-capitalize= title
+					else
+						=title
+				td= name 
+		//- t-3 adds some space at the top of the row
+		.row.m-t-3
+			.col-sm-12.print-expand
+				if report.clinicSig
+					h2 Clinically Significant Information
+					table.table.table-striped
+						each val, key in report.clinicSig
+							+tableRow(key, val, false)
+				h2 Symptom Scale
+				table.table.table-striped(class="#{tabletheme}" data-sortable)
+					thead
+						tr
+							th Section
+							th Survey Score &ge; Threshold
+					tbody
+						mixin symptomScaleCols(section, userScore, threshold)
+							tr
+								td= section
+								td #{ userScore } &ge; #{ threshold }
+						each section in report.formResponses
+							- var sectionHasScore = section.hasOwnProperty('score')
+							if sectionHasScore && section.name !== 'Impairment'
+								- var sectionSymptomScore = symptomScale[section.name]
+								if section.score >= sectionSymptomScore
+									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
 		.row.m-t-3
 			-
 				col1 = "col-sm-4"
@@ -27,14 +59,6 @@ block content
 			div.print-expand(class="#{col1}")
 				h2 Report for #{report.subjectID}
 				- optionalSections = ["site", "sponsor", "protocol", "description"]
-				mixin tableRow(title, name, cap)
-					tr
-						td
-							if cap
-								strong.text-capitalize= title
-							else
-								| #{title}
-						td= name 
 				br 
 				table.table.table-striped
 					+tableRow('Symptom Score', report.dpsScore, true)
@@ -46,11 +70,6 @@ block content
 						if report[section] 
 							+tableRow(section, report[section], true)
 				br
-				if report.clinicSig
-					h2 Clinically Significant Information
-					table.table.table-striped
-						each val, key in report.clinicSig
-							+tableRow(key, val, false)
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
@@ -96,12 +115,12 @@ block content
 														each item in response.answer
 															li - #{item}
 												else
-													|#{response.answer}
+													=response.answer
 											td(class="#{col(three)}") 
 												if response.score === 0
-													| #{response.score}
+													=response.score
 												else
-													strong #{response.score}
+													strong= response.score
 										else 
 											td(class="#{col(two + three)}") #{response.answer}
 									- questionNum++
@@ -111,7 +130,7 @@ block content
 								td.text-xs-right(class="#{col(one + two)}")
 									b #{section.name} Score
 								td(class="#{col(three)}")
-									strong #{section.score}
+									strong= section.score
 
 
 
