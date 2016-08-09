@@ -40,18 +40,24 @@ block content
 					thead
 						tr
 							th Section
-							th Survey Score &ge; Threshold
+							th Status
+							th Survey Score
+							th Threshold
 					tbody
-						mixin symptomScaleCols(section, userScore, threshold)
+						mixin symptomScaleCols(section, status, threshold, userScore)
 							tr
 								td= section
-								td #{ userScore } &ge; #{ threshold }
+								td= status
+								td= threshold
+								td= userScore
 						each section in report.formResponses
 							- var sectionHasScore = section.hasOwnProperty('score')
 							if sectionHasScore && section.name !== 'Impairment'
 								- var sectionSymptomScore = symptomScale[section.name]
 								if section.score >= sectionSymptomScore
-									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
+									+symptomScaleCols(section.name, 'Present', section.score, sectionSymptomScore)
+								else
+									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)									
 		.row.m-t-3
 			-
 				col1 = "col-sm-4"
