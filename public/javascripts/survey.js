@@ -9,8 +9,10 @@
 // instance variable for section number
 var cache = {
 	sections: [],
+  sectionsIndex: 0, // index for cache.sections array
   skippedQuestions: [],
-  clinicSig: {}
+  clinicSig: {},
+  qualQuestions: new Set() // qualifier questions that can be skipped
 };
 
 var ENTER = 13; // 'enter' keycode
@@ -40,7 +42,6 @@ $('#fullscreen').on('click', function() {
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
 		cache.id = response; // the found survey._id OR newScreen._id
 		getSection(null);
-		cache.sectionsIndex = 0; // index for cache.sections array
 	});
 })
 
@@ -161,9 +162,15 @@ isCacheSection = function(name) {
   return cache.section.name === name;
 }
 
+
 // currently, follow-up questions contain the letter 'A' in them
 isFollowUp = function() {
   return cache.question.num.includes('A');
+}
+
+// qualifiers contain the letter 'Q'
+isQualifier = function() {
+  return cache.question.num.includes('Q');
 }
 
 // return the ID attribute given a question number
@@ -415,7 +422,7 @@ getResponses = function() {
 	r.allsections = [];
   r.dpsScore = 0;
   r.impairmentScore = 0;
-	cache.sections.forEach(function(section, i) {
+	cache.sections.forEach(function(section, i) { // recalculate all questions before sending in case user changed a response
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
       s.name = section.name;
@@ -523,6 +530,10 @@ next = function() {
 
   if (isFinalSection(cache.section)) {
     finalSection();
+  }
+
+  if (isQualifier()) {
+    cache.qualQuestions.add(cache.question.num + ': ' + cache.question.text);
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
