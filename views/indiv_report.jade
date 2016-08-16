@@ -28,13 +28,15 @@ block content
 						=title
 				td= name 
 		//- t-3 adds some space at the top of the row
-		.row.m-t-3
-			.col-sm-12.print-expand
+		.row.m-t-3.print-expand
+			.col-sm-12
 				if report.clinicSig
 					h2 Clinically Significant Information
 					table.table.table-striped
 						each val, key in report.clinicSig
 							+tableRow(key, val, false)
+		.row.m-t-3
+			.col-sm-6.print-expand
 				h2 Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
 					thead
@@ -57,14 +59,18 @@ block content
 								if section.score >= sectionSymptomScore
 									+symptomScaleCols(section.name, 'Present', section.score, sectionSymptomScore)
 								else
-									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)		
+									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)
+			.col-sm-6.print-expand
+				h2 Impairment Scale
+		.row.m-3.print-expand
+			.col-sm-12
 				h2 Scoring Criteria for Further Evaluation:
 				ol
 					li Suicide ideation and/or suicide attempt endorsed.
-					li A specific disorder is 'Present' in Symptom Scale AND the Total DPS Impairment Score &ge; 6 
+					li A specific disorder is 'Present' in Symptom Scale AND the Total Impairment Score &ge; 6 
 						ul
 							li Impairment need not be taken into account for Alcohol, Marijuana or Other Substances
-					li The Total DPS Symptom Score is 
+					li The Total Symptom Score is 
 						ul
 							li &ge; 9 (valid ONLY if Social Phobia, General Anxiety, Depression, Alcohol, Marijuana &amp; Other Substances have been included in the screen) 
 							li OR
