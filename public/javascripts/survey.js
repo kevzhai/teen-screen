@@ -11,8 +11,7 @@ var cache = {
 	sections: [],
   sectionsIndex: 0, // index for cache.sections array
   skippedQuestions: [],
-  clinicSig: {},
-  qualQuestions: new Set() // qualifier questions that can be skipped
+  clinicSig: {}
 };
 
 var ENTER = 13; // 'enter' keycode
@@ -169,8 +168,8 @@ isFollowUp = function() {
 }
 
 // qualifiers contain the letter 'Q'
-isQualifier = function() {
-  return cache.question.num.includes('Q');
+isQualifier = function(question) {
+  return question.num.includes('Q');
 }
 
 // return the ID attribute given a question number
@@ -422,7 +421,7 @@ getResponses = function() {
 	r.allsections = [];
   r.dpsScore = 0;
   r.impairmentScore = 0;
-	cache.sections.forEach(function(section, i) { // recalculate all questions before sending in case user changed a response
+	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
       s.name = section.name;
@@ -444,7 +443,7 @@ getResponses = function() {
           if (isClinicSig(s.name, response.question)) {
             cache.clinicSig[response.question] = answer;
           }
-          if (dpsSection) {
+          if (dpsSection && !isQualifier(question)) {
             response.score = 0;
             if (answer === 'Yes') {
               s.score++;
@@ -530,10 +529,6 @@ next = function() {
 
   if (isFinalSection(cache.section)) {
     finalSection();
-  }
-
-  if (isQualifier()) {
-    cache.qualQuestions.add(cache.question.num + ': ' + cache.question.text);
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
