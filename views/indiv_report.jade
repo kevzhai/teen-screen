@@ -140,10 +140,13 @@ block content
 												else
 													=response.answer
 											td(class="#{col(three)}") 
-												if response.score === 0
-													=response.score
+												if response.score
+													if response.score === 0
+														=response.score
+													else
+														strong= response.score
 												else
-													strong= response.score
+													| -
 										else 
 											td(class="#{col(two + three)}") #{response.answer}
 									- questionNum++
