@@ -10,6 +10,9 @@
 var cache = {
 	sections: [],
   sectionsIndex: 0, // index for cache.sections array
+  isQualSection: false,
+  qualThreshold: 0, // symptom scale threshold to determine whether to proceed to qualifying questions
+  sectionScore: 0, // used for sections with qualifying questions
   skippedQuestions: [],
   clinicSig: {}
 };
@@ -47,9 +50,9 @@ $('#fullscreen').on('click', function() {
 cacheSection = function(response) {
 	// cache the current section number and section
 	cache.section = response.section;
+  setQualSection();
 	cache.sections.push(response.section);
 	cache.responseOptions = response.responseOptions;
-
 	// put the section on the screen
 	compileSection(response.section);
 }
@@ -170,6 +173,22 @@ isFollowUp = function() {
 // qualifiers contain the letter 'Q'
 isQualifier = function(question) {
   return question.num.includes('Q');
+}
+
+// returns whether or not the section contains qualifier questions
+setQualSection = function() {
+  var sectionName = cache.section.name
+  cache.isQualSection = sectionName === 'Agoraphobia' 
+                        || sectionName === 'Panic Attacks' 
+                        || sectionName === 'OCD';
+  if (cache.isQualSection) { 
+    cache.sectionScore = 0; // reset score for new section
+    if (sectionName === 'Agoraphobia' || sectionName === 'Panic Attacks') {
+      cache.qualThreshold = 2;
+    } else { // OCD
+      cache.qualThreshold = 3;
+    }
+  }
 }
 
 // return the ID attribute given a question number
@@ -513,10 +532,37 @@ resetQuestion = function() {
 getNextSection = function() {
   if (nextSecCached()) { 
     cache.section = cache.sections[++cache.sectionsIndex];
+    setQualSection();
     setToFirstQuestion();
   } else {
     sendFormResponses();  
   }
+}
+
+// returns next question in section
+lookahead = function() {
+  // have reached last question in section
+  var num = cache.questionNum;
+  if (num === cache.section.length - 1) return cache.question;
+
+  return cache.section.questions[num + 1];
+}
+
+// helper function to wrap score calculation and determining whether to skip
+calcQualSection = function() {
+  if (!isQualifier(cache.question)) { // only score for questions preceding qualifying questions
+    var response = getResponse(cache.sectionsIndex, cache.question);
+    if (response === 'Yes') {
+      cache.sectionScore++;
+    }
+
+    if (isQualifier(lookahead())) { // next question is first qualifying question
+      if (cache.sectionScore < cache.qualThreshold) { // skip to next section if don't meet cutoff
+        getNextSection();
+        return;
+      }
+    }
+  } 
 }
 
 // used by both next button and keyboard shortcut
@@ -529,6 +575,10 @@ next = function() {
 
   if (isFinalSection(cache.section)) {
     finalSection();
+  }
+
+  if (cache.isQualSection) {
+    calcQualSection();
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
