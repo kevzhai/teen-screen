@@ -103,7 +103,7 @@ app.use(stormpath.init(app, {
   // after login, redirect the user to the admin page
   postLoginHandler: function(account, req, res, next) {
     res.status(302).redirect('/admin');
-  }
+  },
 }));
 
 // view engine setup

@@ -12,6 +12,9 @@ block content
         p The project involves the administration of a survey using the DISC Predictive Scale (DPS). The survey is administered to youth to identify those at risk for various mental health conditions to promote detection and treatment of mental health conditions among youth.
 
       .col-xs-4
-        h3 Administrator Login
-        a.btn.btn-block.btn-success(role='button', href='/login') Login
-        a.btn.btn-block.btn-danger(role='button', href='/register') Register
+        if user.length === 0
+          h3 Administrator Login
+          a.btn.btn-block.btn-success(role='button', href='/login') Login
+          a.btn.btn-block.btn-danger(role='button', href='/register') Register
+        else
+          p Logged in

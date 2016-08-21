@@ -22,7 +22,8 @@ html
               a.nav-link(href="/register") Register
           else
             li.nav-item
-              a.nav-link(href="/logout") Logout
+              form(action='/logout', method='POST', id="logout_form")
+                a.nav-link(onclick="document.getElementById('logout_form').submit();", style="cursor: pointer;") Logout
             li.nav-item
               a.nav-link(href="/admin") Admin
             li.nav-item.pull-xs-right

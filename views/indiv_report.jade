@@ -49,7 +49,11 @@ block content
 						mixin symptomScaleCols(section, status, threshold, userScore)
 							tr
 								td= section
-								td= status
+								td
+									if threshold
+										strong Present
+									else
+										| Absent
 								td= threshold
 								td= userScore
 						each section in report.formResponses
@@ -57,12 +61,17 @@ block content
 							if sectionHasScore && section.name !== 'Impairment'
 								- var sectionSymptomScore = symptomScale[section.name]
 								if section.score >= sectionSymptomScore
-									+symptomScaleCols(section.name, 'Present', section.score, sectionSymptomScore)
+									+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
 								else
-									+symptomScaleCols(section.name, 'Absent', section.score, sectionSymptomScore)
+									+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
 			.col-sm-6.print-expand
 				h2 Impairment Scale
-		.row.m-3.print-expand
+				- var impairThreshold = 6
+				if report.impairmentScore > impairThreshold
+					p Present
+				else 
+					p Absent
+		.row.m-t-3.print-expand
 			.col-sm-12
 				h2 Scoring Criteria for Further Evaluation:
 				ol
