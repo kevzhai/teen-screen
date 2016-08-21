@@ -22,6 +22,7 @@ html
               a.nav-link(href="/register") Register
           else
             li.nav-item
+              //- https://github.com/stormpath/express-stormpath-sample-project/blob/master/lib/views/navbar.jade#L19
               form(action='/logout', method='POST', id="logout_form")
                 a.nav-link(onclick="document.getElementById('logout_form').submit();", style="cursor: pointer;") Logout
             li.nav-item
