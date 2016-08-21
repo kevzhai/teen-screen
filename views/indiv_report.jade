@@ -36,8 +36,9 @@ block content
 						each val, key in report.clinicSig
 							+tableRow(key, val, false)
 		.row.m-t-3
+			- var impairSection = {};
 			.col-sm-6.print-expand
-				h2 Symptom Scale
+				h2#scale Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
 					thead
 						tr
@@ -48,7 +49,8 @@ block content
 					tbody
 						mixin symptomScaleCols(section, status, threshold, userScore)
 							tr
-								td= section
+								td
+									a(href="##{section}")= section
 								td
 									if threshold
 										strong Present
@@ -58,19 +60,34 @@ block content
 								td= userScore
 						each section in report.formResponses
 							- var sectionHasScore = section.hasOwnProperty('score')
-							if sectionHasScore && section.name !== 'Impairment'
-								- var sectionSymptomScore = symptomScale[section.name]
-								if section.score >= sectionSymptomScore
-									+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
+							if sectionHasScore
+								if section.name !== 'Impairment' 
+									- var sectionSymptomScore = symptomScale[section.name]
+									if section.score >= sectionSymptomScore
+										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
+									else
+										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
 								else
-									+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
+									- impairSection = section
 			.col-sm-6.print-expand
 				h2 Impairment Scale
 				- var impairThreshold = 6
 				if report.impairmentScore > impairThreshold
-					p Present
+					strong Present:
+					p Score of #{ report.impairmentScore } is greater than or equal to the threshold of #{ impairThreshold }
 				else 
 					p Absent
+					p Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
+				p Symptoms
+				- var impairSymptoms = new Set;
+				each response in impairSection.qa
+					if typeof response.answer === 'object'
+							each item in response.answer
+								- impairSymptoms.add(item);
+				- impairSymptoms = [...impairSymptoms];
+				ul
+					each item in impairSymptoms
+						li= item
 		.row.m-t-3.print-expand
 			.col-sm-12
 				h2 Scoring Criteria for Further Evaluation:
@@ -121,7 +138,8 @@ block content
 					}
 				each section in report.formResponses
 					- var sectionHasScore = section.hasOwnProperty('score')
-					h3= section.name
+					h3(id="#{section.name}")= section.name
+					a(href="#scale") Back to Symptom Scale
 					table.table.table-striped(class="#{tabletheme}" data-sortable)
 						thead
 							tr
@@ -135,7 +153,6 @@ block content
 							- questionNum  = 1
 							each response in section.qa
 								//- if there's no followup response, don't display the row for followup question and the blank answer
-								//- - console.log('response', response);
 								if hasResponse(response.answer)
 									tr
 										td(class="#{col(one)}") #{questionNum}. #{response.question}

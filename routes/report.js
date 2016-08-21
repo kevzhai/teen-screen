@@ -26,7 +26,7 @@ router.get('/', function(req, res) {
   Screen.find({ admin: req.user.username }, function(err, reports) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
     console.log(reports);
     res.render('report', {
-      title: 'Teen Screen Reports Page',
+      title: 'Teen Screen Reports',
       reports: JSON.stringify(reports),
       user: req.user.fullName,
       nav: true

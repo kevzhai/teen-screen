@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET initiate survey page. */
 router.get('/', function(req, res, next) {
 	res.render('admin', {
-    title: 'Teen Screen Admin Page',
+    title: 'Teen Screen Admin Dashboard',
     user: req.user ? req.user.fullName : '',
     nav: true
   });
