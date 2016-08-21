@@ -36,7 +36,6 @@ block content
 						each val, key in report.clinicSig
 							+tableRow(key, val, false)
 		.row.m-t-3
-			- var impairSection = {};
 			.col-sm-6.print-expand
 				h2#scale Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
@@ -60,15 +59,12 @@ block content
 								td= userScore
 						each section in report.formResponses
 							- var sectionHasScore = section.hasOwnProperty('score')
-							if sectionHasScore
-								if section.name !== 'Impairment' 
-									- var sectionSymptomScore = symptomScale[section.name]
-									if section.score >= sectionSymptomScore
-										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
-									else
-										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
+							if sectionHasScore && section.name !== 'Impairment' 
+								- var sectionSymptomScore = symptomScale[section.name]
+								if section.score >= sectionSymptomScore
+									+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
 								else
-									- impairSection = section
+									+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
 			.col-sm-6.print-expand
 				h2 Impairment Scale
 				- var impairThreshold = 6
@@ -78,16 +74,8 @@ block content
 				else 
 					p Absent
 					p Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
-				p Symptoms
-				- var impairSymptoms = new Set;
-				each response in impairSection.qa
-					if typeof response.answer === 'object'
-							each item in response.answer
-								- impairSymptoms.add(item);
-				- impairSymptoms = [...impairSymptoms];
-				ul
-					each item in impairSymptoms
-						li= item
+				p 
+					a(href="#Impairment") Symptoms
 		.row.m-t-3.print-expand
 			.col-sm-12
 				h2 Scoring Criteria for Further Evaluation:
@@ -168,7 +156,7 @@ block content
 											td(class="#{col(three)}") 
 												if response.score === 0
 													=response.score
-												else if response.score === 1
+												else if response.score >= 1
 													strong= response.score
 												else
 													| -
