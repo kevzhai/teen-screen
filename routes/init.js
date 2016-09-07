@@ -14,16 +14,20 @@ var FINAL_SECTION = "23";
 
 /* GET initiate survey page. */
 router.get('/', function(req, res, next) {
-	fs.readFile('./private/optional_sections.txt', function (err, content) {
-      if (err) {
-        return next(err);
-      }
-      res.render('init', {
-        title: 'Teen Screen Initiate Survey',
-        lines : content.toString().split('\n'),
-        user: req.user ? req.user.fullName : '',
-        nav: true
-      });
+  fs.readFile('./private/required_sections.txt', function(err, content) {
+    let reqSections = content.toString().split('\n');
+    fs.readFile('./private/optional_sections.txt', function (err, content) {
+        if (err) {
+          return next(err);
+        }
+        res.render('init', {
+          title: 'Teen Screen Initiate Survey',
+          reqSections: reqSections,
+          optSections : content.toString().split('\n'),
+          user: req.user ? req.user.fullName : '',
+          nav: true
+        });
+    });
   });
   // console.log("req"); // debuq
   // console.log(req); // debuq
