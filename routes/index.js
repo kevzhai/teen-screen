@@ -9,7 +9,7 @@ router.get('/', stormpath.getUser, function(req, res) {
   res.render('index', {
     title: 'Teen Screen',
     user: req.user ? req.user.fullName : '',
-    userFirstName: req.user.givenName,
+    userFirstName: req.user ? req.user.givenName : '',
     nav: true
   });
 });

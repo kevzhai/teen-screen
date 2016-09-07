@@ -36,6 +36,7 @@ block content
 						each val, key in report.clinicSig
 							+tableRow(key, val, false)
 		.row.m-t-3
+			- impairPresent = false
 			.col-sm-6.print-expand
 				h2#scale Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
@@ -59,12 +60,15 @@ block content
 								td= userScore
 						each section in report.formResponses
 							- var sectionHasScore = section.hasOwnProperty('score')
-							if sectionHasScore && section.name !== 'Impairment' 
-								- var sectionSymptomScore = symptomScale[section.name]
-								if section.score >= sectionSymptomScore
-									+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
+							if sectionHasScore
+								if section.name !== 'Impairment' 
+									- var sectionSymptomScore = symptomScale[section.name]
+									if section.score >= sectionSymptomScore
+										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
+									else
+										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
 								else
-									+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
+									- impairPresent = true
 			.col-sm-6.print-expand
 				h2 Impairment Scale
 				- var impairThreshold = 6
@@ -74,7 +78,7 @@ block content
 				else 
 					p Absent
 					p Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
-				p 
+				if impairPresent
 					a(href="#Impairment") Symptoms
 		.row.m-t-3.print-expand
 			.col-sm-12

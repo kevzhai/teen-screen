@@ -14,7 +14,7 @@ var FINAL_SECTION = "23";
 
 /* GET initiate survey page. */
 router.get('/', function(req, res, next) {
-	fs.readFile('./private/sections.txt', function (err, content) {
+	fs.readFile('./private/optional_sections.txt', function (err, content) {
       if (err) {
         return next(err);
       }

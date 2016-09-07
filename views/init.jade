@@ -7,13 +7,14 @@ block content
         h1= title
         p Please select sections to test and enter a subject ID. Running a survey with an existing subject ID will overwrite the previously-saved version of the survey. The survey works best in the Google Chrome browser. 
     .row
+      h2 The following sections will be administered:
       form(method="post" action="/init")
         .col-sm-6
           table.table.table-striped
             thead
               tr
                 th 
-                  span(style="font-size: 1.5em;") Choose Sections
+                  span(style="font-size: 1.5em;") Choose Optional Sections
                   .btn-group.pull-xs-none.pull-sm-right(role="group")
                     button.btn.btn-secondary.checkall(type="button") Check all /  none
             tbody
