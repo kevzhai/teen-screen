@@ -29,14 +29,11 @@ router.get('/', function(req, res, next) {
         });
     });
   });
-  // console.log("req"); // debuq
-  // console.log(req); // debuq
 });
 
 // http://stackoverflow.com/questions/19035373/how-do-i-redirect-in-expressjs-while-passing-some-context
 function processForm(req, res, next) {
-  console.log("processForm");
-  console.log(req.body);
+  console.log("processForm", req.body);
   req.session.surveyParams = req.body;
   req.session.sectionIndex = 0; // used to iterate through surveyParams.section array
   if (typeof req.session.surveyParams.sections === "string") { // if only one section is chosen, it is a string, and not an array

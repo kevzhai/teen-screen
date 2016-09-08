@@ -14,10 +14,5 @@ $("#submit").on("click", function() {
 	if ($("#subjectId").val().length === 0) {
 		bootstrap_alert.warning('Please enter subject ID');
 		return false;
-	} else if ($('input[type="checkbox"]:checked').length === 0) {
-		bootstrap_alert.warning('Please check at least one section');
-		return false;
-	} else {
-		return true;
 	}
 })
