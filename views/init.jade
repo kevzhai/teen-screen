@@ -25,22 +25,19 @@ block content
                       button.btn.btn-secondary.checkall(type="button") Check all /  none
               tbody
                 //- start var i at 2 to compensate for intro1 and intro2 in survey-questions.json, index for sections will now match with json 
-                - i = 2 
                 each l in reqSections
                   tr(style="display:none;")
                     td
                       label
-                        input(type="checkbox", checked=true, name="req-sections", value="#{ i }")
+                        input(type="checkbox", checked=true, name="req-sections", value=l)
                         span= l
-                  - i++
                 each l in optSections  
                   tr
                     td 
                       label.c-input.c-checkbox
-                        input.checked(type="checkbox", checked=false, name="opt-sections" value="#{i}")
+                        input.checked(type="checkbox", checked=false, name="opt-sections" value=l)
                         span.c-indicator
                         span= l
-                  - i++
         .col-sm-6
           -
             list = ["sponsor", "protocol", "site"]
