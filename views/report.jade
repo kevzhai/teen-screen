@@ -2,7 +2,7 @@ extends layout
 
 block css
 	- tabletheme = "sortable-theme-bootstrap"
-	link(rel='stylesheet', href='/stylesheets/#{tabletheme}.css')
+	link(rel='stylesheet', href='/stylesheets/#{ tabletheme }.css')
 
 block content
 	.container
@@ -15,22 +15,22 @@ block content
 			-
 				allSubjects = JSON.parse(reports)
 				list = ["Subject ID", "Created", "Site", "Sponsor", "Protocol", "Description"]
-			table.table(class="#{tabletheme}" data-sortable)
+			table.table(class="#{  tabletheme }" data-sortable)
 				thead
 					tr
 						each header in list
-							th #{header} 
+							th #{ header } 
 				tbody
 					each subject in allSubjects
 						tr
 							td 
-								a(href="/report/#{subject.subjectID}/#{subject._id}") #{subject.subjectID}
+								a(href="/report/#{ subject.subjectID }/#{ subject._id }") #{ subject.subjectID }
 							//- JSON parsed so dates are type String, not Date, so harder to format
-							td #{subject.creationDate.substr(0,10)}
-							td #{subject.site}
-							td #{subject.sponsor}
-							td #{subject.protocol}
-							td #{subject.description}
+							td #{ subject.creationDate.substr(0,10) }
+							td #{ subject.site }
+							td #{ subject.sponsor }
+							td #{ subject.protocol }
+							td #{ subject.description }
 
 block scripts
 	script(src='/javascripts/libraries/sortable.min.js')
