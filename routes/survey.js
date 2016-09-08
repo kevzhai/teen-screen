@@ -35,38 +35,23 @@ router.post('/initiate', function(req, res, next) {
   //   console.log(JSON.stringify(surveys, null, 2));
   // });
 
-  // search for document based on 'subjectID' key
-  Screen.findOne({subjectID: req.session.surveyParams.subjectId}, function (err, survey) {
-    if (err) {
-      console.log(err);
-    }
-    if (survey) { // if found
-      survey.language = req.session.surveyParams.language;
-      survey.description = req.session.surveyParams.description;
-      survey.sponsor = req.session.surveyParams.sponsor;
-      survey.protocol = req.session.surveyParams.protocol;
-      survey.site = req.session.surveyParams.site;
-      saveSurvey(survey);
-      res.json(survey._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
-    } else { // create new
-      var newScreen = new Screen({ 
-        admin: req.user.username, // logged-in Stormpath user
-        subjectID: req.session.surveyParams.subjectId,
-        language: req.session.surveyParams.language,
-        description: req.session.surveyParams.description,
-        sponsor: req.session.surveyParams.sponsor,
-        protocol: req.session.surveyParams.protocol,
-        site: req.session.surveyParams.site,
-        dpsScore: 0,
-        impairmentScore: 0,
-        formResponses: [],
-        clinicSig: {}
-      });
-
-      saveSurvey(newScreen);
-      res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
-    }
+  // always create a new survey
+  var newScreen = new Screen({ 
+    admin: req.user.username, // logged-in Stormpath user
+    subjectID: req.session.surveyParams.subjectId,
+    language: req.session.surveyParams.language,
+    description: req.session.surveyParams.description,
+    sponsor: req.session.surveyParams.sponsor,
+    protocol: req.session.surveyParams.protocol,
+    site: req.session.surveyParams.site,
+    dpsScore: 0,
+    impairmentScore: 0,
+    formResponses: [],
+    clinicSig: {}
   });
+
+  saveSurvey(newScreen);
+  res.json(newScreen._id); // callback on $.post('/survey/initiate'...), equiv to res.send with JSON conversion
 });
 
 /* POST the responses to a section and give the next section */
