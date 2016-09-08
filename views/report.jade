@@ -24,7 +24,7 @@ block content
 					each subject in allSubjects
 						tr
 							td 
-								a(href="/report/#{subject.subjectID}") #{subject.subjectID}
+								a(href="/report/#{subject._id}") #{subject.subjectID}
 							//- JSON parsed so dates are type String, not Date, so harder to format
 							td #{subject.creationDate.substr(0,10)}
 							td #{subject.lastUpdated.substr(0,10)}

@@ -34,18 +34,20 @@ router.get('/', function(req, res) {
   });
 });
 
-router.get('/:subjectID', function(req, res) {
+router.get('/:reportID', function(req, res) {
   checkLoggedIn(req.user);
 
-  var subjectID = req.params.subjectID;
+  console.log("get indiv", req.params);
+
+  var id = req.params.reportID;
 
   var symptomScale = readJsonFileSync('./private/symptom-scale.json');
 
-  Screen.findOne({ subjectID: subjectID }, function(err, report) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
+  Screen.findOne({ _id: id }, function(err, report) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
     // console.log('lone'); // debuq
     // console.log(report); // debuq
     res.render('indiv_report', {
-      title: `Report for ${subjectID}`,
+      title: `Report for ${ id }`,
       report: JSON.stringify(report),
       symptomScale: symptomScale,
       user: req.user.fullName,
