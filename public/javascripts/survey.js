@@ -415,9 +415,16 @@ getResponse = function(sectionsIndex, question) {
 
 // returns true if it is a section that counts towards calculating the DPS score
 isDpsSection = function(section) {
-  return section.name !== "Conclusion" && section.name !== "Demographics" 
-         && section.name !== "Health" && section.name !== "Impairment"
-         && !section.name.includes("Intro");
+  const scorableDpsSections = ["Social Phobia",
+                               "Panic Attacks",
+                               "General Anxiety",
+                               "OCD",
+                               "Depression",
+                               "Alcohol",
+                               "Marijuana",
+                               "Other Substances"]
+                               console.log("scoring", section.name, scorableDpsSections.includes(section.name));
+  return scorableDpsSections.includes(section.name);
 }
 
 
