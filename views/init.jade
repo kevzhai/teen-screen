@@ -26,6 +26,13 @@ block content
               tbody
                 //- start var i at 2 to compensate for intro1 and intro2 in survey-questions.json, index for sections will now match with json 
                 - i = 2 
+                each l in reqSections
+                  tr(style="display:none;")
+                    td
+                      label
+                        input(type="checkbox", checked=true, name="req-sections", value="#{ i }")
+                        span= l
+                  - i++
                 each l in optSections  
                   tr
                     td 
