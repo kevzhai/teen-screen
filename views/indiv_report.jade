@@ -49,26 +49,30 @@ block content
 			div.print-expand(class=col2)
 				if report.positiveReasons.length > 0
 					h2 Further Evaluation Recommended
-					ol
+					ul
 						each reason in report.positiveReasons
 							li= reason
 				else
 					h2 Further Evaluation Not Recommended
 					em A youth should move on to a clinical interview if:
-					ol
+					ul
 						li Either of the suicide items have been endorsed.
 						li A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more.
-						li If the Total DPS Symptom Score is 9 or more (valid ONLY if Social Phobia, Generalized Anxiety, Depression, Alcohol, Marijuana, and Other Substances have been included in the screen).
-						li Total DPS Symptom Score is 7 or more (valid ONLY if Social Phobia, Generalized Anxiety and Depression have been included in the screen). 
+						li If the Total DPS Symptom Score is 9 or more.
 						li Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
-						li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS. 
-
-				em Additional reasons for evaluation:
+				strong: em Additional reasons for evaluation:
 				ul
 					li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS
 					li Youth expresses upset in open-ended response in the #[a(href="#Conclusion") Conclusion section] 
 		.row.m-t-3
-			.col-sm-6.print-expand
+			.col-xs-12
+				if report.clinicSig
+					h2 Clinically Significant Information
+					table.table.table-striped
+						each val, key in report.clinicSig
+							+tableRow(key, val, false)
+		.row.m-t-3
+			div.print-expand(class="#{col1}")
 				h2#scale Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
 					thead
@@ -98,7 +102,6 @@ block content
 										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
 									else
 										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
-			.col-sm-6.print-expand
 				h2 Impairment Scale
 				- var impairThreshold = 6
 				if report.impairmentScore > impairThreshold
@@ -107,12 +110,6 @@ block content
 				else 
 					p Absent: Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
 				p: a(href="#Impairment") Go to Impairment section
-				if report.clinicSig
-					h2 Clinically Significant Information
-					table.table.table-striped
-						each val, key in report.clinicSig
-							+tableRow(key, val, false)
-		.row.m-t-3
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
