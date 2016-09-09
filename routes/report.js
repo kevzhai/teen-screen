@@ -39,7 +39,7 @@ router.get('/:subjectID/:reportID', function(req, res) {
 
   console.log("get indiv", req.params);
 
-  var symptomScale = readJsonFileSync('./private/symptom-scale.json');
+  const symptomScale = readJsonFileSync('./private/symptom-scale.json');
 
   Screen.findOne({ _id: req.params.reportID }, function(err, report) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
     // console.log('lone'); // debuq

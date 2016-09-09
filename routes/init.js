@@ -32,7 +32,7 @@ function processForm(req, res, next) {
   console.log("wdaf", includesOptSections);
   // aggregate of required and optional sections to pass in
   req.session.surveyParams.sections = [];
-  const mapping = JSON.parse(fs.readFileSync('./private/mapping.json').toString());
+  const mapping = JSON.parse(fs.readFileSync('./private/mapping.json'));
 
   for (const section in mapping) {
     if (section.includes("Intro") 

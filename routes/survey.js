@@ -85,6 +85,10 @@ router.post('/section', function(req, res, next) {
       survey.dpsScore = body.dpsScore;
       survey.impairmentScore = body.impairmentScore;
       survey.lastUpdated = new Date();
+      if (body.positiveReasons) {
+        survey.positiveReasons = body.positiveReasons;
+        console.log('pospos', survey.positiveReasons);
+      }
       console.log('$post section\n', JSON.stringify(survey)); // debuq
 
       saveSurvey(survey);

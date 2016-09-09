@@ -413,6 +413,12 @@ getResponse = function(sectionsIndex, question) {
 	}
 }
 
+isScorableSection = function(section) {
+  return section.name !== "Conclusion" && section.name !== "Demographics" 
+         && section.name !== "Health" && section.name !== "Impairment"
+         && !section.name.includes("Intro");
+}
+
 // returns true if it is a section that counts towards calculating the DPS score
 isDpsSection = function(section) {
   const scorableDpsSections = ["Social Phobia",
@@ -452,10 +458,10 @@ getResponses = function() {
       s.name = section.name;
       s.qa = []; // array for questions and answers
 
-      var dpsSection = isDpsSection(section); // boolean
-      var isImpairment = section.name === 'Impairment';
+      const scorableSection = isScorableSection(section);
+      const isImpairment = section.name === 'Impairment';
 
-      if (dpsSection || isImpairment) {
+      if (scorableSection || isImpairment) {
         s.score = 0; // section score
       }
 
@@ -468,7 +474,7 @@ getResponses = function() {
           if (isClinicSig(s.name, response.question)) {
             cache.clinicSig[response.question] = answer;
           }
-          if (dpsSection && !isQualifier(question)) {
+          if (scorableSection && !isQualifier(question)) {
             response.score = 0;
             if (answer === 'Yes') {
               s.score++;
@@ -484,6 +490,7 @@ getResponses = function() {
           s.qa.push(response);
   		 	}
 		  }); 
+      const dpsSection = isDpsSection(section); // boolean
       if (dpsSection) {
         r.dpsScore += s.score;        
       } else if (isImpairment) {
@@ -496,35 +503,82 @@ getResponses = function() {
 }
 
 calcPositiveScreen = function(r) {
-  console.log("calc", r, cache.clinicSig);
+  const symptomScale = {
+    "Social Phobia":2,
+    "Separation Anxiety":4,
+    "Agoraphobia":2,
+    "Panic Attacks":2,
+    "General Anxiety":3,
+    "Specific Phobia":2,
+    "OCD":3,
+    "PTSD":6,
+    "Eating Disorder":2,
+    "Depression":5,
+    "Mania":2,
+    "ADHD":4,
+    "ODD":4,
+    "Conduct Disorder":2,
+    "Alcohol":2,
+    "Marijuana":2,
+    "Other Substances":1
+  }
+
+  let positiveReasons = [];
   // Either of the suicide items have been endorsed. OR…
   for (q in cache.clinicSig) {
     if (q.includes("kill")) {
       if (cache.clinicSig[q] === "Yes") {
-        console.log("positive");
-        return true;
+        positiveReasons.push("Suicide item endorsed: " + q);
       }
     }
   }
   // A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more. OR…
-  // If the Total DPS Symptom Score is 9 or more (valid ONLY if Social Phobia, Generalized Anxiety, Depression, Alcohol, Marijuana, and Other Substances have been included in the screen). OR…
-  // Total DPS Symptom Score is 7 or more (valid ONLY if Social Phobia, Generalized Anxiety and Depression have been included in the screen).  OR…
+  let disorders = [];
+  if (r.impairmentScore >= 6) {
+    for (let i = 0; i < r.allsections.length; i++) {
+      const section = r.allsections[i];
+      if (section.score && !section.name.includes("Impairment")) {
+        if (section.score >= symptomScale[section.name]) {
+          disorders.push(section.name)
+        }
+      }
+    }
+    if (disorders.length > 0) {
+      positiveReasons.push(`Impairment score of ${ r.impairmentScore } is 6 or more and the following disorders are present: ${ disorders.toString() } `)
+    }
+  }
+  // If the Total DPS Symptom Score is 9 or more OR…
+  if (r.dpsScore >= 9) {
+    positiveReasons.push(`Symptom score of ${ r.dpsScore } is 9 or more`)
+  }
   // Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
+  substanceReason = function(substance) {
+    if (disorders.includes(substance)) {
+      positiveReasons.push(`${ substance } is present`);
+    }
+  }
+  substanceReason("Alcohol");
+  substanceReason("Marijuana");
+  substanceReason("Other Substances");
+  return positiveReasons;
 }
 
 // save responses to params and proceed to next section
-sendFormResponses = function() {
+sendFormResponses = function(finalCalc = false) {
   const r = getResponses();
-  const positive = calcPositiveScreen(r);  
-	const params = {
+	let params = {
 		id: cache.id, // survey._id
     // TODO
     formResponses: r.allsections,
     dpsScore: r.dpsScore,
     impairmentScore: r.impairmentScore,
     clinicSig: cache.clinicSig
-    // impairmentScore: all.impairmentScore
 	};
+
+  if (finalCalc) {
+    const positive = calcPositiveScreen(r);  
+    params["positiveReasons"] = positive;
+  }
 
 	getSection(params);
 }
@@ -533,7 +587,7 @@ finalSection = function() {
   if (lastSecQuestion()) {
     return; // do nothing on final "thank you" page     
   }
-  sendFormResponses(); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
+  sendFormResponses(true); // submit form after first question (asking about interview form field), also revises form values sent if user goes back and revises answers
   proceedToQuestion(true);
   return;
 }
