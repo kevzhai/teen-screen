@@ -28,7 +28,7 @@ block content
 							//- JSON parsed so dates are type String, not Date, so harder to format
 							td= subject.creationDate.substr(0,10)
 							td
-								if subject.positiveReasons
+								if subject.positiveReasons.length > 0
 									| Yes
 								else
 									| No

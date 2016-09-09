@@ -29,14 +29,45 @@ block content
 				td= name 
 		//- t-3 adds some space at the top of the row
 		.row.m-t-3.print-expand
-			.col-sm-12
-				if report.clinicSig
-					h2 Clinically Significant Information
-					table.table.table-striped
-						each val, key in report.clinicSig
-							+tableRow(key, val, false)
+			-
+				col1 = "col-sm-4"
+				col2 = "col-sm-8"
+			div.print-expand(class=col1)
+				h2 Report for #{report.subjectID}
+				- optionalSections = ["site", "sponsor", "protocol", "description"]
+				br 
+				table.table.table-striped
+					+tableRow('Total Symptom Score', report.dpsScore, true)
+					+tableRow('Total Impairment Score', report.impairmentScore, true)
+					+tableRow('Language', report.language, true)
+					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
+					each section in optionalSections
+						//- Square bracket notation allows selection of properties using variables
+						if report[section] 
+							+tableRow(section, report[section], true)
+				br
+			div.print-expand(class=col2)
+				if report.positiveReasons.length > 0
+					h2 Further Evaluation Recommended
+					ol
+						each reason in report.positiveReasons
+							li= reason
+				else
+					h2 Further Evaluation Not Recommended
+					em A youth should move on to a clinical interview if:
+					ol
+						li Either of the suicide items have been endorsed.
+						li A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more.
+						li If the Total DPS Symptom Score is 9 or more (valid ONLY if Social Phobia, Generalized Anxiety, Depression, Alcohol, Marijuana, and Other Substances have been included in the screen).
+						li Total DPS Symptom Score is 7 or more (valid ONLY if Social Phobia, Generalized Anxiety and Depression have been included in the screen). 
+						li Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
+						li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS. 
+
+				em Additional reasons for evaluation:
+				ul
+					li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS
+					li Youth expresses upset in open-ended response in the #[a(href="#Conclusion") Conclusion section] 
 		.row.m-t-3
-			- impairPresent = false
 			.col-sm-6.print-expand
 				h2#scale Symptom Scale
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
@@ -67,50 +98,21 @@ block content
 										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
 									else
 										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
-								else
-									- impairPresent = true
 			.col-sm-6.print-expand
 				h2 Impairment Scale
 				- var impairThreshold = 6
 				if report.impairmentScore > impairThreshold
 					strong Present:
-					p Score of #{ report.impairmentScore } is greater than or equal to the threshold of #{ impairThreshold }
+					|  Score of #{ report.impairmentScore } is greater than or equal to the threshold of #{ impairThreshold }
 				else 
-					p Absent
-					p Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
-				if impairPresent
-					a(href="#Impairment") Symptoms
-		.row.m-t-3.print-expand
-			.col-sm-12
-				h2 Scoring Criteria for Further Evaluation:
-				ol
-					li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS.  OR…
-					li Youth expresses upset in open-ended response to Q119
-					li Suicide ideation and/or suicide attempt endorsed.
-					li A specific disorder is 'Present' in Symptom Scale AND the Total Impairment Score &ge; 6 
-						ul
-							li Impairment need not be taken into account for Alcohol, Marijuana or Other Substances
-					li The Total Symptom Score is 
-						ul
-							li &ge; 9
+					p Absent: Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
+				p: a(href="#Impairment") Go to Impairment section
+				if report.clinicSig
+					h2 Clinically Significant Information
+					table.table.table-striped
+						each val, key in report.clinicSig
+							+tableRow(key, val, false)
 		.row.m-t-3
-			-
-				col1 = "col-sm-4"
-				col2 = "col-sm-8"
-			div.print-expand(class="#{col1}")
-				h2 Report for #{report.subjectID}
-				- optionalSections = ["site", "sponsor", "protocol", "description"]
-				br 
-				table.table.table-striped
-					+tableRow('Total Symptom Score', report.dpsScore, true)
-					+tableRow('Total Impairment Score', report.impairmentScore, true)
-					+tableRow('Language', report.language, true)
-					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
-					each section in optionalSections
-						//- Square bracket notation allows selection of properties using variables
-						if report[section] 
-							+tableRow(section, report[section], true)
-				br
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
