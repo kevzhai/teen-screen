@@ -73,7 +73,7 @@ block content
 							+tableRow(key, val, false)
 		.row.m-t-3
 			div.print-expand(class="#{col1}")
-				h2#scale Symptom Scale
+				h2#scale Scores
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
 					thead
 						tr
@@ -82,34 +82,26 @@ block content
 							th Survey Score
 							th Threshold
 					tbody
-						mixin symptomScaleCols(section, status, threshold, userScore)
+						mixin symptomScaleCols(section, userScore, threshold)
 							tr
 								td
 									a(href="##{section}")= section
 								td
-									if threshold
+									if userScore >= threshold 
 										strong Present
+									else if userScore !== 0 && userScore === threshold - 1
+										em Possible
 									else
 										| Absent
-								td= threshold
 								td= userScore
+								td= threshold
 						each section in report.formResponses
-							- var sectionHasScore = section.hasOwnProperty('score')
-							if sectionHasScore
-								if section.name !== 'Impairment' 
-									- var sectionSymptomScore = symptomScale[section.name]
-									if section.score >= sectionSymptomScore
-										+symptomScaleCols(section.name, true, section.score, sectionSymptomScore)
-									else
-										+symptomScaleCols(section.name, false, section.score, sectionSymptomScore)
-				h2 Impairment Scale
-				- var impairThreshold = 6
-				if report.impairmentScore > impairThreshold
-					strong Present:
-					|  Score of #{ report.impairmentScore } is greater than or equal to the threshold of #{ impairThreshold }
-				else 
-					p Absent: Score of #{ report.impairmentScore } is less than the threshold of #{ impairThreshold }
-				p: a(href="#Impairment") Go to Impairment section
+							if section.hasOwnProperty('score')
+								- var sectionSymptomScore = symptomScale[section.name]
+								if section.score >= sectionSymptomScore
+									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
+								else
+									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
 			div.print-expand(class="#{col2}")
 				-
 					one   = 6
