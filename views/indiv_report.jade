@@ -39,8 +39,8 @@ block content
 				table.table.table-striped
 					+tableRow('Total Symptom Score', report.dpsScore, true)
 					+tableRow('Total Impairment Score', report.impairmentScore, true)
-					+tableRow('Language', report.language, true)
 					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
+					+tableRow('Language', report.language, true)
 					each section in optionalSections
 						//- Square bracket notation allows selection of properties using variables
 						if report[section] 
@@ -52,6 +52,7 @@ block content
 					ul
 						each reason in report.positiveReasons
 							li= reason
+					strong: em Additional reasons for evaluation:
 				else
 					h2 Further Evaluation Not Recommended
 					em A youth should move on to a clinical interview if:
@@ -60,7 +61,7 @@ block content
 						li A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more.
 						li If the Total DPS Symptom Score is 9 or more.
 						li Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
-				strong: em Additional reasons for evaluation:
+					h5 Unless: youth #[em should] move onto further evaluation if:
 				ul
 					li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS
 					li Youth expresses upset in open-ended response in the #[a(href="#Conclusion") Conclusion section] 
@@ -72,7 +73,7 @@ block content
 						each val, key in report.clinicSig
 							+tableRow(key, val, false)
 		.row.m-t-3
-			div.print-expand(class="#{col1}")
+			div.print-expand(class=col1)
 				h2#scale Scores
 				table.table.table-striped(class="#{tabletheme}" data-sortable)
 					thead
@@ -102,7 +103,7 @@ block content
 									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
 								else
 									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
-			div.print-expand(class="#{col2}")
+			div.print-expand(class=col2)
 				-
 					one   = 6
 					two   = 4

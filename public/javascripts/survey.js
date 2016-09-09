@@ -544,12 +544,12 @@ calcPositiveScreen = function(r) {
       }
     }
     if (disorders.length > 0) {
-      positiveReasons.push(`Impairment score of ${ r.impairmentScore } is 6 or more and the following disorders are present: ${ disorders.toString() } `)
+      positiveReasons.push(`Impairment score of ${ r.impairmentScore } (threshold of 6) and the following disorders are present: ${ disorders.toString() } `)
     }
   }
   // If the Total DPS Symptom Score is 9 or more OR…
   if (r.dpsScore >= 9) {
-    positiveReasons.push(`Symptom score of ${ r.dpsScore } is 9 or more`)
+    positiveReasons.push(`Symptom score of ${ r.dpsScore } (threshold of 9)`)
   }
   // Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
   substanceReason = function(substance) {
@@ -560,6 +560,7 @@ calcPositiveScreen = function(r) {
   substanceReason("Alcohol");
   substanceReason("Marijuana");
   substanceReason("Other Substances");
+  
   return positiveReasons;
 }
 
