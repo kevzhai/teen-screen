@@ -423,7 +423,6 @@ isDpsSection = function(section) {
                                "Alcohol",
                                "Marijuana",
                                "Other Substances"]
-                               console.log("scoring", section.name, scorableDpsSections.includes(section.name));
   return scorableDpsSections.includes(section.name);
 }
 
@@ -496,10 +495,28 @@ getResponses = function() {
 	return r;
 }
 
+calcPositiveScreen = function(r) {
+  console.log("calc", r, cache.clinicSig);
+  // Either of the suicide items have been endorsed. OR…
+  for (q in cache.clinicSig) {
+    if (q.includes("kill")) {
+      if (cache.clinicSig[q] === "Yes") {
+        console.log("positive");
+        return true;
+      }
+    }
+  }
+  // A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more. OR…
+  // If the Total DPS Symptom Score is 9 or more (valid ONLY if Social Phobia, Generalized Anxiety, Depression, Alcohol, Marijuana, and Other Substances have been included in the screen). OR…
+  // Total DPS Symptom Score is 7 or more (valid ONLY if Social Phobia, Generalized Anxiety and Depression have been included in the screen).  OR…
+  // Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
+}
+
 // save responses to params and proceed to next section
 sendFormResponses = function() {
-  var r = getResponses();
-	var params = {
+  const r = getResponses();
+  const positive = calcPositiveScreen(r);  
+	const params = {
 		id: cache.id, // survey._id
     // TODO
     formResponses: r.allsections,

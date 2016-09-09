@@ -27,6 +27,9 @@ function processForm(req, res, next) {
   req.session.surveyParams = req.body;
   req.session.sectionIndex = 0; // used to iterate through surveyParams.section array
 
+  // bool for whether there are optional sections
+  const includesOptSections = Object.keys(req.session.surveyParams).includes("opt-sections");
+  console.log("wdaf", includesOptSections);
   // aggregate of required and optional sections to pass in
   req.session.surveyParams.sections = [];
   const mapping = JSON.parse(fs.readFileSync('./private/mapping.json').toString());
@@ -35,7 +38,7 @@ function processForm(req, res, next) {
     if (section.includes("Intro") 
            || section.includes("Conclusion")
            || req.session.surveyParams["req-sections"].includes(section)
-           || req.session.surveyParams["opt-sections"].includes(section)) {
+           || (includesOptSections && req.session.surveyParams["opt-sections"].includes(section))) {
       req.session.surveyParams.sections.push(mapping[section]);
     } 
   }
