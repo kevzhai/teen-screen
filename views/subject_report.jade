@@ -1,0 +1,49 @@
+extends layout
+
+block css
+  - tabletheme = "sortable-theme-bootstrap"
+  link(rel='stylesheet', href='/stylesheets/#{ tabletheme }.css')
+
+block content
+  .container
+    .row
+      .col-xs-12
+        h1= title
+        p View the tests that you have administered for subject ID #{ subjectID }.
+        p In any of the tables, click a column header to sort with it.
+        .btn-group
+          a.btn.btn-secondary(href="/report") 
+            i.fa.fa-chevron-left(aria-hidden="true")
+            |  Back to all reports
+    br
+    .row
+      -
+        let allReports;
+        if (typeof reports === "string") { // only one report so far for this subjectID
+          reports = Array(reports);
+        }
+        allReports = JSON.parse(reports)
+        const list = ["Created", "Positive Screen", "Site", "Sponsor", "Protocol", "Description"]
+      table.table(class="#{  tabletheme }" data-sortable)
+        thead
+          tr
+            each header in list
+              th #{ header } 
+        tbody
+          each report in allReports
+            tr
+              //- JSON parsed so dates are type String, not Date, so harder to format, would have to rehydrate to Date if want to be fancier
+              td
+                a(href="/report/#{ report.subjectID }/#{ report._id }") #{ report.creationDate.substr(0,10) }
+              td
+                if report.positiveReasons.length > 0
+                  | Yes
+                else
+                  | No
+              td= report.site
+              td= report.sponsor
+              td= report.protocol
+              td= report.description
+
+block scripts
+  script(src='/javascripts/libraries/sortable.min.js')

@@ -14,7 +14,7 @@ block content
 		.row
 			-
 				allSubjects = JSON.parse(reports)
-				list = ["Subject ID", "Created", "Positive Screen", "Site", "Sponsor", "Protocol", "Description"]
+				list = ["Subject ID", "Site", "Sponsor", "Protocol", "Description"]
 			table.table(class="#{  tabletheme }" data-sortable)
 				thead
 					tr
@@ -24,14 +24,7 @@ block content
 					each subject in allSubjects
 						tr
 							td 
-								a(href="/report/#{ subject.subjectID }/#{ subject._id }") #{ subject.subjectID }
-							//- JSON parsed so dates are type String, not Date, so harder to format
-							td= subject.creationDate.substr(0,10)
-							td
-								if subject.positiveReasons.length > 0
-									| Yes
-								else
-									| No
+								a(href="/report/#{ subject.subjectID }") #{ subject.subjectID }
 							td= subject.site
 							td= subject.sponsor
 							td= subject.protocol

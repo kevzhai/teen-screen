@@ -14,11 +14,11 @@ block content
 				p.lead The DPS is a screen and is not diagnostic. It is not a substitute for a thorough clinical evaluation.
 				p In any of the tables, click a column header to sort with it.
 				.btn-group
-					a.btn.btn-secondary(href="/report") 
+					a.btn.btn-secondary(href="/report/#{ report.subjectID }") 
 						i.fa.fa-chevron-left(aria-hidden="true")
-						|  Back to all reports
+						|  Back to all reports for #{ report.subjectID }
 					a.btn.btn-secondary(onClick="window.print()") Print Report
-					a.btn.btn-secondary(href="#{report.subjectID}" download) Save Report
+					a.btn.btn-secondary(href="#{ report.subjectID }" download) Save Report
 		mixin tableRow(title, name, cap)
 			tr
 				td
@@ -39,6 +39,7 @@ block content
 				table.table.table-striped
 					+tableRow('Total Symptom Score', report.dpsScore, true)
 					+tableRow('Total Impairment Score', report.impairmentScore, true)
+					//- JSON parsed so dates are type String, not Date, so harder to format, would have to rehydrate to Date if want to be fancier
 					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
 					+tableRow('Language', report.language, true)
 					each section in optionalSections

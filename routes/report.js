@@ -24,9 +24,36 @@ router.get('/', function(req, res) {
   checkLoggedIn(req.user);
   // only return reports administered by admin
   Screen.find({ admin: req.user.username }, function(err, reports) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
-    console.log(reports);
+    // create Set to hold subject IDs
+    let allSubjectIDs = new Set();
+    // create array to hold objects for each subject ID
+    let subjectInfo = [];
+    // if not already in Set, add to array
+    for (let i = 0; i < reports.length; i++) {
+      const subjectID = reports[i].subjectID;
+      if (!allSubjectIDs.has(subjectID)) {
+        allSubjectIDs.add(subjectID);
+        subjectInfo.push(reports[i]);
+      }
+    }
+
     res.render('report', {
       title: 'Teen Screen Reports',
+      reports: JSON.stringify(subjectInfo),
+      user: req.user.fullName,
+      nav: true
+    });
+  });
+});
+
+// lists all reports for one subject ID
+router.get('/:subjectID', function(req, res) {
+  checkLoggedIn(req.user);
+
+  Screen.find({ subjectID: req.params.subjectID }, function(err, reports) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
+    res.render('subject_report', {
+      title: `All reports for ${ req.params.subjectID }`,
+      subjectID: req.params.subjectID,
       reports: JSON.stringify(reports),
       user: req.user.fullName,
       nav: true
@@ -42,8 +69,6 @@ router.get('/:subjectID/:reportID', function(req, res) {
   const symptomScale = readJsonFileSync('./private/symptom-scale.json');
 
   Screen.findOne({ _id: req.params.reportID }, function(err, report) { // callback follows the pattern callback(error, results) http://mongoosejs.com/docs/queries.html
-    // console.log('lone'); // debuq
-    // console.log(report); // debuq
     res.render('indiv_report', {
       title: `Report for ${ req.params.subjectID }`,
       report: JSON.stringify(report),
