@@ -26,9 +26,9 @@ var FOUR_RADIO = '5'; // question type code
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  // if (screenfull.enabled) { 
-  //   screenfull.request();
-  // } 
+  if (screenfull.enabled) { 
+    screenfull.request();
+  } 
 });
 $(document).keydown(function(e) {
   if(e.which == 70 && e.altKey) { // alt + 'f'
@@ -694,7 +694,7 @@ prev = function() {
     }
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
-    setQualSection();
+    // setQualSection();
     setToLastQuestion();
   } else {
     proceedToQuestion(false);
