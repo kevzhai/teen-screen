@@ -573,21 +573,19 @@ calcPositiveScreen = function(r) {
 
 // save responses to params and proceed to next section
 sendFormResponses = function(finalCalc = false) {
-  let params = true;
-
-  if (finalCalc) {
-    const r = getResponses();
-    params = {
+  const r = getResponses();
+  let params = {
         id: cache.id, // survey._id
         formResponses: r.allsections,
         dpsScore: r.dpsScore,
         impairmentScore: r.impairmentScore,
         clinicSig: cache.clinicSig
       };
+
+  if (finalCalc) {
     const positive = calcPositiveScreen(r);  
     params["positiveReasons"] = positive;
     // only send in final section to speed up the survey
-    params["save"] = true;
   }
 
 	getSection(params);

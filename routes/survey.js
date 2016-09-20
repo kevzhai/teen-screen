@@ -63,22 +63,20 @@ router.post('/section', function(req, res, next) {
 
   if (Object.keys(req.body).length) { // form has been submitted at least once, i.e. get past Introduction1
     var body = JSON.parse(Object.keys(req.body)[0]);
-    if (body.save) { 
-      Screen.findById(body.id, function(error, survey) {
-        if (error) {
-          console.log(error);
-        }
-        survey.formResponses = body.formResponses;
-        survey.clinicSig = body.clinicSig;
-        survey.dpsScore = body.dpsScore;
-        survey.impairmentScore = body.impairmentScore;
-        survey.lastUpdated = new Date();
-        if (body.positiveReasons) {
-          survey.positiveReasons = body.positiveReasons;
-        }
-        saveSurvey(survey);
-      });
-    } 
+    Screen.findById(body.id, function(error, survey) {
+      if (error) {
+        console.log(error);
+      }
+      survey.formResponses = body.formResponses;
+      survey.clinicSig = body.clinicSig;
+      survey.dpsScore = body.dpsScore;
+      survey.impairmentScore = body.impairmentScore;
+      survey.lastUpdated = new Date();
+      if (body.positiveReasons) {
+        survey.positiveReasons = body.positiveReasons;
+      }
+      saveSurvey(survey);
+    });
   }
 
   questionInterface.getSection(n, function(err, section) {
