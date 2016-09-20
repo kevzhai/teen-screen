@@ -571,8 +571,8 @@ removeExtraSections = function(allsections) {
   let correctSections = [];
   for (let i = 0; i < allsections.length; i++) {
     const section = allsections[i];
-    // heuristic: check first question of section for undefined response
-    const question = section.qa[0];
+    // heuristic: check last question of section for undefined response
+    const question = section.qa[section.qa.length - 1];
     if (question.answer !== undefined) {
       correctSections.push(section);
     }
