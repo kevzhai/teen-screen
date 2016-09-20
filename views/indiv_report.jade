@@ -51,20 +51,20 @@ block content
 				br
 			div.print-expand(class=col2)
 				if report.positiveReasons.length > 0
-					h2.alert.alert-danger Further Evaluation Recommended
+					h2 Further Evaluation Recommended
 					ul
 						each reason in report.positiveReasons
 							li= reason
 					strong: em Additional reasons for evaluation:
 				else
-					h2.alert.alert-success Further Evaluation Not Recommended
+					h2 Further Evaluation Not Recommended
 					em A youth should move on to a clinical interview if:
 					ul
 						li Either of the suicide items have been endorsed.
 						li A specific disorder is Present in the Symptom Scale AND the Total DPS Impairment Score is 6 or more.
 						li If the Total DPS Symptom Score is 9 or more.
 						li Alcohol, Marijuana, or Other Substance is Present, regardless of Impairment Score.
-					h5.alert.alert-warning Unless: youth #[em should] move onto further evaluation if:
+					h5 Unless: youth #[em should] move onto further evaluation if:
 				ul
 					li The youth requests a clinical interview during the debriefing or indicates problems not addressed on the DPS
 					li Youth expresses upset in open-ended response in the #[a(href="#Conclusion") Conclusion section] 

@@ -1,7 +1,6 @@
 extends layout
 
 block css
-  link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
   - tabletheme = "sortable-theme-bootstrap"
   link(rel='stylesheet', href='/stylesheets/#{ tabletheme }.css')
 
@@ -10,7 +9,8 @@ block content
     .row
       .col-xs-12
         h1= title
-        p View the tests that you have administered for subject ID #{ subjectID }. Click a column header to sort with it.
+        p View the tests that you have administered for subject ID #{ subjectID }.
+        p In any of the tables, click a column header to sort with it.
         .btn-group
           a.btn.btn-secondary(href="/report") 
             i.fa.fa-chevron-left(aria-hidden="true")
