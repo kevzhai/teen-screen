@@ -667,7 +667,7 @@ next = function() {
 
   if (cache.isQualSection) {
     const nextSection = calcQualSection();
-    if (nextSection) {
+    if (nextSection || lastSecQuestion()) {
       getNextSection();
     } else {
       proceedToQuestion(true);
