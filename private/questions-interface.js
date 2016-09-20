@@ -19,11 +19,13 @@ getSection = function(n, callback) {
 	if (n >= questions['num-sections']) {
 		callback(new Error('The requested section ' + n + ' is out of bounds.'));
 	} else {
-		callback(null, {
-			section: questions.sections[n],
-      // don't have to send this every time
-			responseOptions: responses
-		});
+    let response = {
+      section: questions.sections[n]
+    };
+    if (n === 0) {
+      response["responseOptions"] = responses;
+    }
+		callback(null, response);
 	}
 }
 

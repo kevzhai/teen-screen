@@ -27,7 +27,7 @@ $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
   // if (screenfull.enabled) { 
-    // screenfull.request();
+  //   screenfull.request();
   // } 
 });
 $(document).keydown(function(e) {
@@ -64,7 +64,9 @@ cacheSection = function(response) {
     cache.sections.push(response.section);  
   }
 
-	cache.responseOptions = response.responseOptions;
+  if (response.responseOptions) {
+    cache.responseOptions = response.responseOptions;    
+  }
 	// put the section on the screen
 	compileSection(response.section);
 }
@@ -584,6 +586,7 @@ sendFormResponses = function(finalCalc = false) {
       };
     const positive = calcPositiveScreen(r);  
     params["positiveReasons"] = positive;
+    // only send in final section to speed up the survey
     params["save"] = true;
   }
 
