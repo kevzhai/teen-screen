@@ -565,25 +565,9 @@ calcPositiveScreen = function(r) {
   return positiveReasons;
 }
 
-// removes empty sections that are created from double-clicking too quickly
-removeExtraSections = function(allsections) {
-  console.log('removeExtraSections', allsections);
-  let correctSections = [];
-  for (let i = 0; i < allsections.length; i++) {
-    const section = allsections[i];
-    // heuristic: check last question of section for undefined response
-    const question = section.qa[section.qa.length - 1];
-    if (question.answer !== undefined) {
-      correctSections.push(section);
-    }
-  }
-  console.log('correctSections', correctSections);
-}
-
 // save responses to params and proceed to next section
 sendFormResponses = function(finalCalc = false) {
   const r = getResponses();
-  removeExtraSections(r.allsections);
   let params = {
     id: cache.id, // survey._id
     // TODO
