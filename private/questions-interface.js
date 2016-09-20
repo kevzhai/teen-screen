@@ -21,17 +21,12 @@ getSection = function(n, callback) {
 	} else {
 		callback(null, {
 			section: questions.sections[n],
+      // don't have to send this every time
 			responseOptions: responses
 		});
 	}
 }
 
-// function to check whether a section is the final section
-isFinalSection = function(n) {
-	return parseInt(n) === questions['num-sections'] - 1; // OBO
-}
-
 module.exports = {
-	getSection: getSection,
-	isFinalSection: isFinalSection
+	getSection: getSection
 };

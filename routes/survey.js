@@ -28,13 +28,6 @@ function saveSurvey(survey) {
 
 /* POST to initiate a new survey. */
 router.post('/initiate', function(req, res, next) {
-  // show all surveys debuq
-  // Screen.find(function (err, surveys) { 
-  //   console.log("found"); //debuq
-  //   // console.log(surveys[0]);
-  //   console.log(JSON.stringify(surveys, null, 2));
-  // });
-
   // always create a new survey
   var newScreen = new Screen({ 
     admin: req.user.username, // logged-in Stormpath user
@@ -55,7 +48,6 @@ router.post('/initiate', function(req, res, next) {
 });
 
 /* POST the responses to a section and give the next section */
-// http://stackoverflow.com/questions/32313553/what-does-a-colon-mean-on-a-directory-in-node-js
 router.post('/section', function(req, res, next) {
   // TODO: validate the parameters match the previous section
   // TODO: validate the id that will be passed in
@@ -68,43 +60,33 @@ router.post('/section', function(req, res, next) {
     req.session.sectionIndex++;      
   }
 
-  // console.log("blah"); // debuq
-  // console.log(req.session); // debuq
-  console.log("body"); // debuq
-  console.log(JSON.stringify(req.body)); // debuq
-
-  if (Object.keys(req.body).length) { // form has been submitted at least once
+  if (Object.keys(req.body).length) { // form has been submitted at least once, i.e. get past Introduction1
     var body = JSON.parse(Object.keys(req.body)[0]);
-    Screen.findById(body.id, function(error, survey) {
-      if (error) {
-        console.log(error);
-      }
-      // TODO
-      survey.formResponses = body.formResponses;
-      survey.clinicSig = body.clinicSig;
-      survey.dpsScore = body.dpsScore;
-      survey.impairmentScore = body.impairmentScore;
-      survey.lastUpdated = new Date();
-      if (body.positiveReasons) {
-        survey.positiveReasons = body.positiveReasons;
-        console.log('pospos', survey.positiveReasons);
-      }
-      console.log('$post section\n', JSON.stringify(survey)); // debuq
-
-      saveSurvey(survey);
-    });
-  } 
-  if (questionInterface.isFinalSection(n)) {
-    res.status(200).send('you\'re done');
-  } else {
-    questionInterface.getSection(n, function(err, section) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send(section);
-      }
-    });
+    if (body.save) { 
+      Screen.findById(body.id, function(error, survey) {
+        if (error) {
+          console.log(error);
+        }
+        survey.formResponses = body.formResponses;
+        survey.clinicSig = body.clinicSig;
+        survey.dpsScore = body.dpsScore;
+        survey.impairmentScore = body.impairmentScore;
+        survey.lastUpdated = new Date();
+        if (body.positiveReasons) {
+          survey.positiveReasons = body.positiveReasons;
+        }
+        saveSurvey(survey);
+      });
+    } 
   }
+
+  questionInterface.getSection(n, function(err, section) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(section);
+    }
+  });
 });
 
 module.exports = router;

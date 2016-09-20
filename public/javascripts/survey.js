@@ -14,6 +14,7 @@ var cache = {
   qualThreshold: 0, // symptom scale threshold to determine whether to proceed to qualifying questions
   sectionScore: 0, // used for sections with qualifying questions
   skippedQuestions: [],
+  submittedSectionNames: [],
   clinicSig: {}
 };
 
@@ -25,9 +26,9 @@ var FOUR_RADIO = '5'; // question type code
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  if (screenfull.enabled) { 
-    screenfull.request();
-  } 
+  // if (screenfull.enabled) { 
+    // screenfull.request();
+  // } 
 });
 $(document).keydown(function(e) {
   if(e.which == 70 && e.altKey) { // alt + 'f'
@@ -51,7 +52,22 @@ cacheSection = function(response) {
 	// cache the current section number and section
 	cache.section = response.section;
   setQualSection();
-	cache.sections.push(response.section);
+
+  console.log('r',response);
+
+  if (cache.sections.length) {
+    const sectionName = response.section.name;
+    if (!cache.submittedSectionNames.includes(sectionName)) {
+      // avoid duplicates
+      cache.sections.push(response.section);  
+      cache.submittedSectionNames.push(sectionName);
+    } else {
+      console.log('dup');
+    }
+  } else { // first time
+    cache.sections.push(response.section);  
+  }
+
 	cache.responseOptions = response.responseOptions;
 	// put the section on the screen
 	compileSection(response.section);
@@ -59,15 +75,7 @@ cacheSection = function(response) {
 
 // helper function to get a new section for the survey
 getSection = function(params) {
-	console.log("public params"); // debuq
-	console.log(params); // debuq
-	console.log("cache"); // debuq
-	console.log(cache); // debuq
-	// console.log("str"); // debuq
-	// console.log(JSON.stringify(params)); // debuq
-
 	if (params) {
-		console.log(JSON.stringify(params));
 		$.post('/survey/section', JSON.stringify(params), function(response) {
 			if (!isFinalSection(cache.section)) {
 				cache.sectionsIndex++;
@@ -208,7 +216,7 @@ skip = function() {
   var skippedQuestionId = generateQuestionId(++cache.questionNum);
   cache.skippedQuestions.push(skippedQuestionId);
 
-  // clear the skipped followup question if it was previously filled in
+  // clear the skipped followup question if it was previously filled in so you're not submitting old data
   var skippedQuestion = cache.section.questions[cache.questionNum];
   // selector for the form fields (radio or checkboxes)
   var selector = `[name=${ cache.sectionsIndex }-${ skippedQuestion.num }]`;
@@ -334,7 +342,6 @@ setQuestion = function(n) {
   var index = cache.skippedQuestions.indexOf(questionId);
   if (index !== -1) {
     cache.skippedQuestions.splice(index, 1);
-    console.log('added back');
   }
 
 	var type = cache.question.type;
@@ -452,6 +459,8 @@ getResponses = function() {
 	r.allsections = [];
   r.dpsScore = 0;
   r.impairmentScore = 0;
+  // for (let i = 0; i < cache.sections.length; i++) { // faster than forEach
+  //    const section = cache.sections[i]
 	cache.sections.forEach(function(section, i) {
 		if (sectionRequiresResponse(section)) {
       var s = {}; 
@@ -569,7 +578,6 @@ sendFormResponses = function(finalCalc = false) {
   const r = getResponses();
   let params = {
     id: cache.id, // survey._id
-    // TODO
     formResponses: r.allsections,
     dpsScore: r.dpsScore,
     impairmentScore: r.impairmentScore,
@@ -579,6 +587,7 @@ sendFormResponses = function(finalCalc = false) {
   if (finalCalc) {
     const positive = calcPositiveScreen(r);  
     params["positiveReasons"] = positive;
+    params["save"] = true;
   }
 
 	getSection(params);
@@ -661,7 +670,6 @@ next = function() {
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
-    // avoid having duplicate, malformed sections from double-clicking too many times
     getNextSection();
 	} else { // proceed to next question in section
     proceedToQuestion(true);
