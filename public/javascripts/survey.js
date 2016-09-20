@@ -53,16 +53,12 @@ cacheSection = function(response) {
 	cache.section = response.section;
   setQualSection();
 
-  console.log('r',response);
-
   if (cache.sections.length) {
     const sectionName = response.section.name;
     if (!cache.submittedSectionNames.includes(sectionName)) {
       // avoid duplicates
       cache.sections.push(response.section);  
       cache.submittedSectionNames.push(sectionName);
-    } else {
-      console.log('dup');
     }
   } else { // first time
     cache.sections.push(response.section);  
@@ -646,11 +642,15 @@ calcQualSection = function() {
 
     if (isQualifierQuestion(lookahead())) { // next question is first qualifying question
       if (cache.sectionScore < cache.qualThreshold) { // skip to next section if don't meet cutoff
-        getNextSection();
-        return;
+        // add all following to skippedQuestions
+        for (let i = cache.questionNum + 1; i < cache.section.questions.length; i++) {
+          cache.skippedQuestions.push(generateQuestionId(i));
+        }
+        return true;
       }
     }
   } 
+  return false;
 }
 
 // used by both next button and keyboard shortcut
@@ -666,14 +666,19 @@ next = function() {
   }
 
   if (cache.isQualSection) {
-    calcQualSection();
+    const nextSection = calcQualSection();
+    if (nextSection) {
+      getNextSection();
+    } else {
+      proceedToQuestion(true);
+    }
+  } else {
+    if (lastSecQuestion()) { // reached last question in section, proceed to next section
+      getNextSection();
+    } else { // proceed to next question in section
+      proceedToQuestion(true);
+    }
   }
-
-	if (lastSecQuestion()) { // reached last question in section, proceed to next section
-    getNextSection();
-	} else { // proceed to next question in section
-    proceedToQuestion(true);
-	}
 }
 
 prev = function() {
