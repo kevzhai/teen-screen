@@ -102,10 +102,7 @@ block content
 						each section in report.formResponses
 							if section.hasOwnProperty('score')
 								- var sectionSymptomScore = symptomScale[section.name]
-								if section.score >= sectionSymptomScore
-									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
-								else
-									+symptomScaleCols(section.name, section.score, sectionSymptomScore)
+								+symptomScaleCols(section.name, section.score, sectionSymptomScore)
 			div.print-expand(class=col2)
 				-
 					one   = 6

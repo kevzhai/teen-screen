@@ -44,7 +44,7 @@ $('#fullscreen').on('click', function() {
 	$('.handoff').toggle(false);
 	$.post('/survey/initiate', function(response) { // second arg is callback function upon success
 		cache.id = response; // the found survey._id OR newScreen._id
-		getSection(null);
+		getSection();
 	});
 })
 
@@ -571,16 +571,17 @@ calcPositiveScreen = function(r) {
 
 // save responses to params and proceed to next section
 sendFormResponses = function(finalCalc = false) {
-  const r = getResponses();
-  let params = {
-    id: cache.id, // survey._id
-    formResponses: r.allsections,
-    dpsScore: r.dpsScore,
-    impairmentScore: r.impairmentScore,
-    clinicSig: cache.clinicSig
-  };
+  let params = true;
 
   if (finalCalc) {
+    const r = getResponses();
+    params = {
+        id: cache.id, // survey._id
+        formResponses: r.allsections,
+        dpsScore: r.dpsScore,
+        impairmentScore: r.impairmentScore,
+        clinicSig: cache.clinicSig
+      };
     const positive = calcPositiveScreen(r);  
     params["positiveReasons"] = positive;
     params["save"] = true;
