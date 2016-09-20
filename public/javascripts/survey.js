@@ -14,6 +14,7 @@ var cache = {
   qualThreshold: 0, // symptom scale threshold to determine whether to proceed to qualifying questions
   sectionScore: 0, // used for sections with qualifying questions
   skippedQuestions: [],
+  lastSubmittedSection: "",
   clinicSig: {}
 };
 
@@ -25,9 +26,9 @@ var FOUR_RADIO = '5'; // question type code
 $('#incomplete-notice').toggle(false);
 
 document.getElementById('fullscreen').addEventListener('click', () => {
-  // if (screenfull.enabled) { // uncomment
-  //   screenfull.request();
-  // } 
+  if (screenfull.enabled) { 
+    screenfull.request();
+  } 
 });
 $(document).keydown(function(e) {
   if(e.which == 70 && e.altKey) { // alt + 'f'
@@ -171,7 +172,7 @@ isFollowUp = function() {
 }
 
 // qualifiers contain the letter 'Q'
-isQualifier = function(question) {
+isQualifierQuestion = function(question) {
   return question.num.includes('Q');
 }
 
@@ -474,7 +475,7 @@ getResponses = function() {
           if (isClinicSig(s.name, response.question)) {
             cache.clinicSig[response.question] = answer;
           }
-          if (scorableSection && !isQualifier(question)) {
+          if (scorableSection && !isQualifierQuestion(question)) {
             response.score = 0;
             if (answer === 'Yes') {
               s.score++;
@@ -564,17 +565,33 @@ calcPositiveScreen = function(r) {
   return positiveReasons;
 }
 
+// removes empty sections that are created from double-clicking too quickly
+removeExtraSections = function(allsections) {
+  console.log('removeExtraSections', allsections);
+  let correctSections = [];
+  for (let i = 0; i < allsections.length; i++) {
+    const section = allsections[i];
+    // heuristic: check first question of section for undefined response
+    const question = section.qa[0];
+    if (question.answer !== undefined) {
+      correctSections.push(section);
+    }
+  }
+  console.log('correctSections', correctSections);
+}
+
 // save responses to params and proceed to next section
 sendFormResponses = function(finalCalc = false) {
   const r = getResponses();
-	let params = {
-		id: cache.id, // survey._id
+  removeExtraSections(r.allsections);
+  let params = {
+    id: cache.id, // survey._id
     // TODO
     formResponses: r.allsections,
     dpsScore: r.dpsScore,
     impairmentScore: r.impairmentScore,
     clinicSig: cache.clinicSig
-	};
+  };
 
   if (finalCalc) {
     const positive = calcPositiveScreen(r);  
@@ -629,13 +646,13 @@ lookahead = function() {
 
 // helper function to wrap score calculation and determining whether to skip
 calcQualSection = function() {
-  if (!isQualifier(cache.question)) { // only score for questions preceding qualifying questions
+  if (!isQualifierQuestion(cache.question)) { // only score for questions preceding qualifying questions
     var response = getResponse(cache.sectionsIndex, cache.question);
     if (response === 'Yes') {
       cache.sectionScore++;
     }
 
-    if (isQualifier(lookahead())) { // next question is first qualifying question
+    if (isQualifierQuestion(lookahead())) { // next question is first qualifying question
       if (cache.sectionScore < cache.qualThreshold) { // skip to next section if don't meet cutoff
         getNextSection();
         return;
@@ -661,7 +678,14 @@ next = function() {
   }
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
-    getNextSection();
+    // avoid having duplicate, malformed sections from double-clicking too many times
+    
+    if (cache.section.name !== cache.lastSubmittedSection) {
+      cache.lastSubmittedSection = cache.section.name;
+      getNextSection();
+    } else {
+      console.log('repeat');
+    }
 	} else { // proceed to next question in section
     proceedToQuestion(true);
 	}
@@ -676,6 +700,7 @@ prev = function() {
     }
 
     cache.section = cache.sections[--cache.sectionsIndex]; // previous section          
+    setQualSection();
     setToLastQuestion();
   } else {
     proceedToQuestion(false);

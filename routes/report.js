@@ -3,6 +3,9 @@ var router = express.Router();
 var Screen = require('../lib/screen');
 var fs = require("fs");
 
+// http://stackoverflow.com/questions/12419396/how-do-i-display-todays-date-in-node-js-jade
+var moment = require('moment');
+
 // http://stackoverflow.com/questions/12703098/how-to-get-a-json-file-in-express-js-and-display-in-view
 function readJsonFileSync(filepath, encoding){
   if (typeof (encoding) == 'undefined'){
@@ -56,6 +59,7 @@ router.get('/:subjectID', function(req, res) {
       subjectID: req.params.subjectID,
       reports: JSON.stringify(reports),
       user: req.user.fullName,
+      moment: moment,
       nav: true
     });
   });
@@ -74,6 +78,7 @@ router.get('/:subjectID/:reportID', function(req, res) {
       report: JSON.stringify(report),
       symptomScale: symptomScale,
       user: req.user.fullName,
+      moment: moment,
       nav: true
     });
   });

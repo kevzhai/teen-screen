@@ -34,7 +34,10 @@ block content
             tr
               //- JSON parsed so dates are type String, not Date, so harder to format, would have to rehydrate to Date if want to be fancier
               td
-                a(href="/report/#{ report.subjectID }/#{ report._id }") #{ report.creationDate.substr(0,10) }
+                -
+                  const str = report.creationDate;
+                  const date = moment(str).format('YYYY-MM-DD');
+                a(href="/report/#{ report.subjectID }/#{ report._id }")= date
               td
                 if report.positiveReasons.length > 0
                   | Yes

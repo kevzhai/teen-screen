@@ -39,8 +39,10 @@ block content
 				table.table.table-striped
 					+tableRow('Total Symptom Score', report.dpsScore, true)
 					+tableRow('Total Impairment Score', report.impairmentScore, true)
-					//- JSON parsed so dates are type String, not Date, so harder to format, would have to rehydrate to Date if want to be fancier
-					+tableRow('Interview Date', report.lastUpdated.substr(0,10), true)
+					-
+						const str = report.creationDate;
+						const date = moment(str).format('YYYY-MM-DD hh:mma');
+					+tableRow('Interview Date', date, true)
 					+tableRow('Language', report.language, true)
 					each section in optionalSections
 						//- Square bracket notation allows selection of properties using variables
