@@ -1,10 +1,17 @@
 extends layout
 
+block css
+  link(rel="stylesheet" href="/font-awesome/css/font-awesome.min.css")
+
 block content
   .container
     .row
       .col-xs-12
         h1= title
+        .btn-group
+          a.btn.btn-secondary(href="/admin") 
+            i.fa.fa-chevron-left(aria-hidden="true")
+            |  Back to dashboard
         p Please select sections to test and enter a subject ID. Running a survey with an existing subject ID will overwrite the previously-saved version of the survey. The survey works best in the Google Chrome browser. 
         p The eight default disorders were selected because they are relatively common and treatable conditions, but most youth who suffer from them often go undiagnosed and untreated.
         p Additional disorders are available because some of our sites in special settings need the ability to add or subtract specific disorders. For the vast majority of our sites, we strongly recommend administering only questions from the default settings.  

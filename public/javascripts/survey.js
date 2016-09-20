@@ -14,7 +14,6 @@ var cache = {
   qualThreshold: 0, // symptom scale threshold to determine whether to proceed to qualifying questions
   sectionScore: 0, // used for sections with qualifying questions
   skippedQuestions: [],
-  lastSubmittedSection: "",
   clinicSig: {}
 };
 
@@ -663,13 +662,7 @@ next = function() {
 
 	if (lastSecQuestion()) { // reached last question in section, proceed to next section
     // avoid having duplicate, malformed sections from double-clicking too many times
-    
-    if (cache.section.name !== cache.lastSubmittedSection) {
-      cache.lastSubmittedSection = cache.section.name;
-      getNextSection();
-    } else {
-      console.log('repeat');
-    }
+    getNextSection();
 	} else { // proceed to next question in section
     proceedToQuestion(true);
 	}
